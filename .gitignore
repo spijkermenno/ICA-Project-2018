@@ -2,7 +2,6 @@
 /public/hot
 /public/storage
 /storage/*.key
-/vendor
 /.idea
 /.vagrant
 Homestead.json
@@ -10,3 +9,33 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .env
+.vs/
+bin/
+obj/
+packages/
+*.user
+Output/
+Output/Documents/
+# Linux
+*~
+*.swp
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Mac OS X
+.DS_Store
+._*
+
+# Composer
+/composer.phar
+/vendor
+
+# Build system
+/_build/phpdoc
+/_build/phpdoc.cache
+/_build/deploy-*.git
+
+# User content
+/content
