@@ -1,0 +1,30 @@
+language: php
+
+php:
+- '7.0.32'
+
+cache:
+  directories:
+  - "$HOME/.php-cs-fixer"
+  - "$HOME/.composer/cache"
+  - "$HOME/.cache/yarn"
+  - node_modules
+
+before_install:
+- phpenv config-rm xdebug.ini
+
+install:
+- composer install --prefer-dist --no-progress --no-interaction
+- yarn --silent --no-progress
+
+jobs:
+  include:
+  - stage: code check
+    install: true
+    script:
+    - curl -L https://cs.sensiolabs.org/download/php-cs-fixer-v2.phar -o php-cs-fixer
+    - curl -L http://get.sensiolabs.org/security-checker.phar -o security-checker
+    - php php-cs-fixer fix . --config=.php_cs.dist --path-mode=intersection --dry-run
+      --diff
+    - php security-checker security:check composer.lock
+  
