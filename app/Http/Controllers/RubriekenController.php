@@ -11,6 +11,6 @@ class RubriekenController extends Controller
      */
     public function index()
     {
-        return view('rubrieken.rubrieken', ["test" => true]);
+        return view('rubrieken.rubrieken', ['test' => true]);
     }
 }
