@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-class HomeController extends Controller
+class RubriekenController extends Controller
 {
     /**
      * Show the application dashboard.
@@ -11,6 +11,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home', ["bla" => 1]);
+        return view('rubrieken.rubrieken', ["test" => true]);
     }
 }
