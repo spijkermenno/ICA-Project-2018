@@ -8,3 +8,6 @@
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
 
+.breadcrumb-item + .breadcrumb-item::before {
+  content: ">";
+}
