@@ -18,7 +18,7 @@ class DatabaseUserRepository implements UserRepository
     public function retrieveById($identifier)
     {
         dd(
-            $this->con->select('
+            $this->conn->select('
                 select
                     *
                 from users
