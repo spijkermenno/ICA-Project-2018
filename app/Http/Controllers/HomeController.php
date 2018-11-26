@@ -2,16 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\CategoryRepository;
+
 class HomeController extends Controller
 {
+  /**
+   * @var CategoryRepository
+   */
+  private $categoryRepository;
+
     /**
      * Create a new controller instance.
      *
-     * @return void
+     * @param CategoryRepository $categoryRepository
      */
-    public function __construct()
+    public function __construct(CategoryRepository $categoryRepository)
     {
-        $this->middleware('auth');
+        $this->categoryRepository = $categoryRepository;
+
+//        $this->middleware('auth');
     }
 
     /**
@@ -21,6 +30,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        dd($this->categoryRepository->getById(1));
         return view('home');
     }
 }
