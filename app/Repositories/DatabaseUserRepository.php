@@ -17,16 +17,14 @@ class DatabaseUserRepository implements UserRepository
 
     public function retrieveById($identifier)
     {
-        dd(
-            $this->conn->select('
-                select
-                    *
-                from users
-                where
-                    name = :identifier
-            ', [
-                'identifier' => $identifier
-            ])
-        );
+        return $this->conn->select('
+            select
+                *
+            from users
+            where
+                name = :identifier
+        ', [
+            'identifier' => $identifier
+        ]);
     }
 }
