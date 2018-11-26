@@ -15,3 +15,4 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/rubrieken', 'RubriekenController@index')->name('rubrieken');
+Route::get('/product/{product}', 'ProductController@index')->name('product');
