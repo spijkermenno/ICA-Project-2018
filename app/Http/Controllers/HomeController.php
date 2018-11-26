@@ -6,10 +6,10 @@ use App\Repositories\CategoryRepository;
 
 class HomeController extends Controller
 {
-  /**
-   * @var CategoryRepository
-   */
-  private $categoryRepository;
+    /**
+     * @var CategoryRepository
+     */
+    private $categoryRepository;
 
     /**
      * Create a new controller instance.
