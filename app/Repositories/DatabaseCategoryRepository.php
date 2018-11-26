@@ -1,16 +1,11 @@
 <?php
-/**
- * Author: Ivo Breukers
- * Date: 26-Nov-18
- * Time: 13:08
- */
 
 namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
 use App\Repositories\Contracts\CategoryRepositoryInterface;
 
-class CategoryRepository implements CategoryRepositoryInterface
+class DatabaseCategoryRepository extends DatabaseRepository implements CategoryRepositoryInterface
 {
     public function getAll()
     {
