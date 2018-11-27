@@ -10,6 +10,9 @@ npm-debug.log
 yarn-error.log
 .env
 .vs/
+.vscode/*
+!.vscode/launch.json.example
+!.vscode/tasks.json.example
 bin/
 obj/
 packages/
