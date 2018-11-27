@@ -10466,3 +10466,7 @@ a.text-dark:focus {
   }
 }
 
+.breadcrumb-item + .breadcrumb-item::before {
+  content: ">";
+}
+
