@@ -2,6 +2,8 @@
 
 @section('content')
     <div class="container">
-        {{$test}}
+        <ul>
+            {{ $categories }}
+        </ul>
     </div>
 @endsection
