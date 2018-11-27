@@ -14,9 +14,9 @@ class CreatePaymentMethodsTable extends Migration
     {
         DB::statement('
             CREATE TABLE payment_methods (
-                payment_method  VARCHAR(20) NOT NULL,
+                name  VARCHAR(20) NOT NULL,
 
-                CONSTRAINT pk_payment_method PRIMARY KEY (payment_method)
+                CONSTRAINT pk_payment_method PRIMARY KEY (name)
             )
         ');
     }
