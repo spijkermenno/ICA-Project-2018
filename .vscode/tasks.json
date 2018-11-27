@@ -1,0 +1,9 @@
+{
+    "version": "2.0.0",
+    "tasks": [{
+        "label": "yarn-run",
+        "command": "yarn", // Could be any other shell command
+        "args": ["dev"],
+        "type": "shell"
+    }]
+}
