@@ -15,11 +15,11 @@ class CreateCategoriesTable extends Migration
         DB::statement('
             CREATE TABLE categories (
                 id INT NOT NULL, --App C: geen auto increment
-                category_name VARCHAR(45) NOT NULL, --Zelfde lengte als de titel van een voorwerp
-                parent_id INT NOT NULL, --Lengte gelijk aan de id
+                name VARCHAR(45) NOT NULL, --Zelfde lengte als de titel van een voorwerp
+                parent INT, --Lengte gelijk aan de id
 
                 CONSTRAINT pk_categories PRIMARY KEY (id),
-                CONSTRAINT fk_categories_parent_id_id FOREIGN KEY (parent_id) REFERENCES categories (id)
+                CONSTRAINT fk_categories_parent FOREIGN KEY (parent) REFERENCES categories (id)
             )
         ');
     }

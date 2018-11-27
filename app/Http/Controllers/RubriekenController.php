@@ -42,13 +42,13 @@ class RubriekenController extends Controller
 
         foreach ($data as $category)
         {
-            if ($category->parent_id == -1 && $category->id >= 0)
+            if ($category->parent == -1 && $category->id != NULL)
             {
                 $categories[$category->id] =
                 [
                     'id' => $category->id,
-                    'category_name' => $category->category_name,
-                    'parent_id' => $category->parent_id
+                    'name' => $category->name,
+                    'parent' => $category->parent
                 ];
             }
             else
@@ -56,8 +56,8 @@ class RubriekenController extends Controller
                 $remaining[] =
                 [
                     'id' => $category->id,
-                    'category_name' => $category->category_name,
-                    'parent_id' => $category->parent_id
+                    'name' => $category->name,
+                    'parent' => $category->parent
                 ];
             }
         }
