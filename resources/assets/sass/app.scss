@@ -8,6 +8,8 @@
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
 
+@import "~bootstrap-datepicker/dist/css/bootstrap-datepicker.css";
+
 .breadcrumb-item + .breadcrumb-item::before {
   content: ">";
 }
