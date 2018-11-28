@@ -13,7 +13,12 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
 
     public function getAllParents()
     {
-        return $this->conn->select('SELECT id, name, parent FROM categories WHERE parent = -1 AND id >= 0');
+        return $this->conn->select('SELECT id, name, parent FROM categories WHERE parent = -1');
+    }
+
+    public function getAllChildren()
+    {
+        return $this->conn->select('SELECT id, name, parent FROM categories WHERE NOT parent = -1');
     }
 
     public function getAllByParentId(int $id)

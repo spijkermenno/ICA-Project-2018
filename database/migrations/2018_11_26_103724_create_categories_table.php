@@ -16,7 +16,7 @@ class CreateCategoriesTable extends Migration
             CREATE TABLE categories (
                 id INT NOT NULL, --App C: geen auto increment
                 name VARCHAR(45) NOT NULL, --Zelfde lengte als de titel van een voorwerp
-                parent INT, --Lengte gelijk aan de id
+                parent INT, --NULL moet beschikbaar zijn, want root is NULL
 
                 CONSTRAINT pk_categories PRIMARY KEY (id),
                 CONSTRAINT fk_categories_parent FOREIGN KEY (parent) REFERENCES categories (id)
