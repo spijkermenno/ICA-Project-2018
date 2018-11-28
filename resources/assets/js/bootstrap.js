@@ -13,6 +13,8 @@ try {
     window.$ = window.jQuery = require('jquery/dist/jquery.slim');
 
     require('bootstrap');
+
+    require('bootstrap-datepicker');
 } catch (e) {}
 
 /**

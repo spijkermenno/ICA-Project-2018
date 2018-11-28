@@ -10,78 +10,43 @@
                     <form role="form" method="POST" action="{{ url('/register') }}">
                         {!! csrf_field() !!}
 
-                        <div class="form-group row">
-                            <label class="col-lg-4 col-form-label text-lg-right">Name</label>
+                        <div class="row">
+                            <div class="col-md-6">
+                                @include('components.forms.basic-input', [
+                                    'key' => 'name',
+                                    'name' => 'Gebruikersnaam'
+                                ])
 
-                            <div class="col-lg-6">
-                                <input
-                                        type="text"
-                                        class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
-                                        name="name"
-                                        value="{{ old('name') }}"
-                                        required
-                                >
-                                @if ($errors->has('name'))
-                                    <div class="invalid-feedback">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </div>
-                                @endif
+                                @include('components.forms.basic-input', [
+                                    'key' => 'email',
+                                    'type' => 'email',
+                                    'name' => 'E-mailadres'
+                                ])
+
+                                @include('components.forms.basic-input', [
+                                    'key' => 'password',
+                                    'type' => 'password',
+                                    'name' => 'Wachtwoord'
+                                ])
+
+                                @include('components.forms.basic-input', [
+                                    'key' => 'password_confirmation',
+                                    'type' => 'password',
+                                    'name' => 'Herhaal wachtwoord'
+                                ])
                             </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label class="col-lg-4 col-form-label text-lg-right">E-Mail Address</label>
+                            <div class="col-md-6">
+                                @include('components.forms.basic-input', [
+                                    'key' => 'firstname',
+                                    'name' => 'Voornaam'
+                                ])
 
-                            <div class="col-lg-6">
-                                <input
-                                        type="email"
-                                        class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                                        name="email"
-                                        value="{{ old('email') }}"
-                                        required
-                                >
+                                @include('components.forms.basic-input', [
+                                    'key' => 'lastname',
+                                    'name' => 'Achternaam'
+                                ])
 
-                                @if ($errors->has('email'))
-                                    <div class="invalid-feedback">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-lg-4 col-form-label text-lg-right">Password</label>
-
-                            <div class="col-lg-6">
-                                <input
-                                        type="password"
-                                        class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                        name="password"
-                                        required
-                                >
-                                @if ($errors->has('password'))
-                                    <div class="invalid-feedback">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label class="col-lg-4 col-form-label text-lg-right">Confirm Password</label>
-
-                            <div class="col-lg-6">
-                                <input
-                                        type="password"
-                                        class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}"
-                                        name="password_confirmation"
-                                        required
-                                >
-                                @if ($errors->has('password_confirmation'))
-                                    <div class="invalid-feedback">
-                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                    </div>
-                                @endif
                             </div>
                         </div>
 
