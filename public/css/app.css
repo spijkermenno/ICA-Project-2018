@@ -10485,18 +10485,12 @@ a.text-dark:focus {
 }
 
 .alphabet li {
+  display: block;
+  text-align: center;
+  padding: 16px;
   float: left;
   position: relative;
   text-align: center;
-}
-
-.alphabet li:nth-child(1):before {
-  content: '|';
-  display: block;
-  position: absolute;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%);
 }
 
 .alphabet li:after {
@@ -10506,13 +10500,10 @@ a.text-dark:focus {
   top: 50%;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
-  left: 100%;
+  left: 95%;
 }
 
-.alphabet li a {
-  display: block;
-  text-align: center;
-  padding: 16px;
-  text-decoration: none;
+.alphabet li:last-child:after {
+  content: '';
 }
 
