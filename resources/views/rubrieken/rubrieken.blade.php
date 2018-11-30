@@ -33,3 +33,34 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(".alphabet ul li a[href^='#']").on('click', function(e) {
+
+            // prevent default anchor click behavior
+            e.preventDefault();
+
+            // store hash
+            var hash = this.hash;
+
+            // animate
+            $('html, body').animate({
+                scrollTop: $(hash).offset().top-70
+            },500);
+        });
+
+        $(document).ready(function() {
+            var s = $(".alphabet");
+            var pos = s.position();
+            $(window).scroll(function() {
+                var windowpos = $(window).scrollTop();
+                if (windowpos >= pos.top) {
+                    s.addClass("stick");
+                } else {
+                    s.removeClass("stick");
+                }
+            });
+        });
+    </script>
+@endpush
