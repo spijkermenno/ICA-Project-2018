@@ -20,6 +20,10 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
-        "bootstrap-datepicker": "^1.8.0"
+        "@fortawesome/fontawesome-free": "^5.5.0",
+        "font-awesome": "^4.7.0",
+        "moment": "^2.22.2",
+        "moment-timezone": "^0.5.23",
+        "vue-bootstrap-datetimepicker": "^5.0.1"
     }
 }

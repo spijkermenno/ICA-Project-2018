@@ -7,7 +7,7 @@
             class="form-control {{ $errors->has($key) ? ' is-invalid' : '' }}"
             name="{{ $key }}"
             value="{{ old($key) }}"
-            required
+            {{ ($required ?? true) ? 'required' : '' }}
         >
 
         @if ($errors->has($key))

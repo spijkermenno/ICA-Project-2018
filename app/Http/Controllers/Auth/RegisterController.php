@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Repositories\Contracts\SecretQuestionRepository;
 
 class RegisterController extends Controller
 {
@@ -29,14 +30,27 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/home';
 
+    protected $secretQuestionRepository;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(SecretQuestionRepository $secretQuestionRepository)
     {
         $this->middleware('guest');
+
+        $this->secretQuestionRepository = $secretQuestionRepository;
+    }
+
+    public function showRegistrationForm()
+    {
+        return view('auth.register', [
+            'questions' => $this->secretQuestionRepository->getAll([
+                'id', 'question'
+            ])
+        ]);
     }
 
     /**
@@ -48,9 +62,22 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:20|unique:users',
+            'firstname' => 'required|string|max:50',
+            'lastname' => 'required|string|max:50',
+
+            'reset_question_id' => 'required|integer',
+            'reset_question_answer' => 'required|min:6',
+
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+
+            'adress_line_1' => 'required|string|max:120',
+            'adress_line_2' => 'max:120',
+
+            'postalcode' => 'required|string|max:10',
+            'city' => 'required|string|max:100',
+            'country' => 'required|string|max:40'
         ]);
     }
 
@@ -62,6 +89,8 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        dd($data);
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
