@@ -2,17 +2,16 @@
 
 namespace App\Providers;
 
-use App\Repositories\Contracts\ItemRepository;
-use App\Repositories\Fakes\DatabaseItemRepository;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Auth\UserProvider;
 use App\Repositories\DatabaseUserRepository;
+use App\Repositories\Contracts\ItemRepository;
 use App\Repositories\Contracts\UserRepository;
 use App\Repositories\DatabaseCategoryRepository;
 use App\Repositories\Contracts\CategoryRepository;
+use App\Repositories\Fakes\DatabaseItemRepository;
 use App\Repositories\DatabasePasswordResetRepository;
 use App\Repositories\Contracts\PasswordResetRepository;
-
 
 class RepositoryProvider extends ServiceProvider
 {

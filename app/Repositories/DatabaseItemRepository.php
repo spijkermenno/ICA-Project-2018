@@ -19,6 +19,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
             'SELECT * FROM items WHERE'
         );
     }
+
     /**
      * @return array
      */

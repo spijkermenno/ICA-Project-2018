@@ -19,8 +19,6 @@ class ExampleTest extends TestCase
      */
     public function test()
     {
-    
-
         // ...
     }
 }
