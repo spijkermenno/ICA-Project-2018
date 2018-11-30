@@ -21,5 +21,25 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
+
+{{-- ** is nodig voor de rubrieken pagina --}}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(".alphabet ul li a[href^='#']").on('click', function(e) {
+
+        // prevent default anchor click behavior
+        e.preventDefault();
+
+        // store hash
+        var hash = this.hash;
+
+        // animate
+        $('html, body').animate({
+            scrollTop: $(hash).offset().top-25
+        },1000);
+    });
+</script>
+{{-- ** einde --}}
+
 </body>
 </html>
