@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Fakes;
 
 use App\Repositories\Contracts\CategoryItemInterface;
 
 /**
  * Class DatabaseItemRepository
- * @package App\Repositories
+ * @package App\Repositories\Fakes
  */
 class DatabaseItemRepository extends DatabaseRepository implements CategoryItemInterface
 {
