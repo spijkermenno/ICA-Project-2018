@@ -1,3 +1,21 @@
+{{--
+test data:
+            'breadcrumbs' => [
+                                [
+                                    'name' => 'EenmaalAndermaal',
+                                    'link' => 'home'
+                                ],
+                                [
+                                    'name' => 'product',
+                                    'link' => 'product'
+                                ],
+                                [
+                                    'name' => 'Antieke Microfoon',
+                                    'link' => ''
+                                ]
+                            ],
+--}}
+
 @if(isset($breadcrumbs))
     <div class="w-100 mb-2 d-none d-sm-block d-md-block d-lg-block d-xl-block m-2">
 
