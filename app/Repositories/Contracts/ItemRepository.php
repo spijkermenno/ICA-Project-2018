@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Contracts;
 
-interface CategoryItemInterface
+interface ItemRepository
 {
     public function getAll();
 

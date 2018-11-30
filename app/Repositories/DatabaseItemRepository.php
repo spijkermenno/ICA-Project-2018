@@ -2,13 +2,13 @@
 
 namespace App\Repositories;
 
-use App\Repositories\Contracts\CategoryItemInterface;
+use App\Repositories\Contracts\ItemRepository;
 
 /**
  * Class DatabaseItemRepository
  * @package App\Repositories
  */
-class DatabaseItemRepository extends DatabaseRepository implements CategoryItemInterface
+class DatabaseItemRepository extends DatabaseRepository implements ItemRepository
 {
     /**
      * @return array

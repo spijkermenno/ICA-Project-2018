@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\Contracts\ItemRepository;
+use App\Repositories\Fakes\DatabaseItemRepository;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Auth\UserProvider;
 use App\Repositories\DatabaseUserRepository;
@@ -11,13 +13,15 @@ use App\Repositories\Contracts\CategoryRepository;
 use App\Repositories\DatabasePasswordResetRepository;
 use App\Repositories\Contracts\PasswordResetRepository;
 
+
 class RepositoryProvider extends ServiceProvider
 {
     public $bindings = [
         CategoryRepository::class => DatabaseCategoryRepository::class,
         UserRepository::class => DatabaseUserRepository::class,
         UserProvider::class => DatabaseUserRepository::class,
-        PasswordResetRepository::class => DatabasePasswordResetRepository::class
+        PasswordResetRepository::class => DatabasePasswordResetRepository::class,
+        ItemRepository::class => DatabaseItemRepository::class
     ];
 
     public function register()
