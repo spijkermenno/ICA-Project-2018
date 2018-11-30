@@ -44,3 +44,6 @@ desktop.ini
 /content
 
 csfix.sh
+
+/public/css/app.js
+/public/css/app.css

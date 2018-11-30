@@ -3,24 +3,16 @@
 @section('content')
     <div class="container">
         @include("breadcrumbs")
-
-        <div class="row">
-            <div class="col-lg-3 col-md-4 col-sm-12 border bg-dark">
-                @include('carousel')
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="row" id="wrapper">
+            <div class="col-lg-3 col-md-6 col-sm-12">
                 <div class="row">
-                    <div class="col-12">
-                        <h1> {{$product['title']}}</h1>
-                    </div>
-                    <div class="col-12 text-justify">
-                        <p> {{$product['description']}}</p>
-                    </div>
+                    @include('product.carousel')
+                    @include('product.seller_info')
+                    @include('product.calender')
                 </div>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-12">
-                @include('bids')
-            </div>
+            @include('product.product_info')
+            @include('product.bids')
         </div>
     </div>
 @endsection
