@@ -10466,6 +10466,10 @@ a.text-dark:focus {
   }
 }
 
+.bg-gray {
+  background-color: #eee;
+}
+
 .breadcrumb-item + .breadcrumb-item::before {
   content: ">";
 }
@@ -10475,7 +10479,19 @@ hr {
   margin-bottom: 0.5em;
 }
 
-.overflow-scroll {
+.overflow-scroll-y {
   overflow-y: scroll !important;
+}
+
+.overflow-hide-y {
+  overflow-y: hidden !important;
+}
+
+.overflow-scroll-x {
+  overflow-x: scroll !important;
+}
+
+.overflow-hide-x {
+  overflow-x: hidden !important;
 }
 
