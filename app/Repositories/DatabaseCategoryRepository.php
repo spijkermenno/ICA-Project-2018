@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Repositories\Contracts\CategoryRepositoryInterface;
+use App\Repositories\Contracts\CategoryRepository;
 
-class DatabaseCategoryRepository extends DatabaseRepository implements CategoryRepositoryInterface
+class DatabaseCategoryRepository extends DatabaseRepository implements CategoryRepository
 {
     public function getAll()
     {
@@ -14,16 +14,16 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
     public function getAllByParentId(int $id)
     {
         return $this->conn->select(
-          'SELECT * FROM categories WHERE parent_id = ?',
-          [$id]
-      );
+            'SELECT * FROM categories WHERE parent_id = ?',
+            [$id]
+        );
     }
 
     public function getById(int $id)
     {
         return $this->conn->select(
-          'SELECT * FROM categories WHERE id = ?',
-          [$id]
-      );
+            'SELECT * FROM categories WHERE id = ?',
+            [$id]
+        );
     }
 }

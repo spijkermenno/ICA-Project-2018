@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container mb-3">
+    <div class="container">
         @include("breadcrumbs")
         <div class="row" id="wrapper">
             <div class="col-lg-3 col-md-6 col-sm-12">

@@ -28,7 +28,7 @@ class ProductController extends Controller
     public function product_specific($product_id)
     {
         if (intval($product_id) != 0) {
-            return view('product.product_specific', [
+            return view('product.specific', [
                 // test recources
                 'breadcrumbs' => [
                     [
