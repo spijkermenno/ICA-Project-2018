@@ -20,3 +20,16 @@ hr {
 .overflow-scroll {
   overflow-y: scroll !important;
 }
+
+
+.card.item {
+    & .card-body {
+        padding: 1rem;
+    }
+
+    & .btn.goto {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+}
