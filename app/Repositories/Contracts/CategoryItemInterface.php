@@ -2,11 +2,9 @@
 
 namespace App\Repositories\Contracts;
 
-interface CategoryRepositoryInterface
+interface CategoryItemInterface
 {
     public function getAll();
-
-    public function getAllByParentId(int $id);
 
     public function getById(int $id);
 }

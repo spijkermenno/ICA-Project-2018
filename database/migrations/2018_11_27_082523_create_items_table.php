@@ -17,8 +17,8 @@ class CreateItemsTable extends Migration
                   title               VARCHAR(45)   NOT NULL, -- Omdat martkplaats 60 heeft
                   description         VARCHAR(800)  NOT NULL,
                   start_price         NUMERIC(7, 2) NOT NULL, -- Bedragen tot 100mjn
-                  selling_price       NUMERIC(7, 2) NOT NULL DEFAULT \'Bank/Giro\',
-                  payment_method      VARCHAR(20)   NOT NULL,
+                  selling_price       NUMERIC(7, 2),
+                  payment_method      VARCHAR(20)   NOT NULL DEFAULT \'Bank/Giro\',
                   payment_instruction VARCHAR(20),
                   duration            TINYINT       NOT NULL DEFAULT 7,
                   "start"             DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,

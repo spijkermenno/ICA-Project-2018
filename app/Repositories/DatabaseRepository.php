@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use Illuminate\Database\ConnectionInterface;
+
 abstract class DatabaseRepository
 {
     protected $conn;
