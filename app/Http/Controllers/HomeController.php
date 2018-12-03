@@ -29,6 +29,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('home',[
+            'popularProducts' => $this->itemRepository->getMostPopularItems(3),
+            
+        ]);
     }
 }
