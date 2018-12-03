@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Repositories\Contracts\CategoryRepository;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Password;
@@ -42,8 +43,10 @@ class RegisterController extends Controller
      */
     public function __construct(
         SecretQuestionRepository $secretQuestionRepository,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        CategoryRepository $categoryRepository
     ) {
+        parent::__construct($categoryRepository);
         $this->middleware('guest');
 
         $this->secretQuestionRepository = $secretQuestionRepository;
