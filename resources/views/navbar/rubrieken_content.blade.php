@@ -1,5 +1,5 @@
 @foreach($rubrieken as $rubriek)
-    <a href="" class="dropdown-item bg-dark text-white">
+    <a href="/rubrieken/{{ $rubriek->id }}" class="dropdown-item bg-dark text-white">
         {{$rubriek->name}}
     </a>
 @endforeach
