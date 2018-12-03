@@ -144,6 +144,7 @@ return [
     */
 
     'attributes' => [
+        'secret_question_answer' => 'Geheime vraag antwoord',
         'address'               => 'adres',
         'age'                   => 'leeftijd',
         'available'             => 'beschikbaar',
@@ -152,18 +153,18 @@ return [
         'country'               => 'land',
         'date'                  => 'datum',
         'day'                   => 'dag',
+        'birthday' => 'Geboortedatum',
         'description'           => 'omschrijving',
         'email'                 => 'e-mailadres',
         'excerpt'               => 'uittreksel',
-        'first_name'            => 'voornaam',
+        'firstname'            => 'voornaam',
         'gender'                => 'geslacht',
         'hour'                  => 'uur',
-        'last_name'             => 'achternaam',
+        'lastname'             => 'achternaam',
         'message'               => 'boodschap',
         'minute'                => 'minuut',
         'mobile'                => 'mobiel',
         'month'                 => 'maand',
-        'name'                  => 'naam',
         'password'              => 'wachtwoord',
         'password_confirmation' => 'wachtwoordbevestiging',
         'phone'                 => 'telefoonnummer',
@@ -174,6 +175,7 @@ return [
         'time'                  => 'tijd',
         'title'                 => 'titel',
         'username'              => 'gebruikersnaam',
+        'name' => 'gebruikersnaam',
         'year'                  => 'jaar',
     ],
 ];
