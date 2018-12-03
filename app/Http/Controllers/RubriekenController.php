@@ -44,8 +44,7 @@ class RubriekenController extends Controller
     private function getAlphabet()
     {
         $alphabet = [];
-        for ($i = 65; $i < 91; $i++)
-        {
+        for ($i = 65; $i < 91; $i++) {
             $alphabet[] = [
                 'letter' => chr($i),
                 'active' => false
@@ -54,12 +53,9 @@ class RubriekenController extends Controller
 
         $parents = $this->categoryRepository->getAllParents();
 
-        foreach ($alphabet as $key => $item)
-        {
-            foreach ($parents as $parent)
-            {
-                if ($item['letter'] == $parent->name[0] && $item['active'] == false)
-                {
+        foreach ($alphabet as $key => $item) {
+            foreach ($parents as $parent) {
+                if ($item['letter'] == $parent->name[0] && $item['active'] == false) {
                     $alphabet[$key]['active'] = true;
                 }
             }
