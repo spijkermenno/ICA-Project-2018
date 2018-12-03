@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@fortawesome/fontawesome-free@^5.5.0":
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.5.0.tgz#0c6c53823d04457ae669cd19567b8a21dbb4fcfd"
+  integrity sha512-p4lu0jfj5QN013ddArh99r3OXZ/fp9rbovs62LfaO70OMBsAXxtNd0lAq/97fitrscR0fqfd+/a5KNcp6Sh/0A==
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -209,9 +214,9 @@ array-flatten@1.1.1:
   integrity sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=
 
 array-flatten@^2.1.0:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/array-flatten/-/array-flatten-2.1.1.tgz#426bb9da84090c1838d812c8150af20a8331e296"
-  integrity sha1-Qmu52oQJDBg42BLIFQryCoMx4pY=
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/array-flatten/-/array-flatten-2.1.2.tgz#24ef80a28c1a893617e2149b0c6d0d788293b099"
+  integrity sha512-hNfzcOV8W4NdualtqBFPyVO+54DSJuZGY9qT4pRroB6S9e3iiido2ISIC5h9R2sPJ8H3FHCIiEnsv1lPXO3KtQ==
 
 array-includes@^3.0.3:
   version "3.0.3"
@@ -1078,13 +1083,6 @@ boolbase@^1.0.0, boolbase@~1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
-bootstrap-datepicker@^1.8.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/bootstrap-datepicker/-/bootstrap-datepicker-1.8.0.tgz#c63513931e6f09f16ae9f11b62f32d950df3958e"
-  integrity sha512-213St/G8KT3mjs4qu4qwww74KWysMaIeqgq5OhrboZjIjemIpyuxlSo9FNNI5+KzpkkxkRRba+oewiRGV42B1A==
-  dependencies:
-    jquery ">=1.7.1 <4.0.0"
-
 bootstrap@^4.0.0:
   version "4.1.3"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.1.3.tgz#0eb371af2c8448e8c210411d0cb824a6409a12be"
@@ -1378,14 +1376,14 @@ caniuse-api@^1.5.2:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
-  version "1.0.30000912"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000912.tgz#29c739d8c8fae006de61b51f547bdbf02f5d867e"
-  integrity sha512-uiepPdHcJ06Na9t15L5l+pp3NWQU4IETbmleghD6tqCqbIYqhHSu7nVfbK2gqPjfy+9jl/wHF1UQlyTszh9tJQ==
+  version "1.0.30000913"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000913.tgz#3b97db61ede29dbf2c215a3178b6633b3c554f17"
+  integrity sha512-+3qNxt3n8TaF+ZQOiRFPjP+OltDCJkHc7dSlMu1GlLu6sBnLPGLZMogNOlkI96+gft/Mn8u6Z10GMKVOxiBckQ==
 
 caniuse-lite@^1.0.30000792, caniuse-lite@^1.0.30000805, caniuse-lite@^1.0.30000844:
-  version "1.0.30000912"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000912.tgz#08e650d4090a9c0ab06bfd2b46b7d3ad6dcaea28"
-  integrity sha512-M3zAtV36U+xw5mMROlTXpAHClmPAor6GPKAMD5Yi7glCB5sbMPFtnQ3rGpk4XqPdUrrTIaVYSJZxREZWNy8QJg==
+  version "1.0.30000913"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000913.tgz#560311ecf242eaf12159b720e64b11ebd759b5e4"
+  integrity sha512-PP7Ypc35XY1mNduHqweGNOp0qfNUCmaQauGOYDByvirlFjrzRyY72pBRx7jnBidOB8zclg00DAzsy2H475BouQ==
 
 capture-stack-trace@^1.0.0:
   version "1.0.1"
@@ -2551,9 +2549,9 @@ ee-first@1.1.1:
   integrity sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
 
 electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.30, electron-to-chromium@^1.3.47:
-  version "1.3.85"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.85.tgz#5c46f790aa96445cabc57eb9d17346b1e46476fe"
-  integrity sha512-kWSDVVF9t3mft2OHVZy4K85X2beP6c6mFm3teFS/mLSDJpQwuFIWHrULCX+w6H1E55ZYmFRlT+ATAFRwhrYzsw==
+  version "1.3.87"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.87.tgz#f0481ca84824752bced51673396e9a6c74fe5ec7"
+  integrity sha512-EV5FZ68Hu+n9fHVhOc9AcG3Lvf+E1YqR36ulJUpwaQTkf4LwdvBqmGIazaIrt4kt6J8Gw3Kv7r9F+PQjAkjWeA==
 
 elliptic@^6.0.0:
   version "6.4.1"
@@ -3214,6 +3212,11 @@ follow-redirects@^1.0.0, follow-redirects@^1.2.5:
   dependencies:
     debug "=3.1.0"
 
+font-awesome@^4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133"
+  integrity sha1-j6jPBBGhoxr9B7BtKQK7n8gVoTM=
+
 for-in@^0.1.3:
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-0.1.8.tgz#d8773908e31256109952b1fdb9b3fa867d2775e1"
@@ -3757,9 +3760,9 @@ hash-sum@^1.0.2:
   integrity sha1-M7QHd3VMZDJXPBIMw4CLvRDUfwQ=
 
 hash.js@^1.0.0, hash.js@^1.0.3:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/hash.js/-/hash.js-1.1.5.tgz#e38ab4b85dfb1e0c40fe9265c0e9b54854c23812"
-  integrity sha512-eWI5HG9Np+eHV1KQhisXWwM+4EPPYe5dFX1UZZH7k/E3JzDEazVH+VGlZi6R94ZqImq+A3D1mCEtrFIfg/E7sA==
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/hash.js/-/hash.js-1.1.7.tgz#0babca538e8d4ee4a0f8988d68866537a003cf42"
+  integrity sha512-taOaskGt4z4SOANNseOviYDvjEJinIkRgmp7LbKP2YTTmVxWBl87s/uzK9r+44BclBSp2X7K1hqeNfz9JbBeXA==
   dependencies:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
@@ -4510,7 +4513,7 @@ isurl@^1.0.0-alpha5:
     has-to-string-tag-x "^1.2.0"
     is-object "^1.0.1"
 
-"jquery@>=1.7.1 <4.0.0", jquery@^3.2:
+jquery@^3.2:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
   integrity sha512-Ubldcmxp5np52/ENotGxlLe6aGMvmF4R8S6tZjsP6Knsaxd/xp3Zrh50cG93lR6nPXyUFwzN3ZSOQI0wRJNdGg==
@@ -5291,6 +5294,18 @@ mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkd
   dependencies:
     minimist "0.0.8"
 
+moment-timezone@^0.5.23:
+  version "0.5.23"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.23.tgz#7cbb00db2c14c71b19303cb47b0fb0a6d8651463"
+  integrity sha512-WHFH85DkCfiNMDX5D3X7hpNH3/PUhjTGcD0U1SgfBGZxJ3qUmJh5FdvaFjcClxOvB3rzdfj4oRffbI38jEnC1w==
+  dependencies:
+    moment ">= 2.9.0"
+
+"moment@>= 2.9.0", moment@^2.22.2:
+  version "2.22.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
+  integrity sha1-PCV/mDn8DpP/UxSWMiOeuQeD/2Y=
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -6059,9 +6074,9 @@ popper.js@^1.12.9:
   integrity sha512-AGwHGQBKumlk/MDfrSOf0JHhJCImdDMcGNoqKmKkU+68GFazv3CQ6q9r7Ja1sKDZmYWTckY/uLyEznheTDycnA==
 
 portfinder@^1.0.9:
-  version "1.0.19"
-  resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.19.tgz#07e87914a55242dcda5b833d42f018d6875b595f"
-  integrity sha512-23aeQKW9KgHe6citUrG3r9HjeX6vls0h713TAa+CwTKZwNIr/pD2ApaxYF4Um3ZZyq4ar+Siv3+fhoHaIwSOSw==
+  version "1.0.20"
+  resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.20.tgz#bea68632e54b2e13ab7b0c4775e9b41bf270e44a"
+  integrity sha512-Yxe4mTyDzTd59PZJY4ojZR8F+E5e97iq2ZOHPz3HDgSvYC5siNad2tLooQ5y5QHyQhc3xVqvyk/eNA3wuoa7Sw==
   dependencies:
     async "^1.5.2"
     debug "^2.2.0"
@@ -8285,6 +8300,11 @@ vue@^2.5.7:
   version "2.5.17"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.17.tgz#0f8789ad718be68ca1872629832ed533589c6ada"
   integrity sha512-mFbcWoDIJi0w0Za4emyLiW72Jae0yjANHbCVquMKijcavBGypqlF7zHRgMa5k4sesdv7hv2rB4JPdZfR+TPfhQ==
+
+vuejs-datepicker@^1.5.4:
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/vuejs-datepicker/-/vuejs-datepicker-1.5.4.tgz#dacdb5eb5ef44342c67cb59b93a0d5da9c1809b3"
+  integrity sha512-AVzgu3pb/fF/Sj3qu8YPnp7KhtsXkm8TSnBEcyYsWb1bMJr5FdPCxuIzISgw5kq0It7HkVJUGXQ4CiCwq9hhww==
 
 ware@^1.2.0:
   version "1.3.0"

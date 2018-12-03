@@ -53,9 +53,8 @@ class User extends ORMLessModel implements Authenticatable
      */
     public function getRememberToken()
     {
-        return $this->passwordResetRepository->updateTokenByUserIdentifier(
-            $this->offsetGet($this->getAuthIdentifierName()),
-            $token
+        return $this->passwordResetRepository->getByUserIdentifier(
+            $this->offsetGet($this->getAuthIdentifierName())
         )[$this->getRememberTokenName()];
     }
 
