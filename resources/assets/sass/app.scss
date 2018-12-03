@@ -37,6 +37,8 @@ hr {
         top: 1rem;
         right: 1rem;
         border-radius: 50%;
+        width: 35px;
+        height: 35px;
     }
 }
 
@@ -52,6 +54,9 @@ hr {
     overflow-x: hidden !important;
 }
 
+.input-group-text {
+    background-color: transparent;
+}
 
 .rubrieken_pagina {
     padding-top: 32px;

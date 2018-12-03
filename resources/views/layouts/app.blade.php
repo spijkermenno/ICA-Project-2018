@@ -13,7 +13,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="bg-white">
 @include('navigationbar')
 <div id="app" class="mt-4">
     @yield('content')
