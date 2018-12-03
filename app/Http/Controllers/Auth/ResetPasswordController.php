@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use App\Repositories\DatabaseCategoryRepository;
 
 class ResetPasswordController extends Controller
 {
@@ -32,8 +33,9 @@ class ResetPasswordController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(DatabaseCategoryRepository $categoryRepository)
     {
+        parent::__construct($categoryRepository);
         $this->middleware('guest');
     }
 }

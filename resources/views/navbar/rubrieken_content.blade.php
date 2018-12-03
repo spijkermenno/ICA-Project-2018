@@ -1,6 +1,10 @@
 @foreach($rubrieken as $rubriek)
-    <a href="" class="dropdown-item bg-dark text-white">
-        {{$rubriek}}
-    </a>
+    @if(is_numeric($rubriek->id))
+        <a href="/rubriek/{{$rubriek->id . '/' . str_replace(" ", "-", $rubriek->name)}}"
+           class="dropdown-item bg-dark text-white">
+            {{$rubriek->name}}
+        </a>
+    @endif
 @endforeach
-comp
+<div class="dropdown-divider"></div>
+<a class="dropdown-item bg-dark text-white" href="/rubrieken/">Alle rubrieken</a>
