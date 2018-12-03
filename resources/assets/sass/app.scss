@@ -8,7 +8,10 @@
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
 
-@import "~bootstrap-datepicker/dist/css/bootstrap-datepicker.css";
+@import "node_modules/font-awesome/scss/font-awesome.scss";
+
+// @import '~pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
+// @import "~bootstrap-datepicker/dist/css/bootstrap-datepicker.css";
 
 .bg-gray {
     background-color: #eee;

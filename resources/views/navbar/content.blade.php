@@ -4,7 +4,9 @@
     </a>
     <div class="dropdown-menu dropdown-menu-center bg-dark border-0" aria-labelledby="navbarDropdownMenuLink">
         <a href="" class="dropdown-item bg-dark">
-            @include('navbar.rubrieken_content')
+            @if(isset($rubrieken))
+                @include('navbar.rubrieken_content')
+            @endif
         </a>
     </div>
 </li>
