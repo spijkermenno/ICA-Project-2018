@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\DatabaseCategoryRepository;
-
 class HomeController extends Controller
 {
     /**
@@ -13,11 +11,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home',[
+        return view('home', [
             'rubrieken' => [
                 "Auto's",
                 "Baby's",
-                "Computers"
+                'Computers'
             ]
         ]);
 //        return view('home', [
