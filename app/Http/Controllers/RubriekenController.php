@@ -2,26 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\DatabaseCategoryRepository;
-
 class RubriekenController extends Controller
 {
-    /**
-     * @var DatabaseCategoryRepository
-     */
-    private $categoryRepository;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     * @param DatabaseCategoryRepository $categoryRepository
-     */
-    public function __construct(DatabaseCategoryRepository $categoryRepository)
-    {
-        $this->categoryRepository = $categoryRepository;
-    }
-
     /**
      * Show the application dashboard.
      *
