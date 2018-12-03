@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Repositories\Contracts\CategoryRepository;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use App\Repositories\Contracts\UserRepository;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Repositories\Contracts\CategoryRepository;
 use App\Repositories\Contracts\SecretQuestionRepository;
 
 class RegisterController extends Controller

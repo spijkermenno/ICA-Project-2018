@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\DatabaseCategoryRepository;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use App\Repositories\DatabaseCategoryRepository;
 
 class ResetPasswordController extends Controller
 {
