@@ -5,7 +5,16 @@
     <div class="row justify-content-md-center mt-5 mb-5">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Register</div>
+                <div class="card-header py-0 pt-2">
+                    <ul class="nav nav-tabs border-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/register/">Registreren</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login/">Inloggen</a>
+                        </li>
+                    </ul>
+                </div>
                 <div class="card-body">
                     <form role="form" method="POST" action="{{ url('/register') }}">
                         {{ csrf_field() }}
@@ -111,7 +120,7 @@
 
                         <div class="row">
                             <div class="col-lg-12">
-                                <button type="submit" class="btn btn-primary btn-block">
+                                <button type="submit" class="btn btn-primary btn-block text-white">
                                     Registreer
                                 </button>
                             </div>
