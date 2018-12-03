@@ -18,6 +18,11 @@ class RubriekenController extends Controller
         ]);
     }
 
+    public function rubriek()
+    {
+        return view('rubrieken.rubriek');
+    }
+
     /**
      * Generates an array from A to Z with an active value from the category parents
      *

@@ -4,12 +4,12 @@
     </a>
 </li>
 <li class="nav-item dropdown">
-    <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" style="line-height: 28px">
+    <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
+       style="line-height: 28px">
         <i class=""></i>
     </a>
-    <div class="dropdown-menu dropdown-menu-left bg-dark border-0 p-2" aria-labelledby="navbarDropdownMenuLink" id="navbarContent">
-        <a href="" class="dropdown-item bg-dark">
-            @include('navbar.rubrieken_content')
-        </a>
+    <div class="dropdown-menu dropdown-menu-left bg-dark border-0 p-2" aria-labelledby="navbarDropdownMenuLink"
+         id="navbarContent">
+        @include('navbar.rubrieken_content')
     </div>
 </li>
