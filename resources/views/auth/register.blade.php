@@ -8,9 +8,7 @@
                 <div class="card-header">Register</div>
                 <div class="card-body">
                     <form role="form" method="POST" action="{{ url('/register') }}">
-                        {!! csrf_field() !!}
-
-                        {{ $errors }}
+                        {{ csrf_field() }}
 
                         <div class="row">
                             <div class="col-md-6">
