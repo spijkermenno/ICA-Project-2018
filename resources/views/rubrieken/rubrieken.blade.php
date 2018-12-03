@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <div id="top"></div>
     <div class="container rubrieken_pagina">
         <h1>Rubrieken</h1>
         <div class="alphabet sticky-top">
@@ -30,6 +31,9 @@
             </ul>
         </div>
     </div>
+    <div class="scroll_to_stop bg-dark position-fixed rounded-top" id="toTop" style="height: 50px; width: 60px; right: 30px; bottom: 0;">
+        <i class="fas fa-angle-up"></i>
+    </div>
 @endsection
 
 @push('scripts')
@@ -45,6 +49,17 @@
             // animate
             $('html, body').animate({
                 scrollTop: $(hash).offset().top-$('.alphabet').height()
+            },500);
+        });
+
+        $("#toTop").on('click', function(e) {
+
+            // prevent default anchor click behavior
+            e.preventDefault();
+
+            // animate
+            $('html, body').animate({
+                scrollTop: $("#top").offset()
             },500);
         });
     </script>
