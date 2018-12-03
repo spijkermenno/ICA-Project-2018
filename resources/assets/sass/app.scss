@@ -28,14 +28,15 @@ hr {
 }
 
 .card.item {
-    & .card-body {
+    .card-body {
         padding: 1rem;
     }
 
-    & .btn.goto {
+    .btn.goto {
         position: absolute;
         top: 1rem;
         right: 1rem;
+        border-radius: 50%;
     }
 }
 
