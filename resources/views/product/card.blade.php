@@ -1,6 +1,8 @@
 <div class="card mx-auto item">
     <img class="card-img-top" src="https://via.placeholder.com/100" alt="Card image cap">
-    <a href="#" class="btn btn-primary goto">▶</a>
+    <a href="#" class="btn btn-primary goto text-white">
+        <i class="fas fa-angle-right"></i>
+    </a>
     <div class="card-body">
         <h4 class="card-title">Product</h4>
         <hr class="mt-1 mb-3">
