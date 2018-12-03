@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\DatabaseCategoryRepository;
-use function Couchbase\defaultDecoder;
 
 class RubriekenController extends Controller
 {
@@ -37,10 +36,16 @@ class RubriekenController extends Controller
         ]);
     }
 
+    /**
+     * Generates an array from A to Z with an active value from the category parents
+     *
+     * @return array
+     */
     private function getAlphabet()
     {
         $alphabet = [];
-        for ($i = 65; $i < 91; $i++) {
+        for ($i = 65; $i < 91; $i++)
+        {
             $alphabet[] = [
                 'letter' => chr($i),
                 'active' => false
@@ -49,9 +54,12 @@ class RubriekenController extends Controller
 
         $parents = $this->categoryRepository->getAllParents();
 
-        foreach ($alphabet as $key => $item) {
-            foreach ($parents as $parent) {
-                if ($item['letter'] == $parent->name[0] && $item['active'] == false) {
+        foreach ($alphabet as $key => $item)
+        {
+            foreach ($parents as $parent)
+            {
+                if ($item['letter'] == $parent->name[0] && $item['active'] == false)
+                {
                     $alphabet[$key]['active'] = true;
                 }
             }
