@@ -106,4 +106,25 @@ class DatabaseUserRepository extends DatabaseRepository implements UserRepositor
             $user->getAuthPassword()
         );
     }
+
+    public function create(array $data): Authenticatable
+    {
+        $data = array_merge($data, [
+            'secret_question_answer' => $this->hasher->make($data['secret_question_answer']),
+            'password' => $this->hasher->make($data['password'])
+        ]);
+
+        $keys = collect(array_keys($data));
+
+        $this->conn->statement('
+            INSERT INTO users
+                (' . $keys->implode(', ') . ')
+            VALUES
+                (' . $keys->map(function ($key) { return ':' . $key; })->implode(', ') . ')
+        ', $data);
+
+        return $this->retrieveById(
+            $data['name']
+        );
+    }
 }

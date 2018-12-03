@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
+use App\Repositories\Contracts\UserRepository;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Repositories\Contracts\SecretQuestionRepository;
 
 class RegisterController extends Controller
 {
@@ -27,16 +30,33 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
+
+    protected $secretQuestionRepository;
+    protected $userRepository;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
+    public function __construct(
+        SecretQuestionRepository $secretQuestionRepository,
+        UserRepository $userRepository
+    ) {
         $this->middleware('guest');
+
+        $this->secretQuestionRepository = $secretQuestionRepository;
+        $this->userRepository = $userRepository;
+    }
+
+    public function showRegistrationForm()
+    {
+        return view('auth.register', [
+            'questions' => $this->secretQuestionRepository->getAll([
+                'id', 'question'
+            ])
+        ]);
     }
 
     /**
@@ -48,9 +68,24 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:20|unique:users',
+            'firstname' => 'required|string|max:50',
+            'lastname' => 'required|string|max:50',
+
+            'secret_question_id' => 'required|integer',
+            'secret_question_answer' => 'required|min:6',
+
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+
+            'birthday' => 'required|before:now',
+
+            'adress_line_1' => 'required|string|max:120',
+            'adress_line_2' => 'max:120',
+
+            'postalcode' => 'required|string|max:10',
+            'city' => 'required|string|max:100',
+            'country' => 'required|string|max:40'
         ]);
     }
 
@@ -62,10 +97,27 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $user = $this->userRepository->create(
+            array_except(
+                $data,
+                ['_token', 'password_confirmation']
+            )
+        );
+
+        // $this->broker()->sendResetLink([
+        //     'email' => $user['email']
+        // ]);
+
+        return $user;
+    }
+
+    /**
+     * Get the broker to be used during user creation
+     *
+     * @return \Illuminate\Contracts\Auth\PasswordBroker
+     */
+    public function broker()
+    {
+        return Password::broker();
     }
 }

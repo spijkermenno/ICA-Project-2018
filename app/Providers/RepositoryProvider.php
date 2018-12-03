@@ -11,7 +11,9 @@ use App\Repositories\DatabaseCategoryRepository;
 use App\Repositories\Contracts\CategoryRepository;
 use App\Repositories\Fakes\DatabaseItemRepository;
 use App\Repositories\DatabasePasswordResetRepository;
+use App\Repositories\DatabaseSecretQuestionRepository;
 use App\Repositories\Contracts\PasswordResetRepository;
+use App\Repositories\Contracts\SecretQuestionRepository;
 
 class RepositoryProvider extends ServiceProvider
 {
@@ -19,6 +21,7 @@ class RepositoryProvider extends ServiceProvider
         CategoryRepository::class => DatabaseCategoryRepository::class,
         UserRepository::class => DatabaseUserRepository::class,
         UserProvider::class => DatabaseUserRepository::class,
+        SecretQuestionRepository::class => DatabaseSecretQuestionRepository::class,
         PasswordResetRepository::class => DatabasePasswordResetRepository::class,
         ItemRepository::class => DatabaseItemRepository::class
     ];
