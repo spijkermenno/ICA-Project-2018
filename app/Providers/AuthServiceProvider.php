@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Auth;
+use App\Repositories\DatabaseUserRepository;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -24,6 +26,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Auth::provider('mssql', function ($app, array $config) {
+            return app()->make(DatabaseUserRepository::class);
+        });
     }
 }

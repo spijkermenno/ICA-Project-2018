@@ -8,6 +8,8 @@
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
 
+@import "~bootstrap-datepicker/dist/css/bootstrap-datepicker.css";
+
 .bg-gray {
     background-color: #eee;
 }
@@ -23,6 +25,18 @@ hr {
 
 .overflow-scroll-y {
   overflow-y: scroll !important;
+}
+
+.card.item {
+    & .card-body {
+        padding: 1rem;
+    }
+
+    & .btn.goto {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
 }
 
 .overflow-hide-y {

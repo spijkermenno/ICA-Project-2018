@@ -1,6 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-@include("breadcrumbs")
-
+            @for ($i = 0; $i < 3; $i++)
 @endsection
