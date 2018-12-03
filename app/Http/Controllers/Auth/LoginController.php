@@ -41,11 +41,4 @@ class LoginController extends Controller
     {
         return 'name';
     }
-
-    public function showLoginForm()
-    {
-        dd(app()->make('auth.password'));
-
-        return view('auth.login');
-    }
 }
