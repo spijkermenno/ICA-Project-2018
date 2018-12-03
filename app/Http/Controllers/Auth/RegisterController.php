@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use App\Repositories\Contracts\UserRepository;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Repositories\Contracts\SecretQuestionRepository;
 
@@ -28,20 +29,24 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     protected $secretQuestionRepository;
+    protected $userRepository;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct(SecretQuestionRepository $secretQuestionRepository)
-    {
+    public function __construct(
+        SecretQuestionRepository $secretQuestionRepository,
+        UserRepository $userRepository
+    ) {
         $this->middleware('guest');
 
         $this->secretQuestionRepository = $secretQuestionRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function showRegistrationForm()
@@ -66,11 +71,13 @@ class RegisterController extends Controller
             'firstname' => 'required|string|max:50',
             'lastname' => 'required|string|max:50',
 
-            'reset_question_id' => 'required|integer',
-            'reset_question_answer' => 'required|min:6',
+            'secret_question_id' => 'required|integer',
+            'secret_question_answer' => 'required|min:6',
 
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+
+            'birthday' => 'required|before:now',
 
             'adress_line_1' => 'required|string|max:120',
             'adress_line_2' => 'max:120',
@@ -89,12 +96,27 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        dd($data);
+        $user = $this->userRepository->create(
+            array_except(
+                $data,
+                ['_token', 'password_confirmation']
+            )
+        );
 
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $this->broker()->sendResetLink(
+            $user['email']
+        );
+
+        return $user;
+    }
+
+    /**
+     * Get the broker to be used during user creation
+     *
+     * @return \Illuminate\Contracts\Auth\PasswordBroker
+     */
+    public function broker()
+    {
+        return Password::broker();
     }
 }

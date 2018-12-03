@@ -15,6 +15,7 @@
 </head>
 <body>
 @include('navigationbar')
+
 <div id="app" class="mt-4">
     @yield('content')
 </div>

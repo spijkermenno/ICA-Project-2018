@@ -10,6 +10,8 @@
                     <form role="form" method="POST" action="{{ url('/register') }}">
                         {!! csrf_field() !!}
 
+                        {{ $errors }}
+
                         <div class="row">
                             <div class="col-md-6">
                                 @include('components.forms.basic-input', [
@@ -50,9 +52,7 @@
                                 @include('components.forms.datepicker', [
                                     'key' => 'birthday',
                                     'name' => 'Geboortedatum',
-                                    'options' => [
-                                        'maxDate' => today()->toDateString()
-                                    ]
+                                    'notAfter' => today()->addDay()->toDateString()
                                 ])
 
                                 @include('components.forms.select', [
@@ -68,6 +68,7 @@
                                 ])
 
                             </div>
+                        </div>
 
                         <hr>
 
@@ -92,7 +93,7 @@
                                 ])
 
                                 @include('components.forms.basic-input', [
-                                    'key' => 'postal_code',
+                                    'key' => 'postalcode',
                                     'name' => 'Postcode'
                                 ])
                             </div>

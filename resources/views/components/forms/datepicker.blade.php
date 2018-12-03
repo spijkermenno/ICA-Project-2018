@@ -3,8 +3,14 @@
 
     <div class="col-lg-12">
         <date-picker
-            name="date"
+            name="birthday"
+            input-class="form-control"
+            format="dd/MM/yyyy"
             value="{{ old($key) }}"
+            :lang="lang.nl"
+            :disabled-dates="{
+                from: new Date('{{ $notAfter }}')
+            }"
         ></date-picker>
 
         @if ($errors->has($key))

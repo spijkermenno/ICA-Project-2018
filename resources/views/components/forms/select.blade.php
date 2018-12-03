@@ -7,7 +7,7 @@
                 name="{{ $key }}"
             >
                 @foreach($options as $option)
-                    <option value="{{ $option->id }}" {{ old($key) == $option->id }}>
+                    <option value="{{ $option->id }}" {{ old($key) == $option->id ? 'required' : '' }}>
                         {{ $option->{$name_key ?? 'name'} }}
                     </option>
                 @endforeach
