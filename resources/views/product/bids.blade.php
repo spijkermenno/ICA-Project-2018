@@ -20,14 +20,14 @@
                     @endforeach
                 </div>
             </div>
-            <div class="card-header p-0 bg-light">
+            <div class="card-header p-0">
                 <div class="row p-1 pl-2">
                 <h5 class="col-9 col-md-8 col-lg-8 font-weight-bold">Start bod</h5>
                     <h5 class="col-3 col-md-4 col-lg-4 badge badge-secondary" style="min-width: 40px; max-width: 60px; line-height: 15px">€{{$product["start_bid"]}}</h5>
                 </div>
             </div>
-            <div class="card-body p-2 bg-light position-relative">
-                <div class="btn-group bg-white" role="group" style="width: 100%">
+            <div class="card-body p-2 position-relative">
+                <div class="btn-group" role="group" style="width: 100%">
                     <button type="button" class="btn btn-outline-dark w-50" {{auth()->check() ? '': 'disabled'}}>€5
                     </button>
                     <button type="button" class="btn btn-outline-dark w-50" {{auth()->check() ? '': 'disabled'}}>€10

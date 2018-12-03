@@ -19,6 +19,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('home', [
+            'rubrieken' => [
+                "Auto's",
+                "Baby's",
+                'Computers'
+            ]
+        ]);
+//        return view('home', [
+//            'categories' => $this->categoryRepository->getAllParents()
+//        ]);
     }
 }

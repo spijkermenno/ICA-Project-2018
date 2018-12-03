@@ -2,9 +2,13 @@
 
 namespace App\Repositories\Contracts;
 
-interface CategoryRepositoryInterface
+interface CategoryRepository
 {
     public function getAll();
+
+    public function getAllParents();
+
+    public function getAllChildren();
 
     public function getAllByParentId(int $id);
 
