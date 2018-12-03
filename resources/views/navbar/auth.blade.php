@@ -1,5 +1,5 @@
 @if (Auth::guest())
-    <li class="btn p-1 px-2 m-1 btn-primary"><a href="{{ route('login') }}" class="text-white">Aanmelden</a></li>
+    <li class="btn p-1 px-2 m-1 btn-primary"><a href="{{ route('login') }}" class="text-white">Inloggen</a></li>
 @else
     <li class="nav-item dropdown">
         <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
