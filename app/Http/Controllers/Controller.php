@@ -23,9 +23,9 @@ class Controller extends BaseController
      * @return void
      * @param DatabaseCategoryRepository $categoryRepository
      */
-    public function __construct(DatabaseCategoryRepository $categoryRepository)
-    {
-        $this->categoryRepository = $categoryRepository;
-        View::share('rubrieken', $this->categoryRepository->getAllParents());
-    }
+//    public function __construct(DatabaseCategoryRepository $categoryRepository)
+//    {
+//        $this->categoryRepository = $categoryRepository;
+//        View::share('rubrieken', $this->categoryRepository->getAllParents());
+//    }
 }

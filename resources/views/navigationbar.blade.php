@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-info text-white">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark text-white">
     <div class="container">
         <a class="navbar-brand text-white" href="{{ url('/') }}">
             {{ config('app.name', 'EenmaalAndermaal') }}

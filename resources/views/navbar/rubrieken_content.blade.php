@@ -1,5 +1,5 @@
 @foreach($rubrieken as $rubriek)
-    <a href="" class="dropdown-item bg-info text-white">
+    <a href="" class="dropdown-item bg-dark text-white">
         {{$rubriek}}
     </a>
 @endforeach
