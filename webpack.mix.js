@@ -11,13 +11,12 @@ let mix = require("laravel-mix");
  |
  */
 
+mix.js('resources/assets/js/app.js', 'public/js')
+   .js('resources/assets/js/scroll_to_top.js', 'public/js')
+   .sass('resources/assets/sass/app.scss', 'public/css');
+
 mix.autoload({
     jquery: ["$", "window.jQuery", "jQuery"],
     vue: ["Vue", "window.Vue"],
     moment: ["moment", "window.moment"]
 });
-
-mix.js("resources/assets/js/app.js", "public/js").sass(
-    "resources/assets/sass/app.scss",
-    "public/css"
-);

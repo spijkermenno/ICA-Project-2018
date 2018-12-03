@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <div id="top"></div>
     <div class="container rubrieken_pagina">
         <h1>Rubrieken</h1>
         <div class="alphabet sticky-top">
@@ -17,7 +18,7 @@
         <div class="categories">
             <ul class="category_parents">
                 @foreach($parents as $parent)
-                    <li class="parent" id="{{ $parent->name[0] }}"><a class="text-dark" href="/rubrieken/{{ $parent->id }}">{{ $parent->name }}</a>
+                    <li class="parent" id="{{ $parent->name[0] }}"><a class="text-dark" href="/rubriek/{{ $parent->id }}/{{ str_replace(" ", "-", $parent->name) }}">{{ $parent->name }}</a>
                         <ul class="category_children">
                             @foreach($children as $child)
                                 @if($child->parent == $parent->id)
