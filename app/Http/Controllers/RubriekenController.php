@@ -13,8 +13,9 @@ class RubriekenController extends Controller
     {
         return view('rubrieken.rubrieken', [
             'alphabet' => $this->getAlphabet(),
-            'parents' => $this->categoryRepository->getAllParents(),
-            'children' => $this->categoryRepository->getAllChildren()
+            'parents' => $this->categoryRepository->getLevelWithChildren(
+                -1
+            )
         ]);
     }
 
