@@ -1,9 +1,4 @@
 <?php
-/**
- * Author: Ivo Breukers
- * Date: 26-Nov-18
- * Time: 13:17
- */
 
 namespace App\Repositories\Contracts;
 

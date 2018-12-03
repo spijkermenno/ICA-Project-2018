@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
-use App\Repositories\Contracts\CategoryRepositoryInterface;
+use App\Repositories\Contracts\CategoryRepository;
 
-class DatabaseCategoryRepository extends DatabaseRepository implements CategoryRepositoryInterface
+class DatabaseCategoryRepository extends DatabaseRepository implements CategoryRepository
 {
     public function getAll()
     {

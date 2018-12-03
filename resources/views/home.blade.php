@@ -1,22 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row mt-5">
-        <div class="col-md-8 offset-md-2">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                        {{$test}}
-                </div>
+    <div class="container">
+        @include("breadcrumbs")
+        <div class="row">
+            <div class="col mb-3">
+                <h1>Populair</h1>
             </div>
         </div>
+        <div class="row mb-5">
+            @for ($i = 0; $i < 3; $i++)
+                <div class="col">
+                    @component('product.card')
+                    @endcomponent
+                </div>
+            @endfor
+        </div>
+        <div class="row">
+            <div class="col mb-3">
+                <h1>Gauw voorbij!</h1>
+            </div>
+        </div>
+        @for ($i = 0; $i < 3; $i++)
+            <div class="row mb-5">
+                @for ($j = 0; $j < 4; $j++)
+                    <div class="col">
+                    @component('product.card')
+                    @endcomponent
+                    </div>
+                @endfor
+            </div>
+        @endfor
     </div>
-</div>
 @endsection

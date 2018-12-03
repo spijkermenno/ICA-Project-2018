@@ -8,9 +8,49 @@
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
 
+@import "~bootstrap-datepicker/dist/css/bootstrap-datepicker.css";
+
+.bg-gray {
+    background-color: #eee;
+}
+
 .breadcrumb-item + .breadcrumb-item::before {
   content: ">";
 }
+
+hr {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.overflow-scroll-y {
+  overflow-y: scroll !important;
+}
+
+.card.item {
+    & .card-body {
+        padding: 1rem;
+    }
+
+    & .btn.goto {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+}
+
+.overflow-hide-y {
+    overflow-y: hidden !important;
+}
+
+.overflow-scroll-x {
+    overflow-x: scroll !important;
+}
+
+.overflow-hide-x {
+    overflow-x: hidden !important;
+}
+
 
 .rubrieken_pagina {
     padding-top: 32px;
