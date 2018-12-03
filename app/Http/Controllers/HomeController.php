@@ -2,16 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\DatabaseCategoryRepository;
+
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Show the application dashboard.
      *
@@ -19,6 +13,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('home',[
+            'rubrieken' => [
+                "Auto's",
+                "Baby's",
+                "Computers"
+            ]
+        ]);
+//        return view('home', [
+//            'categories' => $this->categoryRepository->getAllParents()
+//        ]);
     }
 }

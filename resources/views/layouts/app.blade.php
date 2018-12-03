@@ -13,9 +13,9 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body class="bg-white">
 @include('navigationbar')
-<div id="app">
+<div id="app" class="container">
     @yield('content')
 </div>
 
