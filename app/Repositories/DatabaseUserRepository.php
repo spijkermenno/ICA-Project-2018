@@ -116,12 +116,11 @@ class DatabaseUserRepository extends DatabaseRepository implements UserRepositor
 
         $keys = collect(array_keys($data));
 
-        $this->conn->select('
+        $this->conn->statement('
             INSERT INTO users
                 (' . $keys->implode(', ') . ')
             VALUES
                 (' . $keys->map(function ($key) { return ':' . $key; })->implode(', ') . ')
-            SELECT SCOPE_IDENTITY()
         ', $data);
 
         return $this->retrieveById(
