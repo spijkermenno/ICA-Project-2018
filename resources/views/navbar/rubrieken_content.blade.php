@@ -3,3 +3,4 @@
         {{$rubriek}}
     </a>
 @endforeach
+comp
