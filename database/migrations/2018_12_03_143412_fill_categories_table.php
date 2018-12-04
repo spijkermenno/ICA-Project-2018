@@ -13,33 +13,6 @@ class FillCategoriesTable extends Migration
      */
     public function up()
     {
-        dump('test');
-
-        // dump(DB::statement('
-        //     INSERT INTO categories
-        //         (id, name, parent)
-        //     VALUES
-        //         (-1, \'Root\', NULL)
-        // '));
-
-        dump('test2');
-
-        // collect($parents)
-        //     ->pipe(function ($parents) {
-        //         $children = collect($this->categoryRepository->getChildrenFor($parents->pluck('id')))
-        //             ->groupBy('parent');
-
-        //         $parents->map(function ($parent) use ($children) {
-        //             $parent->children = $children[$parent->id];
-
-        //             return $parent;
-        //         });
-        //     });
-
-        // $parent->children as $child
-
-        // DB::beginTransaction();
-
         $resource = fopen(__DIR__ . '/../csv/categories-2.csv', 'r');
 
         while (($category = fgetcsv($resource, 0, ';', '\'')) !== false) {
