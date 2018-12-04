@@ -4,9 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class FillCategoriesTable extends Migration
 {
-    public $withinTransaction = false;
-
-    public
+    // public $withinTransaction = false;
 
     /**
      * Run the migrations.
@@ -17,12 +15,12 @@ class FillCategoriesTable extends Migration
     {
         dump('test');
 
-        dump(DB::statement('
-            INSERT INTO categories
-                (id, name, parent)
-            VALUES
-                (-1, \'Root\', NULL)
-        '));
+        // dump(DB::statement('
+        //     INSERT INTO categories
+        //         (id, name, parent)
+        //     VALUES
+        //         (-1, \'Root\', NULL)
+        // '));
 
         dump('test2');
 
@@ -42,27 +40,36 @@ class FillCategoriesTable extends Migration
 
         // DB::beginTransaction();
 
-        $resource = fopen(__DIR__ . '/../csv/categories.csv', 'r');
+        $resource = fopen(__DIR__ . '/../csv/categories-2.csv', 'r');
 
-        while (($category = fgetcsv($resource, 0, ';')) !== false) {
+        while (($category = fgetcsv($resource, 0, ';', '\'')) !== false) {
+            DB::statement('
+                INSERT INTO categories
+                    (id, name, parent)
+                VALUES
+                    (:id, :name, NULL)
+            ', [
+                'id' => intval($category[0]) !== 0 ? intval($category[0]) : 1,
+                'name' => $category[1]
+            ]);
+        }
+
+        $resource = fopen(__DIR__ . '/../csv/categories-2.csv', 'r');
+
+        while (($category = fgetcsv($resource, 0, ';', '\'')) !== false) {
             dump([
-                [$category[0], (int) ($category[0])],
-                $category[1],
-                intval($category[2])
+                'id' => intval($category[0]) !== 0 ? intval($category[0]) : 1,
+                'parent' => $category[2] == 'NULL' ? null : intval($category[2])
             ]);
             try {
-                DB::statement('
-                    INSERT INTO categories
-                        (id, name, parent)
-                    VALUES
-                        (?, ?, ?)
+                dump(DB::statement('
+                    UPDATE categories
+                        SET parent = :parent
+                    WHERE id = :id
                 ', [
-                    intval($category[0]) !== 0 ? intval($category[0]) : 1,
-                    $category[1],
-                    intval($category[2])
-                ]);
-
-                DB::commit();
+                    'id' => intval($category[0]) !== 0 ? intval($category[0]) : 1,
+                    'parent' => $category[2] == 'NULL' ? null : intval($category[2])
+                ]));
             } catch (Exception $e) {
                 dd($e);
             }
