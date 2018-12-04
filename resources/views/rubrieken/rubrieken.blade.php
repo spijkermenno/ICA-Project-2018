@@ -20,9 +20,9 @@
                 @foreach($parents as $parent)
                     <li class="parent" id="{{ $parent->name[0] }}"><a class="text-dark" href="/rubriek/{{ $parent->id }}/{{ str_replace(" ", "-", $parent->name) }}">{{ $parent->name }}</a>
                         <ul class="category_children">
-                            @foreach($children as $child)
+                            @foreach($parent->children as $child)
                                 @if($child->parent == $parent->id)
-                                    <li><a class="text-dark" href="/rubrieken/{{ $child->id }}">{{ $child->name }}</a></li>
+                                    <li><a class="text-dark" href="/rubriek/{{ $child->id }}">{{ $child->name }}</a></li>
                                 @endif
                             @endforeach
                         </ul>
