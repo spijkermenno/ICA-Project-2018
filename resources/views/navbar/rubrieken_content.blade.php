@@ -1,6 +1,6 @@
 @foreach($rubrieken as $rubriek)
     @if(is_numeric($rubriek->id))
-        <a href="/rubriek/{{$rubriek->id . '/' . str_replace(" ", "-", $rubriek->name)}}"
+        <a href="/rubriek/{{$rubriek->id . '/' . urlString($rubriek->name)}}"
            class="dropdown-item bg-dark text-white">
             {{$rubriek->name}}
         </a>
