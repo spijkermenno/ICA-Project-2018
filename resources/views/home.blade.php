@@ -9,18 +9,18 @@
             </div>
         </div>
         <div class="row mb-5">
-            @foreach ($popularProducts as $popularProduct)
+            {{-- @foreach ($popularProducts as $popularProduct)
                 <div class="col">
                     @component('product.card')
                     @endcomponent
                 </div>
-            @endforeach
-            {{-- @for ($i = 0; $i < 3; $i++)
+            @endforeach --}}
+            @for ($i = 0; $i < 3; $i++)
                 <div class="col">
                     @component('product.card')
                     @endcomponent
                 </div>
-            @endfor --}}
+            @endfor
         </div>
         <div class="row">
             <div class="col mb-3">
