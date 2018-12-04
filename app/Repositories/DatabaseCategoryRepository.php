@@ -24,7 +24,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
     public function getAllByParentId(int $id)
     {
         return $this->conn->select(
-            'SELECT id, name, parent FROM categories WHERE parent = ?',
+            'SELECT id, name, parent FROM categories WHERE parent = ?  ORDER BY name ASC',
             [$id]
         );
     }
