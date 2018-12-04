@@ -26,7 +26,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
     public function getAllBetween(int $from, int $to)
     {
         return $this->conn->select(
-            sprintf('SELECT * FROM items WHERE id BETWEEN %d AND %d',$from,$to)
+            sprintf('SELECT * FROM items WHERE id BETWEEN %d AND %d', $from, $to)
         );
     }
 
@@ -51,7 +51,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
     public function getMostPopularItems(int $amount)
     {
         return $this->conn->select(
-            sprintf('SELECT TOP %d * FROM items',$amount)      
+            sprintf('SELECT TOP %d * FROM items', $amount)
         );
     }
 }
