@@ -22,7 +22,7 @@
                         <ul class="category_children">
                             @foreach($parent->children as $child)
                                 @if($child->parent == $parent->id)
-                                    <li><a class="text-dark" href="/rubrieken/{{ $child->id }}">{{ $child->name }}</a></li>
+                                    <li><a class="text-dark" href="/rubriek/{{ $child->id }}">{{ $child->name }}</a></li>
                                 @endif
                             @endforeach
                         </ul>
