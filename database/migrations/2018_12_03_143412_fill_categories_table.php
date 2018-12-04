@@ -57,22 +57,14 @@ class FillCategoriesTable extends Migration
         $resource = fopen(__DIR__ . '/../csv/categories-2.csv', 'r');
 
         while (($category = fgetcsv($resource, 0, ';', '\'')) !== false) {
-            dump([
+            DB::statement('
+                UPDATE categories
+                    SET parent = :parent
+                WHERE id = :id
+            ', [
                 'id' => intval($category[0]) !== 0 ? intval($category[0]) : 1,
                 'parent' => $category[2] == 'NULL' ? null : intval($category[2])
             ]);
-            try {
-                dump(DB::statement('
-                    UPDATE categories
-                        SET parent = :parent
-                    WHERE id = :id
-                ', [
-                    'id' => intval($category[0]) !== 0 ? intval($category[0]) : 1,
-                    'parent' => $category[2] == 'NULL' ? null : intval($category[2])
-                ]));
-            } catch (Exception $e) {
-                dd($e);
-            }
         }
     }
 
