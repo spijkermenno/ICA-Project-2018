@@ -2,10 +2,22 @@
 
 namespace App\Repositories;
 
+use App\PasswordReset;
+use Illuminate\Database\ConnectionInterface;
 use App\Repositories\Contracts\PasswordResetRepository;
+use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 
 class DatabasePasswordResetRepository extends DatabaseRepository implements PasswordResetRepository
 {
+    public function __construct(
+        ConnectionInterface $conn,
+        HasherContract $hasher
+    ) {
+        parent::__construct($conn);
+
+        $this->hasher = $hasher;
+    }
+
     protected function createModelFromData($data)
     {
         if (empty($data)) {
@@ -14,7 +26,15 @@ class DatabasePasswordResetRepository extends DatabaseRepository implements Pass
         return new PasswordReset($data);
     }
 
-    public function getByUserIdentifier($identifier)
+    public function validateCredentials(PasswordReset $reset, array $credentials): bool
+    {
+        return $this->hasher->check(
+            $credentials['token'] ?? '',
+            $reset->token
+        );
+    }
+
+    public function getByUserEmail($email)
     {
         return $this->createModelFromData(
             array_first(
@@ -22,24 +42,30 @@ class DatabasePasswordResetRepository extends DatabaseRepository implements Pass
                     SELECT TOP 1
                         *
                     FROM password_resets
-                    WHERE user_name = :identifier
+                    WHERE email = :email
+                    ORDER BY created_at DESC
                 ', [
-                    'identifier' => $identifier
+                    'email' => $email
                 ]),
                 null
             )
         );
     }
 
-    public function updateTokenByUserIdentifier($identifier, $token): bool
+    public function createTokenForUserEmail($email): string
     {
-        return $this->conn->update('
-            UPDATE password_resets
-                SET token = :token
-            WHERE user_name = :identifier
+        $token = str_random(32); // max bcrypt string is 72
+
+        $this->conn->statement('
+            INSERT INTO password_resets
+                (email, token)
+            VALUES
+                (:email, :token)
         ', [
-            'token' => $token,
-            'identifier' => $identifier
+            'email' => $email,
+            'token' => $this->hasher->make($token)
         ]);
+
+        return $token;
     }
 }

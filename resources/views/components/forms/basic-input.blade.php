@@ -6,8 +6,9 @@
             type="{{ $type ?? 'text' }}"
             class="form-control {{ $errors->has($key) ? ' is-invalid' : '' }}"
             name="{{ $key }}"
-            value="{{ old($key) }}"
+            value="{{ $value ?? old($key) }}"
             {{ ($required ?? true) ? 'required' : '' }}
+            {{ ($readonly ?? null) ? 'readonly="readonly"' : '' }}
         >
 
         @if ($errors->has($key))

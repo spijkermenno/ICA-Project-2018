@@ -31,6 +31,7 @@ class DatabaseUserRepository extends DatabaseRepository implements UserRepositor
         if (empty($data)) {
             return null;
         }
+
         return new User($data);
     }
 

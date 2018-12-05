@@ -13,6 +13,12 @@
 // @import '~pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 // @import "~bootstrap-datepicker/dist/css/bootstrap-datepicker.css";
 
+
+.btn-primary {
+    @extend .text-white;
+}
+
+
 .bg-gray {
     background-color: #eee;
 }

@@ -47,7 +47,8 @@ class RegisterController extends Controller
         CategoryRepository $categoryRepository
     ) {
         parent::__construct($categoryRepository);
-        $this->middleware('guest');
+
+        $this->middleware(['guest', 'verified']);
 
         $this->secretQuestionRepository = $secretQuestionRepository;
         $this->userRepository = $userRepository;
@@ -79,7 +80,7 @@ class RegisterController extends Controller
             'secret_question_answer' => 'required|min:6',
 
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:7|max:72|confirmed',
 
             'birthday' => 'required|before:now',
 
@@ -106,10 +107,6 @@ class RegisterController extends Controller
                 ['_token', 'password_confirmation']
             )
         );
-
-        // $this->broker()->sendResetLink([
-        //     'email' => $user['email']
-        // ]);
 
         return $user;
     }

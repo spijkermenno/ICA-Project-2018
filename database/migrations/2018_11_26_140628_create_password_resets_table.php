@@ -22,6 +22,8 @@ class CreatePasswordResetsTable extends Migration
 
                 created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
+                expired AS (CASE WHEN (CURRENT_TIMESTAMP < DATEADD(HOUR, 4, created_at)) THEN 0 ELSE 1 END), -- reset is expired na 4 uur
+
                 CONSTRAINT pk_password_resets PRIMARY KEY (id)
             )
         ');
