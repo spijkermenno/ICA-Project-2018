@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\DatabaseCategoryRepository;
 use App\Repositories\DatabaseItemRepository;
 
 class HomeController extends Controller
@@ -17,8 +18,9 @@ class HomeController extends Controller
      * @return void
      * @param DatabaseItemRepository $itemRepository
      */
-    public function __construct(DatabaseItemRepository $itemRepository)
+    public function __construct(DatabaseItemRepository $itemRepository, DatabaseCategoryRepository $categoryRepository)
     {
+        parent::__construct($categoryRepository);
         $this->itemRepository = $itemRepository;
     }
 
@@ -30,7 +32,7 @@ class HomeController extends Controller
     public function index()
     {
         return view('home', [
-            'popularProducts' => $this->itemRepository->getMostPopularItems(3),
+            'popularProducts' => $this->itemRepository->getMostPopularItems(3)
         ]);
     }
 }
