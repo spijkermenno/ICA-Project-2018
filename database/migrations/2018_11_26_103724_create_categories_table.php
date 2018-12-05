@@ -14,12 +14,14 @@ class CreateCategoriesTable extends Migration
     {
         DB::statement('
             CREATE TABLE categories (
-                id INT NOT NULL, --App C: geen auto increment
-                name VARCHAR(45) NOT NULL, --Zelfde lengte als de titel van een voorwerp
-                parent INT NULL, --NULL moet beschikbaar zijn, want root is NULL
-
-                CONSTRAINT pk_categories PRIMARY KEY (id),
-                CONSTRAINT fk_categories_parent FOREIGN KEY (parent) REFERENCES categories (id)
+              id           INT                       NOT NULL, --App C: geen auto increment
+              name         VARCHAR(45)               NOT NULL, --Zelfde lengte als de titel van een voorwerp
+              parent       INT                       NULL, --NULL moet beschikbaar zijn, want root is NULL
+              order_number INT DEFAULT NULL          NULL, --App D: NOT NULL
+              inactive     BIT DEFAULT 0             NOT NULL, --Uitfaseren 0 is false, 1 is true
+            
+              CONSTRAINT pk_categories PRIMARY KEY (id),
+              CONSTRAINT fk_categories_parent FOREIGN KEY (parent) REFERENCES categories (id)
             )
         ');
     }
