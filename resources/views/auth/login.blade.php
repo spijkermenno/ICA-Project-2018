@@ -8,10 +8,10 @@
                 <div class="card-header py-0 pt-2">
                     <ul class="nav nav-tabs border-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="/register/">Registreren</a>
+                            <a class="nav-link active" href="/login/">Inloggen</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="/login/">Inloggen</a>
+                            <a class="nav-link" href="/register/">Registreren</a>
                         </li>
                     </ul>
                 </div>
