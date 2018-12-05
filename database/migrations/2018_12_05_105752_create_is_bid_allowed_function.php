@@ -12,19 +12,29 @@ class CreateIsBidAllowedFunction extends Migration
     public function up()
     {
         DB::statement('
-            CREATE FUNCTION dbo.is_bid_allowed (@bid_price NUMERIC(7, 2), @item_id INT) RETURNS BIT
-              BEGIN
-                DECLARE @highest_bid NUMERIC(7, 2);
-                DECLARE @starting_price NUMERIC(7, 2);
+            CREATE FUNCTION dbo.is_bid_allowed(@bid_price NUMERIC(7, 2), @item_id INT) RETURNS BIT
+            BEGIN
+            DECLARE @bid_to_beat NUMERIC(7, 2);
             
-                SELECT @starting_price = start_price FROM items WHERE id = @item_id;
-                SELECT @highest_bid = MAX(price) FROM bids where item_id = @item_id;
+            SELECT top 1 @bid_to_beat = CASE
+                                            WHEN EXISTS(
+                                                SELECT price
+                                                FROM bids
+                                                WHERE item_id = @item_id
+                                            )
+                                            THEN (
+                                            SELECT max(price)
+                                            FROM bids
+                                            WHERE item_id = @item_id
+                                            )
+                                            ELSE (select start_price FROM items WHERE items.id = @item_id)
+                END
             
-                IF @bid_price > @starting_price AND @bid_price > @highest_bid
-                  RETURN 1
+            IF @bid_price > @bid_to_beat
+                RETURN 1
             
-                RETURN 0
-            END
+            RETURN 0
+            END          
         ');
     }
 
