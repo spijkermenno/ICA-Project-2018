@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\DatabaseCategoryRepository;
 use App\Repositories\DatabaseItemRepository;
+use App\Repositories\DatabaseCategoryRepository;
 
 class HomeController extends Controller
 {
