@@ -6,15 +6,13 @@ interface CategoryRepository
 {
     public function getAll();
 
-    public function getAllParents();
+    public function getAllParents($id);
 
-    public function getAllChildren();
-
-    public function getAllByParentId(int $id);
+    public function getAllByParentId($id);
 
     public function getChildrenFor(array $ids);
 
-    public function getById(int $id);
+    public function getById($id);
 
     public function getLevelWithChildren($parent_id);
 }
