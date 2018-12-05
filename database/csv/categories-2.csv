@@ -55,7 +55,7 @@
 280;'Overige tijdschriften';607
 281;'Sieraden en horloges';-1
 293;'Consumentenelektronica';-1
-294;'Overige foto; beeld en geluid';293
+294;'Overige foto, beeld en geluid';293
 298;'Overig beeld';3287
 303;'Overig gereedschap';19859
 306;'Overige LP''s';20800
@@ -65,7 +65,7 @@
 313;'Overige herenkleding';9817
 314;'Overige dameskleding';9816
 315;'Kinderkleding - overige';11450
-353;'Kunst; antiek en design';-1
+353;'Kunst, antiek en design';-1
 355;'Overige archeologie';37082
 377;'2000 - heden';29224
 381;'NTSC';7755
@@ -75,7 +75,7 @@
 417;'Transport';1
 420;'Fietsen';417
 423;'Scheepvaart';417
-424;'Overige auto''s; motoren; boten';9800
+424;'Overige auto''s, motoren, boten';9800
 432;'Beatles';157499
 433;'Elvis';157499
 439;'Beanies';137
@@ -108,7 +108,7 @@
 786;'Overige USA';42723
 788;'Olympische spelen';202
 868;'Ruilkaartspellen';1
-888;'Sport; fietsen en vakantie';-1
+888;'Sport, fietsen en vakantie';-1
 900;'Comics';267
 916;'Overige artiesten';33416
 921;'Tweede Wereldoorlog';8998
@@ -128,7 +128,7 @@
 1071;'Vinyl en platen';11233
 1072;'Kindermuziek';20800
 1074;'Country';20800
-1076;'Religieus; New Age en Gospel';20800
+1076;'Religieus, New Age en Gospel';20800
 1081;'Filmmuziek en soundtracks';20800
 1082;'Elektronische huisdieren';19071
 1093;'Jeugd- en kinderboeken';267
@@ -141,7 +141,7 @@
 1138;'Antiek en verzamelen';607
 1139;'Eten en drinken';607
 1140;'Hobby';607
-1141;'Wonen; huis en tuin';607
+1141;'Wonen, huis en tuin';607
 1145;'Film en tv';607
 1147;'Wetenschap';607
 1148;'Sciencefiction en fantasy';607
@@ -198,7 +198,7 @@
 2234;'Films en tv-series';267
 2242;'Roddelbladen';607
 2243;'Computers en IT';607
-2247;'Religieus; New Age en Gospel';104612
+2247;'Religieus, New Age en Gospel';104612
 2249;'House';19479
 2250;'Indie en Britpop';104612
 2252;'Punkrock';19483
@@ -268,7 +268,7 @@
 3327;'Digitale compactcamera''s';625
 3365;'Rome: Republiek';4733
 3394;'Verenigd Koninkrijk';45148
-3444;'Waardepapieren; aandelen';11116
+3444;'Waardepapieren, aandelen';11116
 3467;'Overig Oceanië';128385
 3468;'Australië';128385
 3478;'Canada';128384
@@ -304,7 +304,7 @@
 3956;'Tom Poes en Olivier B. Bommel';63
 3972;'Overige Nederlandse strips';63
 4096;'Australië en Oceanië';8991
-4174;'Overige kunst; antiek; design';353
+4174;'Overige kunst, antiek, design';353
 4178;'Westerns';41520
 4184;'Israel';40711
 4185;'Korea';40711
@@ -320,7 +320,7 @@
 4365;'Oorlog en militair';16663
 4366;'Westerns';16663
 4388;'Hockey';888
-4599;'Apple; Macintosh';160
+4599;'Apple, Macintosh';160
 4613;'Moederborden';38851
 4693;'Overige ontvangers';12941
 4696;'G1 en G2';156076
@@ -329,7 +329,7 @@
 4733;'Antieke en Middeleeuwse munten';11116
 4734;'Rome';4733
 4735;'Rome: Provincie';4733
-4737;'Perzisch; Indisch; Azië';4733
+4737;'Perzisch, Indisch, Azië';4733
 4738;'Grieks';4733
 4739;'Arabische wereld';4733
 4740;'Chinees';4733
@@ -343,7 +343,7 @@
 4756;'Wetenschap en techniek';4752
 4757;'Overige verkeer en transport';36735
 4773;'Glas in lood en Tiffany';7478
-4837;'Overig borduren; breien; haken';127909
+4837;'Overig borduren, breien, haken';127909
 4929;'Risque';8991
 4941;'Overige Europese niet-Euro';45148
 7390;'Antiquarische boeken';353
@@ -354,7 +354,7 @@
 7427;'Wetenschap en geneeskunde';7390
 7435;'Literatuur';7390
 7444;'Sociale wetenschappen';7390
-7451;'Techniek; verkeer en economie';7390
+7451;'Techniek, verkeer en economie';7390
 7456;'Overig antiquariaat';7390
 7463;'Grafische kunst';550
 7464;'Etsen en gravures';7463
@@ -376,7 +376,7 @@
 7770;'Electronica';19479
 7782;'Verzamelalbums';1071
 7788;'Minidisc';25915
-7794;'Keyboards; synths; piano''s';619
+7794;'Keyboards, synths, piano''s';619
 7798;'Strijk- en snaarinstrumenten';619
 7825;'Duitsland';260
 7849;'Bundespost (D-mark periode';7825
@@ -547,7 +547,7 @@
 9574;'Overige diensten';9431
 9662;'Partijen en groothandel';160
 9715;'Overige industrie en kantoor';12576
-9800;'Auto''s; motoren en boten';-1
+9800;'Auto''s, motoren en boten';-1
 9801;'Auto''s';9800
 9804;'Motoren';9800
 9812;'Overig transport en verkeer';64802
@@ -558,7 +558,7 @@
 9822;'Overige wargames';16486
 9824;'Overige Star Wars';112034
 9830;'Overige aanstekers';9832
-9832;'Rookartikelen; Zippo''s';1
+9832;'Rookartikelen, Zippo''s';1
 9834;'Alfa Romeo';9801
 9835;'Audi';9801
 9837;'BMW';9801
@@ -641,7 +641,7 @@
 12111;'Sjaals en dassen';12109
 12136;'Herenschoenen';11450
 12155;'Gezondheid en verzorging';-1
-12157;'Parfum; eau en after shave';12155
+12157;'Parfum, eau en after shave';12155
 12165;'Overige keukenapparatuur';30329
 12171;'Bessy';63
 12172;'Jerom';63
@@ -745,13 +745,13 @@
 14233;'Brochures en documentatie';9800
 14235;'Tijdschriften en jaarboeken';14233
 14256;'Overige caravans en vouwwagens';44794
-14258;'Auto audio; video en navigatie';9800
+14258;'Auto audio, video en navigatie';9800
 14259;'Autoradio''s met cd en mp3';14258
 14260;'Autoradio''s met cassette';14258
 14261;'Autoradio''s met minidisc';14258
 14263;'Cd-spelers en -wisselaars';14258
 14264;'Equalizers';14258
-14274;'Overig audio; video; navigatie';14258
+14274;'Overig audio, video, navigatie';14258
 14291;'Intel';78769
 14328;'Overige herenhorloges';91064
 14357;'Aas';1492
@@ -764,8 +764,8 @@
 14616;'Games en consoles';-1
 14675;'GSM en telecom';-1
 14732;'Classic Rock';19483
-14761;'Tuning; styling en interieur';9884
-14767;'Overige tuning; styling; int.';14761
+14761;'Tuning, styling en interieur';9884
+14767;'Overige tuning, styling, int.';14761
 14768;'Carrosserie';9884
 14769;'Overige carrosserie';14768
 14770;'Velgen en banden';9884
@@ -808,7 +808,7 @@
 16157;'Overige games';15122
 16486;'Wargames';220
 16528;'Overig keramiek';60913
-16531;'Blikken; brons en tin';1211
+16531;'Blikken, brons en tin';1211
 16533;'Overige kunstvoorwerpen';1211
 16663;'Actie en avontuur';1508
 16665;'Comedy en humor';1508
@@ -827,7 +827,7 @@
 17085;'X-men';900
 17090;'Harde kaft';63
 17157;'Kinderen van 6 tot 9 jaar';1093
-17163;'Baby; peuter en kleuter';1093
+17163;'Baby, peuter en kleuter';1093
 17214;'1990 - heden';131188
 17330;'Overige dameshorloges';91060
 17351;'Overige gezondheid';12155
@@ -890,7 +890,7 @@
 18823;'Foto''s';196
 18824;'Oude films';18823
 18826;'Overige foto''s';18823
-18828;'Posters; affiches en kaartjes';1
+18828;'Posters, affiches en kaartjes';1
 18854;'Tv en series';18823
 18923;'Overige golf';13334
 18925;'Kleding';13334
@@ -971,14 +971,14 @@
 20734;'Benodigdheden vogels';8440
 20754;'Benodigdheden vissen';8440
 20799;'Karaoke';104612
-20800;'LP''s en Maxi''s (12'''' ; 10''''';1071
+20800;'LP''s en Maxi''s (12'''' , 10''''';1071
 20801;'Singles (7''''';1071
-20809;'Jazz; blues en soul';20801
+20809;'Jazz, blues en soul';20801
 20835;'Boog- en schietsport';888
 20852;'IJshockey';888
 20870;'Ballen';13340
 21186;'Playstation 2';14616
-21209;'Biljarten; pool en snooker';888
+21209;'Biljarten, pool en snooker';888
 21214;'American football';888
 21225;'Schaatsen';888
 21254;'K''NEX';18993
@@ -1056,7 +1056,7 @@
 22960;'Overige Nederland';40413
 22961;'1950 - 1959';128283
 23022;'Interieur';82099
-23056;'Huis; tuin en hobby';7390
+23056;'Huis, tuin en hobby';7390
 23062;'Kinderboeken';7390
 23116;'Vintage tassen';37008
 23154;'Muizen';3676
@@ -1165,7 +1165,7 @@
 26703;'Overige dierbenodigdheden';8440
 26716;'Funk';43639
 26718;'Filmmuziek en soundtracks';104612
-26762;'CD-; DVD-drives en -writers';38851
+26762;'CD-, DVD-drives en -writers';38851
 26788;'Controllers';38851
 26793;'Switches en hubs';32202
 26989;'Zilver';10994
@@ -1341,7 +1341,7 @@
 32228;'ISDN';3691
 32254;'Bedden en lattenbodems';3192
 32274;'Verwarming binnen';11700
-32309;'Kostuums; pakken en smokings';9817
+32309;'Kostuums, pakken en smokings';9817
 32315;'T-shirts korte mouw';9817
 32331;'Overige maten';32309
 32372;'Overige jongensschoenen';80947
@@ -1372,7 +1372,7 @@
 32948;'Fotoalbums en fotolijsten';11272
 32973;'Sony Ericsson';115680
 32976;'Sony Ericsson';24040
-33012;'Hardrock; metal';157499
+33012;'Hardrock, metal';157499
 33052;'Overige Lord of the Rings';60225
 33092;'Jassen';9816
 33093;'Maat 32-34 (XXS/XS';33092
@@ -1421,11 +1421,11 @@
 33497;'Tafeltennis';888
 33503;'Overige fietsen';9192
 33559;'Remmen';63318
-33707;'Lampen; LEDs en neon';14761
+33707;'Lampen, LEDs en neon';14761
 33914;'Tatoeages';12155
 33977;'Albums';111848
 33978;'Die-cuts en stanzen';111848
-34002;'Jolees; stickers en rub-ons';111848
+34002;'Jolees, stickers en rub-ons';111848
 34178;'Guust Flater';63
 34291;'Provinciale munten';28683
 34294;'Shirtjes en blouses';127690
@@ -1551,7 +1551,7 @@
 36646;'Navigatiebenodigdheden';36629
 36647;'Kaarten en tabellen';36629
 36648;'Kompassen';36629
-36653;'Masten; gieken en zeilen';36629
+36653;'Masten, gieken en zeilen';36629
 36655;'Lieren';36629
 36684;'Sport';4752
 36685;'Autosport';36684
@@ -1619,7 +1619,7 @@
 37481;'Goud - puur';10975
 37503;'Goud - puur';10985
 37528;'Kunstenaarsbenodigdheden';353
-37530;'Krijt; stiften en pennen';37528
+37530;'Krijt, stiften en pennen';37528
 37532;'Aanstormend talent';353
 37556;'Verzamelingen en partijen';353
 37822;'Acupunctuur';47867
@@ -1674,7 +1674,7 @@
 39317;'Jetski''s';1293
 40100;'Ontspanningsproducten';47867
 40181;'Motor- en chiptuning';14761
-40189;'Ophanging; vering en remmen';14761
+40189;'Ophanging, vering en remmen';14761
 40193;'Interieur en accessoires';14761
 40200;'Spoilers en bumpers';14761
 40217;'Dakdragers';82099
@@ -1789,7 +1789,7 @@
 43049;'Dieren';43048
 43050;'Steentjes en parels';43048
 43051;'Figuurtjes';43048
-43052;'Hartjes; liefde';43048
+43052;'Hartjes, liefde';43048
 43053;'Seizoensgebonden';43048
 43054;'Letters';43048
 43055;'Muziek';43048
@@ -1799,7 +1799,7 @@
 43059;'Sport';43048
 43453;'Digitale spiegelreflexcamera''s';625
 43585;'Orkesten';19481
-43619;'Jazz; Big Band en Blues';104612
+43619;'Jazz, Big Band en Blues';104612
 43639;'R&B en soul';104612
 43642;'Motown';43639
 43645;'Freestyle';62835
@@ -1975,7 +1975,7 @@
 49810;'Voetsteunen';14780
 49824;'Instrumenten en assen';14780
 49831;'Kettingen en koppelingen';14780
-49845;'Sturen; schakel- en handgrepen';14780
+49845;'Sturen, schakel- en handgrepen';14780
 49866;'Verlichting en lampen';14780
 49879;'Motor en versnelling';14780
 49892;'Zittingen';14780
@@ -2158,7 +2158,7 @@
 59251;'Trekking en survival';8503
 59411;'Vitaminen en energie';13361
 59423;'Schoenen';13361
-59901;'Oorkondes; bekers en medailles';113754
+59901;'Oorkondes, bekers en medailles';113754
 60212;'Spongebob';8605
 60225;'Lord of the Rings';868
 60238;'Pokémon';868
@@ -2174,7 +2174,7 @@
 60870;'Romantiek';41520
 60880;'Overige comedy en humor';35015
 60882;'Historisch';41550
-60892;'Misdaad; gangster en maffia';41584
+60892;'Misdaad, gangster en maffia';41584
 60893;'Cult';41558
 60896;'R&B en soul';23275
 60902;'Kinderen en familie';41584
@@ -2341,7 +2341,7 @@
 72495;'Simulatie';15122
 72500;'MSX';8086
 72616;'Voor 1899';22421
-73001;'Sturen; poken en pedalen';14761
+73001;'Sturen, poken en pedalen';14761
 73466;'Japan';37082
 73570;'Harry Potter';868
 73738;'Babykleding - meisjes';12081
@@ -2434,7 +2434,7 @@
 76045;'Velgen en banden';18323
 76052;'Onderdelen en onderhoud';18323
 76119;'Elektronica en ontstekingen';14780
-76127;'Motorsport; enduro en cross';9800
+76127;'Motorsport, enduro en cross';9800
 76190;'Truitjes en vestjes';127683
 76597;'Truitjes en vestjes';127648
 76626;'Jurkjes en rokjes';127652
@@ -2482,7 +2482,7 @@
 77528;'Oekraïne';45148
 77533;'Masters of the Universe';9820
 77544;'Losse kaarten';60241
-77583;'Banden; spaken en wielen';27922
+77583;'Banden, spaken en wielen';27922
 77591;'Fietsverlichting';27922
 77595;'Bescherming';10511
 77606;'Zadels';27922
@@ -2576,12 +2576,12 @@
 83737;'Oorlog en militair';41584
 83761;'Country';23275
 83894;'Kettingen';111837
-83986;'Scharen; mesjes en pincetten';111848
+83986;'Scharen, mesjes en pincetten';111848
 84064;'Tuinverlichting';2032
 84091;'Tuinbanken';25863
 84095;'Tuintafels';25863
 84103;'Tuinstoelen';25863
-84136;'Tuinhuisjes; serres en kassen';2032
+84136;'Tuinhuisjes, serres en kassen';2032
 84263;'Bikini''s';15770
 84269;'Badpakken';15770
 84368;'Maat 38 (M';19736
@@ -2608,9 +2608,9 @@
 84912;'Radiografisch bestuurd';19071
 84918;'Racebanen';19071
 84935;'Skelters';22138
-84939;'Duplo; primo; baby';13315
+84939;'Duplo, primo, baby';13315
 84977;'Trein';19854
-84987;'Tenten; kastelen en hutten';25960
+84987;'Tenten, kastelen en hutten';25960
 85045;'Arm- en beenkleding';22171
 85046;'Handschoenen';22171
 85059;'Brillen';22171
@@ -2644,7 +2644,7 @@
 87074;'Bekende tv-figuren';41523
 87316;'Britains';222
 87346;'Disco';19479
-87443;'Petten; hoeden en helmen';10514
+87443;'Petten, hoeden en helmen';10514
 87485;'Basgitaren';21762
 87604;'Oorlog';267
 87645;'Kabels en verbindingen';32202
@@ -2701,7 +2701,7 @@
 96408;'Nachtverzorging';26528
 96424;'Dagverzorging';26528
 96443;'WNF';36702
-96573;'Hardcore; gabber en rave';19479
+96573;'Hardcore, gabber en rave';19479
 96635;'Zang- en studiomicrofoons';21770
 96812;'Kuifje';8605
 96972;'Zwarte humor';35015
@@ -2979,7 +2979,7 @@
 112231;'Setjes';127668
 112283;'Setjes';127680
 112297;'Setjes';127717
-112355;'Mutsen; sjaals en wantjes';127733
+112355;'Mutsen, sjaals en wantjes';127733
 112359;'Setjes';127718
 112459;'Historische figuren';33416
 112460;'Muzikanten';33416
@@ -3037,7 +3037,7 @@
 121863;'Musical';1508
 121977;'Rolls Royce';9801
 122658;'Beschermhoezen';111848
-122659;'Eyelets; brads en snaps';111848
+122659;'Eyelets, brads en snaps';111848
 123099;'Gereedschappen en machines';12576
 123176;'Nokia';24040
 123317;'Gewone colliers';92771
@@ -3299,9 +3299,9 @@
 136889;'Tractors';22138
 136916;'Poppenkasten en handpoppen';226
 136933;'Strand- en waterspeelgoed';25960
-138767;'1890-1919; Jugendstil';25757
+138767;'1890-1919, Jugendstil';25757
 138769;'Jugendstil';7478
-138776;'1920-1949; Art déco';25757
+138776;'1920-1949, Art déco';25757
 138778;'Art deco';7478
 138785;'1950-1959';25757
 138794;'1960-1969';25757
@@ -3344,7 +3344,7 @@
 153797;'Sokken';3051
 153946;'Stempels';111848
 153953;'Kralen';111837
-153954;'Steen; edelsteen en mineralen';153953
+153954;'Steen, edelsteen en mineralen';153953
 153955;'Glas en kristal';153953
 153956;'Hout';153953
 153957;'Kunststof';153953
