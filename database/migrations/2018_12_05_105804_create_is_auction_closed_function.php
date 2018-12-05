@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBidsTable extends Migration
+class CreateIsAuctionClosedFunction extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,13 @@ class CreateBidsTable extends Migration
      * @return void
      */
     public function up()
-
     {
         DB::statement('
+            CREATE FUNCTION dbo.is_auction_closed (@item_id INT) RETURNS BIT
+                AS BEGIN RETURN (
+                    SELECT auction_closed FROM items where id = @item_id
+                )
+            END;
         ');
     }
 
@@ -26,7 +30,7 @@ class CreateBidsTable extends Migration
     public function down()
     {
         DB::statement('
-            DROP TABLE bids
+            DROP FUNCTION dbo.is_auction_closed
         ');
     }
 }
