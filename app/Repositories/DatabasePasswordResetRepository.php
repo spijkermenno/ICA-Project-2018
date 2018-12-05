@@ -68,4 +68,14 @@ class DatabasePasswordResetRepository extends DatabaseRepository implements Pass
 
         return $token;
     }
+
+    public function removeByUserEmail($email)
+    {
+        return $this->conn->statement('
+            DELETE FROM password_resets
+            WHERE email = :email
+        ', [
+            'email' => $email
+        ]);
+    }
 }

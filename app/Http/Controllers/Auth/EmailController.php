@@ -97,6 +97,8 @@ class EmailController extends Controller
                 ->with('status', 'Uw verificatie code is niet correct.');
         }
 
+        $this->passwordResetRepository->removeByUserEmail($request->get('email'));
+
         $request->session()->put('email.verification', [
             'verified' => true,
             'email' => $request->get('email'),

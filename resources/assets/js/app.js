@@ -8,7 +8,11 @@ require("./bootstrap");
 
 import DatePicker from "vuejs-datepicker";
 
+import {nl} from 'vuejs-datepicker/dist/locale'
+
+
 window.Vue = require("vue");
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -23,7 +27,7 @@ const app = new Vue({
     data: () => {
         return {
             lang: {
-                nl: {}
+                nl
             }
         };
     }

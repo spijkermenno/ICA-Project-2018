@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
@@ -102,9 +103,14 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $user = $this->userRepository->create(
-            array_except(
-                $data,
-                ['_token', 'password_confirmation']
+            array_merge(
+                array_except(
+                    $data,
+                    ['_token', 'password_confirmation']
+                ),
+                [
+                    'birthday' => Carbon::createFromFormat('d-m-Y', $data['birthday'])->toDateString()
+                ]
             )
         );
 

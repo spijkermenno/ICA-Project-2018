@@ -5,9 +5,9 @@
         <date-picker
             name="birthday"
             input-class="form-control"
-            format="dd/MM/yyyy"
+            format="dd-MM-yyyy"
             value="{{ old($key) }}"
-            :lang="lang.nl"
+            :language="lang.nl"
             :disabled-dates="{
                 from: new Date('{{ $notAfter }}')
             }"
