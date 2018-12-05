@@ -52,18 +52,20 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
     public function getLevelWithChildren($parent_id)
     {
         $parents = $this->getAllByParentId($parent_id);
+        if (count($parents)) {
+            return collect($parents)
+                ->pipe(function ($parents) {
+                    $children = collect($this->getChildrenFor($parents->pluck('id')->toArray()))
+                        ->groupBy('parent');
 
-        return collect($parents)
-            ->pipe(function ($parents) {
-                $children = collect($this->getChildrenFor($parents->pluck('id')->toArray()))
-                    ->groupBy('parent');
+                    return $parents->map(function ($parent) use ($children) {
+                        $parent->children = $children[$parent->id] ?? [];
 
-                return $parents->map(function ($parent) use ($children) {
-                    $parent->children = $children[$parent->id] ?? [];
-
-                    return $parent;
-                });
-            })
-            ->toArray();
+                        return $parent;
+                    });
+                })
+                ->toArray();
+        }
+        return [];
     }
 }
