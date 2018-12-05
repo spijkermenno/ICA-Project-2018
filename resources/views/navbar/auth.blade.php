@@ -1,6 +1,6 @@
 @if (Auth::guest())
-    <li class="nav-item p-1"><a class="nav-link" href="/login/">Inloggen</a></li>
-    <li class="btn btn-lg btn-primary"><a href="/register/" class="text-white">Registreren</a></li>
+    <li class="nav-item p-2"><a class="nav-link" href="/login/">Inloggen</a></li>
+    <li class="btn btn-primary"><a href="/register/" class="nav-link text-white">Registreren</a></li>
 @else
     <li class="nav-item dropdown">
         <a href="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown"
