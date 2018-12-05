@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use App\Repositories\Contracts\UserRepository;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Repositories\Contracts\CategoryRepository;
 use App\Repositories\Contracts\SecretQuestionRepository;
 
 class RegisterController extends Controller
@@ -42,8 +43,10 @@ class RegisterController extends Controller
      */
     public function __construct(
         SecretQuestionRepository $secretQuestionRepository,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        CategoryRepository $categoryRepository
     ) {
+        parent::__construct($categoryRepository);
         $this->middleware('guest');
 
         $this->secretQuestionRepository = $secretQuestionRepository;

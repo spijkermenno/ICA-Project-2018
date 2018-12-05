@@ -43,6 +43,8 @@ class FillSecretQuestionsTable extends Migration
      */
     public function down()
     {
-        //
+        DB::statement('
+            DELETE FROM secret_questions
+        ');
     }
 }

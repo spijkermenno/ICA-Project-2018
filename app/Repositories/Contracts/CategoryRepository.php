@@ -12,5 +12,9 @@ interface CategoryRepository
 
     public function getAllByParentId(int $id);
 
+    public function getChildrenFor(array $ids);
+
     public function getById(int $id);
+
+    public function getLevelWithChildren($parent_id);
 }

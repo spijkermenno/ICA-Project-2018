@@ -2,26 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\DatabaseCategoryRepository;
+use App\Repositories\Contracts\CategoryRepository;
 
 class RubriekenController extends Controller
 {
-    /**
-     * @var DatabaseCategoryRepository
-     */
-    private $categoryRepository;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     * @param DatabaseCategoryRepository $categoryRepository
-     */
-    public function __construct(DatabaseCategoryRepository $categoryRepository)
-    {
-        $this->categoryRepository = $categoryRepository;
-    }
-
     /**
      * Show the application dashboard.
      *
@@ -31,17 +15,35 @@ class RubriekenController extends Controller
     {
         return view('rubrieken.rubrieken', [
             'alphabet' => $this->getAlphabet(),
-            'parents' => $this->categoryRepository->getAllParents(),
-            'children' => $this->categoryRepository->getAllChildren()
+            'parents' => $this->categoryRepository->getLevelWithChildren(-1)
         ]);
+    }
+
+    public function rubriek($product_id, $product_name)
+    {
+        return view('rubrieken.rubrieken', [
+            'alphabet' => $this->getAlphabet($product_id),
+            'parents' => $this->categoryRepository->getLevelWithChildren($product_id)
+        ]);
+    }
+
+    public function rubriek_no_name($id)
+    {
+        $rubriekRepo = app()->make(CategoryRepository::class);
+        $rubriekObjects = $rubriekRepo->getById($id);
+        if (isset($rubriekObjects[0])) {
+            return redirect()->route('rubriek_with_name', ['product' => $id, 'product_name' => str_slug($rubriekObjects[0]->name)]);
+        }
+        return redirect()->route('rubrieken');
     }
 
     /**
      * Generates an array from A to Z with an active value from the category parents
      *
+     * @param int $parent_id
      * @return array
      */
-    private function getAlphabet()
+    private function getAlphabet($parent_id = -1)
     {
         $alphabet = [];
         for ($i = 65; $i < 91; $i++) {
@@ -51,7 +53,7 @@ class RubriekenController extends Controller
             ];
         }
 
-        $parents = $this->categoryRepository->getAllParents();
+        $parents = $this->categoryRepository->getAllByParentId($parent_id);
 
         foreach ($alphabet as $key => $item) {
             foreach ($parents as $parent) {

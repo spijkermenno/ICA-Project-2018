@@ -2,15 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\DatabaseItemRepository;
+use App\Repositories\DatabaseCategoryRepository;
+
 class HomeController extends Controller
 {
     /**
+    * @var DatabaseItemRepository
+    */
+    private $itemRepository;
+
+    /**
      * Create a new controller instance.
+     *
+     * @return void
+     * @param DatabaseItemRepository $itemRepository
      */
-    // public function __construct()
-    // {
-    //     $this->middleware('auth');
-    // }
+    public function __construct(DatabaseItemRepository $itemRepository, DatabaseCategoryRepository $categoryRepository)
+    {
+        parent::__construct($categoryRepository);
+        $this->itemRepository = $itemRepository;
+    }
 
     /**
      * Show the application dashboard.
@@ -20,14 +32,7 @@ class HomeController extends Controller
     public function index()
     {
         return view('home', [
-            'rubrieken' => [
-                "Auto's",
-                "Baby's",
-                'Computers'
-            ]
+            'popularProducts' => $this->itemRepository->getMostPopularItems(3)
         ]);
-//        return view('home', [
-//            'categories' => $this->categoryRepository->getAllParents()
-//        ]);
     }
 }
