@@ -6,12 +6,6 @@
         @slot('page', 'login')
 
         @slot('body')
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session("status") }}
-                </div>
-            @endif
-
             <form
                 role="form"
                 method="POST"
