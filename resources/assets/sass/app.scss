@@ -217,6 +217,26 @@ ul.category_parents {
     }
 }
 
+@media (max-width: 1800px) {
+    .rubriek-container {
+        left: 162px;
+    }
+}
+
+@media (max-width: 1470px) {
+    .rubriek-container {
+        left: auto;
+    }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        top: auto;
+        left: auto;
+        margin: auto;
+    }
+}
+
 @media (max-width: 1200px) {
     .alphabet {
         li {

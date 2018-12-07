@@ -17,10 +17,10 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
     public function getAllByParentId($id)
     {
         return $this->conn->select('
-            SELECT id, name, parent, order_number, inactive 
-            FROM categories 
-            WHERE parent = ?  
-            ORDER BY name ASC',
+                SELECT id, name, parent, order_number, inactive 
+                FROM categories 
+                WHERE parent = ?  
+                ORDER BY name ASC',
             [$id]
         );
     }
@@ -47,7 +47,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
         );
     }
 
-    public function getAllParents($id)
+    public function getAllParentsById($id)
     {
         return $this->conn->select('
             WITH tblParent AS
@@ -63,6 +63,17 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
             ORDER BY id ASC
             OPTION(MAXRECURSION 64)',
             [$id, $id]
+        );
+    }
+
+    public function getAllByParentIdOrdered($id)
+    {
+        return $this->conn->select('
+            SELECT id, name, parent, order_number, inactive
+            FROM categories
+            WHERE parent = ?
+            ORDER BY order_number ASC, name ASC',
+            [$id]
         );
     }
 
