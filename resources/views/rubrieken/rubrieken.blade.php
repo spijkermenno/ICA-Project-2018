@@ -18,11 +18,11 @@
         <div class="categories">
             <ul class="category_parents">
                 @foreach($parents as $parent)
-                    <li class="parent" id="{{ $parent->name[0] }}"><a class="text-dark" href="/rubriek/{{ $parent->id }}/{{ seo_url($parent->name) }}">{{ $parent->name }}</a>
+                    <li class="parent" id="{{ $parent->name[0] }}"><a class="text-dark" href="/rubriek/{{ $parent->id }}/{{ str_slug($parent->name) }}">{{ $parent->name }}</a>
                         <ul class="category_children">
                             @foreach($parent->children as $child)
                                 @if($child->parent == $parent->id)
-                                    <li><a class="text-dark" href="/rubriek/{{ $child->id }}/{{ seo_url($child->name) }}">{{ $child->name }}</a></li>
+                                    <li><a class="text-dark" href="/rubriek/{{ $child->id }}/{{ str_slug($child->name) }}">{{ $child->name }}</a></li>
                                 @endif
                             @endforeach
                         </ul>

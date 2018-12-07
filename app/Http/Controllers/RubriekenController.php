@@ -24,7 +24,7 @@ class RubriekenController extends Controller
         return view('rubrieken.rubriek', [
             'sidebar' => [
                 'parents' => $this->categoryRepository->getAllParents($product_id),
-                'current' => $product_name,
+                'current' => $this->categoryRepository->getById($product_id),
                 'children' => $this->categoryRepository->getAllByParentId($product_id)
             ]
         ]);

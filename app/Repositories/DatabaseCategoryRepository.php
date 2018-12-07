@@ -20,7 +20,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
             SELECT id, name, parent, order_number, inactive 
             FROM categories 
             WHERE parent = ?  
-            ORDER BY order_number ASC, name ASC',
+            ORDER BY name ASC',
             [$id]
         );
     }
