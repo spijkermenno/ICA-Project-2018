@@ -17,7 +17,7 @@ class CreateCategoriesTable extends Migration
               id           INT                       NOT NULL, --App C: geen auto increment
               name         VARCHAR(45)               NOT NULL, --Zelfde lengte als de titel van een voorwerp
               parent       INT                       NULL, --NULL moet beschikbaar zijn, want root is NULL
-              order_number INT DEFAULT NULL          NOT NULL, --App D: NOT NULL
+              order_number INT                       NOT NULL, --App D: NOT NULL
               inactive     BIT DEFAULT 0             NOT NULL, --Uitfaseren 0 is false, 1 is true
             
               CONSTRAINT pk_categories PRIMARY KEY (id),
