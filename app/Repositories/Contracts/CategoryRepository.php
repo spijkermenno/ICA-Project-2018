@@ -17,4 +17,12 @@ interface CategoryRepository
     public function getAllByParentIdOrdered($id);
 
     public function getLevelWithChildren($parent_id);
+
+    public function createCategory($id, $name, $parent, $order_number);
+
+    public function disableCategoryById($id);
+
+    public function updateCategoryNameById($id, $name);
+
+    public function updateCategoryOrderNumberById($id, $current_order_number, $new_order_number);
 }

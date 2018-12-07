@@ -27,6 +27,6 @@ class Controller extends BaseController
     public function __construct(DatabaseCategoryRepository $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
-        View::share('rubrieken', $this->categoryRepository->getAllByParentId(-1));
+        View::share('rubrieken', $this->categoryRepository->getAllByParentIdOrdered(-1));
     }
 }

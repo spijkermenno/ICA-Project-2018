@@ -96,4 +96,93 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
         }
         return [];
     }
+
+    public function createCategory($id, $name, $parent, $order_number)
+    {
+        $this->conn->insert('
+            INSERT INTO categories
+                (id, name, parent, order_number)
+            VALUES
+                (:id, :name, :parent, :order_number)
+        ', [
+            'id' => $id,
+            'name' => $name,
+            'parent' => $parent,
+            'order_number' => $order_number
+        ]);
+    }
+
+    public function disableCategoryById($id)
+    {
+        return $this->conn->update('
+            UPDATE categories
+                SET inactive = 1
+            WHERE id = :id
+        ', [
+            'id' => $id
+        ]);
+    }
+
+    public function updateCategoryNameById($id, $name)
+    {
+        return $this->conn->update('
+            UPDATE categories
+                SET name = :name
+            WHERE id = :id
+        ', [
+            'name' => $name,
+            'id' => $id
+        ]);
+    }
+
+    public function updateCategoryOrderNumberById($id, $current_order_number, $new_order_number)
+    {
+        $replacement = $this->conn->select('
+            SELECT TOP 1 id 
+            FROM categories 
+            WHERE order_number = ?;',
+            [$new_order_number]
+        );
+
+        if($replacement)
+        {
+            $replaced = $this->conn->update('
+                UPDATE categories
+                    SET order_number = :order_number
+                WHERE id = :id
+            ', [
+                'order_number' => $current_order_number,
+                'id' => $replacement[0]->id
+            ]);
+
+            if($replaced)
+            {
+                $updated = $this->conn->update('
+                    UPDATE categories
+                        SET order_number = :order_number
+                    WHERE id = :id
+                ', [
+                    'order_number' => $new_order_number,
+                    'id' => $id
+                ]);
+
+                if($updated)
+                {
+                    return 'Success!';
+                }
+                else
+                {
+                    return 'Error';
+                }
+            }
+            else
+            {
+                return 'Error';
+            }
+        }
+        else
+        {
+            return 'Error';
+        }
+    }
 }
