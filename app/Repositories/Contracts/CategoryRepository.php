@@ -18,11 +18,11 @@ interface CategoryRepository
 
     public function getLevelWithChildren($parent_id);
 
-    public function createCategory($id, $name, $parent, $order_number);
+    public function create($id, $name, $parent, $order_number);
 
-    public function disableCategoryById($id);
+    public function disable($id);
 
-    public function updateCategoryNameById($id, $name);
+    public function updateName($id, $name);
 
-    public function updateCategoryOrderNumberById($id, $current_order_number, $new_order_number);
+    public function updateOrderNumber($id, $current_order_number, $new_order_number);
 }

@@ -60,7 +60,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
             )
             SELECT * FROM  tblParent
                 WHERE id <> ? AND id > 0
-            ORDER BY id ASC
+            ORDER BY parent ASC
             OPTION(MAXRECURSION 64)',
             [$id, $id]
         );
@@ -97,7 +97,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
         return [];
     }
 
-    public function createCategory($id, $name, $parent, $order_number)
+    public function create($id, $name, $parent, $order_number)
     {
         $this->conn->insert('
             INSERT INTO categories
@@ -112,7 +112,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
         ]);
     }
 
-    public function disableCategoryById($id)
+    public function disable($id)
     {
         return $this->conn->update('
             UPDATE categories
@@ -123,7 +123,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
         ]);
     }
 
-    public function updateCategoryNameById($id, $name)
+    public function updateName($id, $name)
     {
         return $this->conn->update('
             UPDATE categories
@@ -135,54 +135,74 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
         ]);
     }
 
-    public function updateCategoryOrderNumberById($id, $current_order_number, $new_order_number)
+    public function updateOrderNumber($id, $current_order_number, $new_order_number)
     {
-        $replacement = $this->conn->select('
-            SELECT TOP 1 id 
-            FROM categories 
-            WHERE order_number = ?;',
-            [$new_order_number]
-        );
+        $replacement = $this->checkOrderNumber($new_order_number);
 
         if($replacement)
         {
-            $replaced = $this->conn->update('
+            $replaced = $this->replaceOrderNumber($replacement[0]->id, $current_order_number);
+
+            if($replaced)
+            {
+                $this->changeOrderNumber($id, $new_order_number);
+            } else
+            {
+                print_r('Error 2');
+            }
+        } else
+        {
+            $this->changeOrderNumber($id, $new_order_number);
+        }
+    }
+
+    private function checkOrderNumber($order_number)
+    {
+        return $this->conn->select('
+            SELECT TOP 1 id 
+            FROM categories 
+            WHERE order_number = ?;',
+            [$order_number]
+        );
+    }
+
+    private function replaceOrderNumber($replacementId, $current_order_number)
+    {
+        $replaced = $this->conn->update('
                 UPDATE categories
                     SET order_number = :order_number
                 WHERE id = :id
             ', [
-                'order_number' => $current_order_number,
-                'id' => $replacement[0]->id
-            ]);
+            'order_number' => $current_order_number,
+            'id' => $replacementId
+        ]);
 
-            if($replaced)
-            {
-                $updated = $this->conn->update('
+        if($replaced)
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
+    private function changeOrderNumber($id, $new_order_number)
+    {
+        $updated = $this->conn->update('
                     UPDATE categories
                         SET order_number = :order_number
                     WHERE id = :id
                 ', [
-                    'order_number' => $new_order_number,
-                    'id' => $id
-                ]);
+            'order_number' => $new_order_number,
+            'id' => $id
+        ]);
 
-                if($updated)
-                {
-                    return 'Success!';
-                }
-                else
-                {
-                    return 'Error';
-                }
-            }
-            else
-            {
-                return 'Error';
-            }
-        }
-        else
+        if($updated)
         {
-            return 'Error';
+            print_r('Success!');
+        } else
+        {
+            print_r('Error 1');
         }
     }
 }
