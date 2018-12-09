@@ -1,5 +1,8 @@
 <div class="form-group row">
-    <label class="col-lg-4 col-form-label text-lg-right">{{ $name }}</label>
+    <label class="col-lg-4 col-form-label text-lg-right">
+        {{ $name }}
+        <span class="text-danger">{{ ($required ?? true) ? '*' : '' }}</span>
+    </label>
 
     <div class="col-lg-6">
         <input
@@ -7,7 +10,7 @@
             class="form-control{{ $errors->has($key) ? ' is-invalid' : '' }}"
             name="{{ $key }}"
             value="{{ $value ?? old($key) }}"
-            {{ ($readonly ?? null) ? 'readonly="readonly"' : '' }}
+            {{ ($readonly ?? false) ? 'readonly="readonly"' : '' }}
             required
         />
 

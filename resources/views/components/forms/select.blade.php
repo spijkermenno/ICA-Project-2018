@@ -1,5 +1,8 @@
 <div class="form-group row">
-        <label class="col-lg-12 col-form-label text-lg-left">{{ $name }}</label>
+        <label class="col-lg-12 col-form-label text-lg-left">
+            {{ $name }}
+            <span class="text-danger">{{ ($required ?? true) ? '*' : '' }}</span>
+        </label>
 
         <div class="col-lg-12">
             <select
