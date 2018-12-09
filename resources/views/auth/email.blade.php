@@ -6,9 +6,9 @@
         @slot('page', 'register')
 
         @slot('body')
-            <form role="form" method="POST" action="{{ route('email.verification.send') }}">
-                {!! csrf_field() !!}
-
+            @component('components.forms.form', [
+                'action' => route('email.verification.send')
+            ])
                 @include('components.forms.basic-input-horizontal', [
                     'key' => 'email',
                     'name' => 'E-mailadres'
@@ -21,7 +21,7 @@
                         </button>
                     </div>
                 </div>
-            </form>
+            @endcomponent
         @endslot
     @endcomponent
 @endsection

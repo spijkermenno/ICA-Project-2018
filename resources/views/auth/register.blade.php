@@ -6,9 +6,9 @@
         @slot('page', 'register')
 
         @slot('body')
-            <form role="form" method="POST" action="{{ url('/register') }}">
-                {{ csrf_field() }}
-
+            @component('components.forms.form', [
+                'action' => url('/register')
+            ])
                 <div class="row">
                     <div class="col-md-6">
                         @include('components.forms.basic-input', [
@@ -117,7 +117,7 @@
                         </button>
                     </div>
                 </div>
-            </form>
+            @endcomponent
         @endslot
     @endcomponent
 @endsection

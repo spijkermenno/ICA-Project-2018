@@ -6,9 +6,10 @@
         @slot('page', 'login')
 
         @slot('body')
-            <form class="form-horizontal" method="POST" action="{{ route('login') }}">
-                {{ csrf_field() }}
-
+            @component('components.forms.form', [
+                'action' => route('login'),
+                'class' => 'form-horizontal'
+            ])
                 @include('components.forms.basic-input-horizontal', [
                     'key' => 'name',
                     'name' => 'Gebruikersnaam'
@@ -20,7 +21,7 @@
                     'name' => 'Wachtwoord'
                 ])
 
-                <!-- <div class="form-group row">
+                {{-- <div class="form-group row">
                     <div class="col-lg-6 offset-lg-4">
                         <div class="form-check">
                             <label class="form-check-label">
@@ -28,7 +29,7 @@
                             </label>
                         </div>
                     </div>
-                </div> -->
+                </div> --}}
 
                 <div class="form-group row">
                     <div class="col-lg-8 offset-lg-4">
@@ -36,12 +37,12 @@
                             Inloggen
                         </button>
 
-                        <!-- <a class="btn btn-link" href="{{ route('password.request') }}">
+                        {{-- <a class="btn btn-link" href="{{ route('password.request') }}">
                             Wachtwoord vergeten?
-                        </a> -->
+                        </a> --}}
                     </div>
                 </div>
-            </form>
+            @endcomponent
         @endslot
     @endcomponent
 @endsection
