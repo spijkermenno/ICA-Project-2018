@@ -24,7 +24,7 @@ class FillCategoriesTable extends Migration
                     (:id, :name, NULL, :order_number)
             ', [
                 'id' => intval($category[0]) !== 0 ? intval($category[0]) : 1,
-                'name' => $category[1],
+                'name' => stripslashes($category[1]),
                 'order_number' => $i
             ]);
             $i++;

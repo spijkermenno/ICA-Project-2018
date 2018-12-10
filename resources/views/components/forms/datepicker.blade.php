@@ -1,13 +1,16 @@
 <div class="form-group row">
-    <label class="col-lg-12 col-form-label text-lg-left">{{ $name }}</label>
+    <label class="col-lg-12 col-form-label text-lg-left">
+        {{ $name }}
+        <span class="text-danger">{{ ($required ?? true) ? '*' : '' }}</span>
+    </label>
 
     <div class="col-lg-12">
         <date-picker
             name="birthday"
             input-class="form-control"
-            format="dd/MM/yyyy"
+            format="dd-MM-yyyy"
             value="{{ old($key) }}"
-            :lang="lang.nl"
+            :language="lang.nl"
             :disabled-dates="{
                 from: new Date('{{ $notAfter }}')
             }"
