@@ -122,6 +122,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
         $id++;
         $order_number++;
 
+
         $this->conn->insert('
             INSERT INTO categories
                 (id, name, parent, order_number)
