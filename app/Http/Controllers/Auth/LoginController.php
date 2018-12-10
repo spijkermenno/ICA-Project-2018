@@ -36,6 +36,7 @@ class LoginController extends Controller
     public function __construct(DatabaseCategoryRepository $categoryRepository)
     {
         parent::__construct($categoryRepository);
+
         $this->middleware('guest')->except('logout');
     }
 

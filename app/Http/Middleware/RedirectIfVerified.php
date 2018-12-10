@@ -3,9 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
-class RedirectIfAuthenticated
+class RedirectIfVerified
 {
     /**
      * Handle an incoming request.
@@ -17,8 +17,8 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check()) {
-            return redirect('/');
+        if (session('email.verification.verified') && Carbon::parse(session('auth.email.expired_at'))->lt(now())) {
+            return redirect('/register');
         }
 
         return $next($request);
