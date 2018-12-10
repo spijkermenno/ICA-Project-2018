@@ -8,10 +8,10 @@
             <li>3. Kies uw gebruikersnaam</li>
             <li>4. Vul uw wachtwoord in</li>
             <li>5. Vul uw persoonsgegevens in</li>
-            <li>6. <strong>Biedt mee!</strong></li>
+            <li>6. <strong>Bied mee!</strong></li>
         </ul>
         <h5>Dit proces duurt doorgaans maximaal 5 minuten.</h5>
-        <h5>Dus registreer nu uw account en <strong>biedt mee</strong>!</h5>
+        <h5>Dus registreer nu uw account en <strong>bied mee</strong>!</h5>
             <a href="/register/" class="btn btn-outline-light btn-lg text-white">Registreer nu</a>
     </div>
 </div>
