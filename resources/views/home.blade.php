@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        @include("breadcrumbs")
-        <div class="row">
+        <div class="row mt-3">
             <div class="col mb-3">
                 <h1>EenmaalAndermaal</h1>
             </div>
@@ -45,5 +43,4 @@
                 @endfor
             </div>
         @endfor
-    </div>
 @endsection

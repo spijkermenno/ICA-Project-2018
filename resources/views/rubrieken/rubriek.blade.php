@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container rubriek-container">
-        @include("breadcrumbs")
+    <div class="rubriek-container">
         <div class="row">
             <div class="col mb-3">
                 <h1>{{ $sidebar['current'][0]->name }}</h1>
