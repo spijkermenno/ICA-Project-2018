@@ -13,6 +13,12 @@
 
 Auth::routes();
 
+Route::get('/register-email', 'Auth\EmailController@showEmailForm')->name('email.verification');
+Route::post('/register-email', 'Auth\EmailController@sendVerificationEmail')->name('email.verification.send');
+
+Route::get('/verify-email/{token?}', 'Auth\EmailController@showVerifyForm')->name('email.verify');
+Route::post('/verify-email', 'Auth\EmailController@verifyEmail')->name('email.verify.check');
+
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/rubrieken/', 'RubriekenController@index')->name('rubrieken');

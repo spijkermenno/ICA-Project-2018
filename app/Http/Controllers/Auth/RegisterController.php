@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
@@ -47,7 +48,8 @@ class RegisterController extends Controller
         CategoryRepository $categoryRepository
     ) {
         parent::__construct($categoryRepository);
-        $this->middleware('guest');
+
+        $this->middleware(['guest', 'verified']);
 
         $this->secretQuestionRepository = $secretQuestionRepository;
         $this->userRepository = $userRepository;
@@ -71,7 +73,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:20|unique:users',
+            'name' => 'required|string|min:4|max:20|unique:users',
             'firstname' => 'required|string|max:50',
             'lastname' => 'required|string|max:50',
 
@@ -79,7 +81,7 @@ class RegisterController extends Controller
             'secret_question_answer' => 'required|min:6',
 
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:7|max:72|confirmed',
 
             'birthday' => 'required|before:now',
 
@@ -101,15 +103,16 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $user = $this->userRepository->create(
-            array_except(
-                $data,
-                ['_token', 'password_confirmation']
+            array_merge(
+                array_except(
+                    $data,
+                    ['_token', 'password_confirmation']
+                ),
+                [
+                    'birthday' => Carbon::createFromFormat('d-m-Y', $data['birthday'])->toDateString()
+                ]
             )
         );
-
-        // $this->broker()->sendResetLink([
-        //     'email' => $user['email']
-        // ]);
 
         return $user;
     }
