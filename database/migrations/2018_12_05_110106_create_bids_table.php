@@ -24,7 +24,7 @@ class CreateBidsTable extends Migration
                 CONSTRAINT fk_bids_item_id FOREIGN KEY (item_id) REFERENCES items (id),
                 CONSTRAINT fk_bids_user_name FOREIGN KEY (user_name) REFERENCES users (name),
             
-                CONSTRAINT chk_price CHECK(dbo.is_bid_allowed(price, item_id) = 1), -- Bod moet hoger zijn dan start prijs en hoogste bod
+                CONSTRAINT chk_price CHECK(dbo.is_bid_allowed(price, item_id, date) = 1), -- Bod moet hoger zijn dan start prijs en hoogste bod
                 CONSTRAINT chk_item_id CHECK(dbo.is_auction_closed(item_id) = 0), -- Bod kan niet worden geplaatst als de veiling gesloten is
             )
         ');
