@@ -105,7 +105,8 @@
 
                         @include('components.forms.basic-input', [
                             'key' => 'country',
-                            'name' => 'Land'
+                            'name' => 'Land',
+                            'default' => 'Nederland'
                         ])
                     </div>
                 </div>
