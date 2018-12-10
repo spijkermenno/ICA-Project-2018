@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use App\Repositories\DatabaseCategoryRepository;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Route;
 
 class Controller extends BaseController
 {
@@ -17,6 +19,12 @@ class Controller extends BaseController
      * @var DatabaseCategoryRepository
      */
     public $categoryRepository;
+    public $breadcrumbs = [
+        [
+            'name' => 'EenmaalAndermaal',
+            'link' => '/'
+        ]
+    ];
 
     /**
      * Create a new controller instance.
@@ -28,5 +36,6 @@ class Controller extends BaseController
     {
         $this->categoryRepository = $categoryRepository;
         View::share('rubrieken', $this->categoryRepository->getAllByParentIdOrdered(-1));
+        View::share('viewName', Route::getFacadeRoot()->current()->uri());
     }
 }
