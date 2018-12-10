@@ -11,7 +11,7 @@ class RubriekenController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Http\Response
+     * @param DatabaseCategoryRepository $categoryRepository
      */
     public function __construct(DatabaseCategoryRepository $categoryRepository)
     {
@@ -79,9 +79,67 @@ class RubriekenController extends Controller
 
     public function add_rubriek($parent_id, Request $request)
     {
+        $request->validate([
+            'name' => 'required|max:255|min:2'
+        ]);
+
         $name = $request->post('name');
 
         $this->categoryRepository->create($name, $parent_id);
+
+        return redirect()->to('/rubrieken/')->with('success', 'Rubriek succesvol toegevoegd');
+    }
+
+    public function edit_rubriek($id)
+    {
+        $rubriek = $this->categoryRepository->getById($id);
+
+        return view('rubrieken.edit_rubriek', [
+            'id' => $id,
+            'name' => $rubriek[0]->name,
+            'order_number' => $rubriek[0]->order_number,
+            'parent' => $rubriek[0]->parent,
+            'inactive' => $rubriek[0]->inactive
+        ]);
+    }
+
+    public function update_rubriek($id, Request $request)
+    {
+        $request->validate([
+            'name' => 'required|max:255|min:2',
+            'order_number' => 'required|max:11|min:1'
+        ]);
+
+        $name = $request->post('name');
+        $order_number = $request->post('order_number');
+
+        $rubriek = $this->categoryRepository->getById($id);
+
+        if($name != $rubriek[0]->name)
+        {
+            $this->categoryRepository->updateName($id, $name);
+        }
+
+        if ($order_number != $rubriek[0]->order_number)
+        {
+            $this->categoryRepository->updateOrderNumber($id, $rubriek[0]->order_number, $order_number);
+        }
+
+        if($name != $rubriek[0]->name && $order_number != $rubriek[0]->order_number)
+        {
+            $message = 'Naam en volgnummer zijn succesvol geüpdatet';
+        } else if($name != $rubriek[0]->name)
+        {
+            $message = 'Naam is succesvol geüpdatet';
+        } else if($order_number != $rubriek[0]->order_number)
+        {
+            $message = 'Volgnummer is succesvol geüpdatet';
+        } else
+        {
+            $message = 'Er zijn geen wijzigingen aangebracht';
+        }
+
+        return redirect()->to('/rubrieken/')->with('success', $message);
     }
 
     /**

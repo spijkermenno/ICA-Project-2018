@@ -26,6 +26,8 @@ Route::get('/rubriek/{product_id}', 'RubriekenController@rubriek_no_name')->name
 Route::get('/rubriek/{product_id}/{product_name}', 'RubriekenController@rubriek')->name('rubriek_with_name');
 Route::get('/rubrieken/toevoegen/{parent_id}', 'RubriekenController@new_rubriek')->name('new_rubriek');
 Route::post('/rubrieken/toevoegen/{parent_id}', 'RubriekenController@add_rubriek')->name('add_rubriek');
+Route::get('/rubrieken/bewerken/{id}', 'RubriekenController@edit_rubriek')->name('edit_rubriek');
+Route::post('/rubrieken/bewerken/{id}', 'RubriekenController@update_rubriek')->name('update_rubriek');
 
 Route::get('/product/{product}/{name}', 'ProductController@product_specific')->name('product');
 Route::get('/product/', 'ProductController@index')->name('product');

@@ -16,8 +16,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
 
     public function getAllByParentId($id)
     {
-        return $this->conn->select(
-            '
+        return $this->conn->select('
                 SELECT id, name, parent, order_number, inactive 
                 FROM categories 
                 WHERE parent = ?  
@@ -40,8 +39,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
 
     public function getById($id)
     {
-        return $this->conn->select(
-            '
+        return $this->conn->select('
             SELECT id, name, parent, order_number, inactive
             FROM categories
             WHERE id = ?',
@@ -71,8 +69,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
 
     public function getAllByParentIdOrdered($id)
     {
-        return $this->conn->select(
-            '
+        return $this->conn->select('
             SELECT id, name, parent, order_number, inactive
             FROM categories
             WHERE parent = ?
@@ -103,25 +100,11 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
 
     public function create($name, $parent)
     {
-        $highest_id = $this->conn->select(
-            '
-            SELECT TOP 1 id 
-            FROM categories 
-            ORDER BY id DESC;'
-        );
-
-        $highest_order_number = $this->conn->select(
-            '
-            SELECT TOP 1 order_number 
-            FROM categories 
-            ORDER BY order_number DESC;'
-        );
-
-        $id = intval($highest_id[0]->id);
-        $order_number = intval($highest_order_number[0]->order_number);
+        $id = $this->getHighestId();
         $id++;
-        $order_number++;
 
+        $order_number = $this->getHighestOrderNumber();
+        $order_number++;
 
         $this->conn->insert('
             INSERT INTO categories
@@ -134,6 +117,28 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
             'parent' => $parent,
             'order_number' => $order_number
         ]);
+    }
+
+    private function getHighestId()
+    {
+        $highest_id = $this->conn->select('
+            SELECT TOP 1 id 
+            FROM categories 
+            ORDER BY id DESC;
+        ');
+
+        return intval($highest_id[0]->id);
+    }
+
+    private function getHighestOrderNumber()
+    {
+        $highest_order_number = $this->conn->select('
+            SELECT TOP 1 order_number 
+            FROM categories 
+            ORDER BY order_number DESC;
+        ');
+
+        return intval($highest_order_number[0]->order_number);
     }
 
     public function disable($id)
@@ -178,8 +183,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
 
     private function checkOrderNumber($order_number)
     {
-        return $this->conn->select(
-            '
+        return $this->conn->select('
             SELECT TOP 1 id 
             FROM categories 
             WHERE order_number = ?;',
