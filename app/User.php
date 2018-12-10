@@ -2,11 +2,14 @@
 
 namespace App;
 
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\Authenticatable;
 use App\Repositories\Contracts\PasswordResetRepository;
 
 class User extends ORMLessModel implements Authenticatable
 {
+    use Notifiable;
+
     protected $passwordResetRepository;
 
     public function __construct($data = [])
@@ -49,13 +52,13 @@ class User extends ORMLessModel implements Authenticatable
     /**
      * Get the token value for the "remember me" session.
      *
-     * @return string
+     * @return string|null
      */
     public function getRememberToken()
     {
-        return $this->passwordResetRepository->getByUserIdentifier(
-            $this->offsetGet($this->getAuthIdentifierName())
-        )[$this->getRememberTokenName()];
+        if (!empty($this->getRememberTokenName())) {
+            return (string) $this->{$this->getRememberTokenName()};
+        }
     }
 
     /**
@@ -64,12 +67,11 @@ class User extends ORMLessModel implements Authenticatable
      * @param  string  $value
      * @return void
      */
-    public function setRememberToken($token)
+    public function setRememberToken($value)
     {
-        return $this->passwordResetRepository->updateTokenByUserIdentifier(
-            $this->offsetGet($this->getAuthIdentifierName()),
-            $token
-        );
+        if (!empty($this->getRememberTokenName())) {
+            $this->{$this->getRememberTokenName()} = $value;
+        }
     }
 
     /**

@@ -14,17 +14,20 @@ class FillCategoriesTable extends Migration
     public function up()
     {
         $resource = fopen(__DIR__ . '/../csv/categories-2.csv', 'r');
+        $i = 0;
 
         while (($category = fgetcsv($resource, 0, ';', '\'')) !== false) {
             DB::statement('
                 INSERT INTO categories
-                    (id, name, parent)
+                    (id, name, parent, order_number)
                 VALUES
-                    (:id, :name, NULL)
+                    (:id, :name, NULL, :order_number)
             ', [
                 'id' => intval($category[0]) !== 0 ? intval($category[0]) : 1,
-                'name' => $category[1]
+                'name' => stripslashes($category[1]),
+                'order_number' => $i
             ]);
+            $i++;
         }
 
         $resource = fopen(__DIR__ . '/../csv/categories-2.csv', 'r');

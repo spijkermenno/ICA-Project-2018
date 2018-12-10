@@ -1,134 +1,124 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-md-center mt-5 mb-5">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header py-0 pt-2">
-                    <ul class="nav nav-tabs border-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="/register/">Registreren</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login/">Inloggen</a>
-                        </li>
-                    </ul>
+
+    @component('auth.components.card')
+        @slot('page', 'register')
+
+        @slot('body')
+            @component('components.forms.form', [
+                'action' => url('/register')
+            ])
+                <div class="row">
+                    <div class="col-md-6">
+                        @include('components.forms.basic-input', [
+                            'key' => 'name',
+                            'name' => 'Gebruikersnaam'
+                        ])
+
+                        @include('components.forms.basic-input', [
+                            'key' => 'email',
+                            'type' => 'email',
+                            'name' => 'E-mailadres',
+                            'value' => session('email.verification.email'),
+                            'readonly' => true
+                        ])
+
+                        @include('components.forms.basic-input', [
+                            'key' => 'password',
+                            'type' => 'password',
+                            'name' => 'Wachtwoord'
+                        ])
+
+                        @include('components.forms.basic-input', [
+                            'key' => 'password_confirmation',
+                            'type' => 'password',
+                            'name' => 'Herhaal wachtwoord'
+                        ])
+                    </div>
+
+                    <div class="col-md-6">
+                        @include('components.forms.basic-input', [
+                            'key' => 'firstname',
+                            'name' => 'Voornaam'
+                        ])
+
+                        @include('components.forms.basic-input', [
+                            'key' => 'lastname',
+                            'name' => 'Achternaam'
+                        ])
+
+                        @include('components.forms.datepicker', [
+                            'key' => 'birthday',
+                            'name' => 'Geboortedatum',
+                            'notAfter' => today()->addDay()->toDateString()
+                        ])
+
+                        @include('components.forms.select', [
+                            'key' => 'secret_question_id',
+                            'name' => 'Herstel vraag',
+                            'options' => $questions ?? [],
+                            'name_key' => 'question'
+                        ])
+
+                        @include('components.forms.basic-input', [
+                            'key' => 'secret_question_answer',
+                            'name' => 'Herstel antwoord'
+                        ])
+
+                    </div>
                 </div>
-                <div class="card-body">
-                    <form role="form" method="POST" action="{{ url('/register') }}">
-                        {{ csrf_field() }}
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                @include('components.forms.basic-input', [
-                                    'key' => 'name',
-                                    'name' => 'Gebruikersnaam'
-                                ])
+                <hr>
 
-                                @include('components.forms.basic-input', [
-                                    'key' => 'email',
-                                    'type' => 'email',
-                                    'name' => 'E-mailadres'
-                                ])
+                <div class="row">
 
-                                @include('components.forms.basic-input', [
-                                    'key' => 'password',
-                                    'type' => 'password',
-                                    'name' => 'Wachtwoord'
-                                ])
+                    <div class="col-md-6">
+                        @include('components.forms.basic-input', [
+                            'key' => 'adress_line_1',
+                            'name' => 'Adresregel 1'
+                        ])
+                    </div>
 
-                                @include('components.forms.basic-input', [
-                                    'key' => 'password_confirmation',
-                                    'type' => 'password',
-                                    'name' => 'Herhaal wachtwoord'
-                                ])
-                            </div>
+                    <div class="col-md-6">
+                        <!-- Filler -->
+                    </div>
 
-                            <div class="col-md-6">
-                                @include('components.forms.basic-input', [
-                                    'key' => 'firstname',
-                                    'name' => 'Voornaam'
-                                ])
+                    <div class="col-md-6">
+                        @include('components.forms.basic-input', [
+                            'key' => 'adress_line_2',
+                            'name' => 'Adresregel 2',
+                            'required' => false
+                        ])
 
-                                @include('components.forms.basic-input', [
-                                    'key' => 'lastname',
-                                    'name' => 'Achternaam'
-                                ])
+                        @include('components.forms.basic-input', [
+                            'key' => 'postalcode',
+                            'name' => 'Postcode'
+                        ])
+                    </div>
 
-                                @include('components.forms.datepicker', [
-                                    'key' => 'birthday',
-                                    'name' => 'Geboortedatum',
-                                    'notAfter' => today()->addDay()->toDateString()
-                                ])
+                    <div class="col-md-6">
+                        @include('components.forms.basic-input', [
+                            'key' => 'city',
+                            'name' => 'Plaatsnaam'
+                        ])
 
-                                @include('components.forms.select', [
-                                    'key' => 'secret_question_id',
-                                    'name' => 'Herstel vraag',
-                                    'options' => $questions ?? [],
-                                    'name_key' => 'question'
-                                ])
-
-                                @include('components.forms.basic-input', [
-                                    'key' => 'secret_question_answer',
-                                    'name' => 'Herstel antwoord'
-                                ])
-
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <div class="row">
-
-                            <div class="col-md-6">
-                                @include('components.forms.basic-input', [
-                                    'key' => 'adress_line_1',
-                                    'name' => 'Adresregel 1'
-                                ])
-                            </div>
-
-                            <div class="col-md-6">
-                                <!-- Filler -->
-                            </div>
-
-                            <div class="col-md-6">
-                                @include('components.forms.basic-input', [
-                                    'key' => 'adress_line_2',
-                                    'name' => 'Adresregel 2',
-                                    'required' => false
-                                ])
-
-                                @include('components.forms.basic-input', [
-                                    'key' => 'postalcode',
-                                    'name' => 'Postcode'
-                                ])
-                            </div>
-
-                            <div class="col-md-6">
-                                @include('components.forms.basic-input', [
-                                    'key' => 'city',
-                                    'name' => 'Plaatsnaam'
-                                ])
-
-                                @include('components.forms.basic-input', [
-                                    'key' => 'country',
-                                    'name' => 'Land'
-                                ])
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <button type="submit" class="btn btn-primary btn-block text-white">
-                                    Registreer
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                        @include('components.forms.basic-input', [
+                            'key' => 'country',
+                            'name' => 'Land',
+                            'default' => 'Nederland'
+                        ])
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button type="submit" class="btn btn-primary btn-block text-white">
+                            Registreer
+                        </button>
+                    </div>
+                </div>
+            @endcomponent
+        @endslot
+    @endcomponent
 @endsection

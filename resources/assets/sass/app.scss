@@ -13,6 +13,12 @@
 // @import '~pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 // @import "~bootstrap-datepicker/dist/css/bootstrap-datepicker.css";
 
+
+.btn-primary {
+    @extend .text-white;
+}
+
+
 .bg-gray {
     background-color: #eee;
 }
@@ -59,10 +65,6 @@ hr {
 
 .input-group-text {
     background-color: transparent;
-}
-
-.rubrieken_pagina {
-    padding-top: 32px;
 }
 
 .alphabet {
@@ -150,6 +152,160 @@ ul.category_parents {
     column-gap: 20px;
 }
 
+#navbarContent {
+    z-index: 1040;
+}
+
+#return-to-top {
+    position: fixed;
+    z-index: 2000;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    cursor: pointer;
+    text-decoration: none;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+
+    svg {
+        color: #fff;
+        margin: 0;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        -moz-transform: translateX(-50%) translateY(-50%);
+        -ms-transform: translateX(-50%) translateY(-50%);
+        -o-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+        font-size: 28px;
+        -webkit-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+    }
+}
+
+#return-to-top.hidden {
+    visibility: hidden;
+    opacity: 0;
+}
+
+@-webkit-keyframes movingGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@-moz-keyframes movingGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes movingGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.registratie-container {
+    margin: 0 0 1.5rem;
+    text-align: center;
+    background: linear-gradient(270deg, $primary, $success);
+    background-size: 200% 200%;
+    -webkit-animation: movingGradient 9s ease infinite;
+    -moz-animation: movingGradient 9s ease infinite;
+    animation: movingGradient 9s ease infinite;
+
+    h2 {
+        padding-bottom: 1rem;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 1rem 0;
+    }
+
+    a {
+        margin-top: 1.5rem;
+    }
+
+    a:hover {
+        color: $dark !important;
+    }
+}
+
+.rubriek-container {
+    position: relative;
+}
+
+.sidebar {
+    position: absolute;
+    width: 18rem;
+    top: 0;
+    left: -21rem;
+    margin: 0 1.5rem;
+
+    .sidebar-menu {
+        ul {
+            list-style: none;
+            padding-inline-start: 20px;
+            margin: 0;
+        }
+
+        > ul {
+            padding-inline-start: 0;
+        }
+    }
+}
+
+@media (max-width: 1800px) {
+    .rubriek-container {
+        left: 162px;
+    }
+}
+
+@media (max-width: 1470px) {
+    .rubriek-container {
+        left: auto;
+    }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        top: auto;
+        left: auto;
+        margin: auto;
+    }
+}
+
 @media (max-width: 1200px) {
     .alphabet {
         li {
@@ -201,48 +357,3 @@ ul.category_parents {
     }
 }
 
-#navbarContent {
-    z-index: 1040;
-}
-
-#return-to-top {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    display: block;
-    visibility: visible;
-    opacity: 1;
-    cursor: pointer;
-    text-decoration: none;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    border-radius: 50%;
-    -webkit-transition: all 0.3s linear;
-    -moz-transition: all 0.3s ease;
-    -ms-transition: all 0.3s ease;
-    -o-transition: all 0.3s ease;
-    transition: all 0.3s ease;
-
-    svg {
-        color: #fff;
-        margin: 0;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        -webkit-transform: translateX(-50%) translateY(-50%);
-        -moz-transform: translateX(-50%) translateY(-50%);
-        -ms-transform: translateX(-50%) translateY(-50%);
-        -o-transform: translateX(-50%) translateY(-50%);
-        transform: translateX(-50%) translateY(-50%);
-        font-size: 28px;
-        -webkit-transition: all 0.3s ease;
-        transition: all 0.3s ease;
-    }
-}
-
-#return-to-top.hidden {
-    visibility: hidden;
-    opacity: 0;
-}

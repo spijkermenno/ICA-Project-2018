@@ -21,9 +21,12 @@ class RubriekenController extends Controller
 
     public function rubriek($product_id, $product_name)
     {
-        return view('rubrieken.rubrieken', [
-            'alphabet' => $this->getAlphabet($product_id),
-            'parents' => $this->categoryRepository->getLevelWithChildren($product_id)
+        return view('rubrieken.rubriek', [
+            'sidebar' => [
+                'parents' => $this->categoryRepository->getAllParentsById($product_id),
+                'current' => $this->categoryRepository->getById($product_id),
+                'children' => $this->categoryRepository->getAllByParentIdOrdered($product_id)
+            ]
         ]);
     }
 
