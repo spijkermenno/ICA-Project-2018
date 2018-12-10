@@ -15,7 +15,7 @@ class RubriekenController extends Controller
     public function __construct(DatabaseCategoryRepository $categoryRepository)
     {
         parent::__construct($categoryRepository);
-        $crumb = ['name' => 'rubrieken', 'link' => '/rubrieken'];
+        $crumb = ['name' => 'Rubrieken', 'link' => '/rubrieken'];
         array_push($this->breadcrumbs, $crumb);
     }
 
