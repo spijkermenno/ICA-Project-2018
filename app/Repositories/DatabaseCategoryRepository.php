@@ -16,7 +16,8 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
 
     public function getAllByParentId($id)
     {
-        return $this->conn->select('
+        return $this->conn->select(
+            '
                 SELECT id, name, parent, order_number, inactive 
                 FROM categories 
                 WHERE parent = ?  
@@ -39,7 +40,8 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
 
     public function getById($id)
     {
-        return $this->conn->select('
+        return $this->conn->select(
+            '
             SELECT id, name, parent, order_number, inactive
             FROM categories
             WHERE id = ?',
@@ -49,7 +51,8 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
 
     public function getAllParentsById($id)
     {
-        return $this->conn->select('
+        return $this->conn->select(
+            '
             WITH tblParent AS
             (
                 SELECT *
@@ -68,7 +71,8 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
 
     public function getAllByParentIdOrdered($id)
     {
-        return $this->conn->select('
+        return $this->conn->select(
+            '
             SELECT id, name, parent, order_number, inactive
             FROM categories
             WHERE parent = ?
@@ -139,26 +143,23 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
     {
         $replacement = $this->checkOrderNumber($new_order_number);
 
-        if($replacement)
-        {
+        if ($replacement) {
             $replaced = $this->replaceOrderNumber($replacement[0]->id, $current_order_number);
 
-            if($replaced)
-            {
+            if ($replaced) {
                 $this->changeOrderNumber($id, $new_order_number);
-            } else
-            {
+            } else {
                 print_r('Error 2');
             }
-        } else
-        {
+        } else {
             $this->changeOrderNumber($id, $new_order_number);
         }
     }
 
     private function checkOrderNumber($order_number)
     {
-        return $this->conn->select('
+        return $this->conn->select(
+            '
             SELECT TOP 1 id 
             FROM categories 
             WHERE order_number = ?;',
@@ -177,11 +178,9 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
             'id' => $replacementId
         ]);
 
-        if($replaced)
-        {
+        if ($replaced) {
             return true;
-        } else
-        {
+        } else {
             return false;
         }
     }
@@ -197,11 +196,9 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
             'id' => $id
         ]);
 
-        if($updated)
-        {
+        if ($updated) {
             print_r('Success!');
-        } else
-        {
+        } else {
             print_r('Error 1');
         }
     }
