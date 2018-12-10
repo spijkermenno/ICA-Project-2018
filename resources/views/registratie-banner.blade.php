@@ -12,6 +12,6 @@
         </ul>
         <h5>Dit proces duurt doorgaans maximaal 5 minuten.</h5>
         <h5>Dus registreer nu uw account en <strong>biedt mee</strong>!</h5>
-        <a href="/register/" class="btn btn-outline-light btn-lg text-white">Registreer nu</a>
+            <a href="/register/" class="btn btn-outline-light btn-lg text-white">Registreer nu</a>
     </div>
 </div>
