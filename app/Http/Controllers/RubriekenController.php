@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\Contracts\CategoryRepository;
 use App\Repositories\DatabaseCategoryRepository;
+use App\Repositories\Contracts\CategoryRepository;
 
 class RubriekenController extends Controller
 {
@@ -12,11 +12,10 @@ class RubriekenController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
     public function __construct(DatabaseCategoryRepository $categoryRepository)
     {
         parent::__construct($categoryRepository);
-        $crumb = array('name' => "rubrieken",'link' => '/rubrieken');
+        $crumb = ['name' => 'rubrieken', 'link' => '/rubrieken'];
         array_push($this->breadcrumbs, $crumb);
     }
 
@@ -30,16 +29,17 @@ class RubriekenController extends Controller
         ]);
     }
 
-    public function getBreadcrumbs($product_id){
+    public function getBreadcrumbs($product_id)
+    {
         $parents = $this->categoryRepository->getAllParentsById($product_id);
-        $crumb = array();
-        foreach ($parents as $parent){
-            array_push($this->breadcrumbs, array('name' => $parent->name,'link' => '/rubriek/'.$parent->id));
+        $crumb = [];
+        foreach ($parents as $parent) {
+            array_push($this->breadcrumbs, ['name' => $parent->name, 'link' => '/rubriek/'.$parent->id]);
         }
 
         $self = $this->categoryRepository->getById($product_id)[0];
 
-        array_push($this->breadcrumbs, array('name' => $self->name,'link' => ''));
+        array_push($this->breadcrumbs, ['name' => $self->name, 'link' => '']);
     }
 
     public function rubriek($product_id, $product_name)
