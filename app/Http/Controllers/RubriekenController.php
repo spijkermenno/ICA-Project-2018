@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\DatabaseCategoryRepository;
 use App\Repositories\Contracts\CategoryRepository;
+use Illuminate\Http\Request;
 
 class RubriekenController extends Controller
 {
@@ -64,6 +65,23 @@ class RubriekenController extends Controller
             return redirect()->route('rubriek_with_name', ['product' => $id, 'product_name' => str_slug($rubriekObjects[0]->name)]);
         }
         return redirect()->route('rubrieken');
+    }
+
+    public function new_rubriek($parent_id)
+    {
+        $parent = $this->categoryRepository->getById($parent_id);
+
+        return view('rubrieken.add_rubriek', [
+            'parent_id' => $parent_id,
+            'parent_name' => $parent[0]->name
+        ]);
+    }
+
+    public function add_rubriek($parent_id, Request $request)
+    {
+        $name = $request->post('name');
+
+        $this->categoryRepository->create($name, $parent_id);
     }
 
     /**

@@ -286,6 +286,14 @@ ul.category_parents {
     }
 }
 
+.parent-category-management {
+    display: inline;
+}
+
+.category-management {
+    float: right;
+}
+
 @media (max-width: 1800px) {
     .rubriek-container {
         left: 162px;

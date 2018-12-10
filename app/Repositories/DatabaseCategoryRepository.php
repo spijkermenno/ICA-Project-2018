@@ -101,8 +101,27 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
         return [];
     }
 
-    public function create($id, $name, $parent, $order_number)
+    public function create($name, $parent)
     {
+        $highest_id = $this->conn->select(
+            '
+            SELECT TOP 1 id 
+            FROM categories 
+            ORDER BY id DESC;'
+        );
+
+        $highest_order_number = $this->conn->select(
+            '
+            SELECT TOP 1 order_number 
+            FROM categories 
+            ORDER BY order_number DESC;'
+        );
+
+        $id = intval($highest_id[0]->id);
+        $order_number = intval($highest_order_number[0]->order_number);
+        $id++;
+        $order_number++;
+
         $this->conn->insert('
             INSERT INTO categories
                 (id, name, parent, order_number)
