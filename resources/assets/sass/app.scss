@@ -193,6 +193,69 @@ ul.category_parents {
     opacity: 0;
 }
 
+@-webkit-keyframes movingGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@-moz-keyframes movingGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes movingGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.registratie-container {
+    margin: 0 0 1.5rem;
+    text-align: center;
+    background: linear-gradient(270deg, $primary, $success);
+    background-size: 200% 200%;
+    -webkit-animation: movingGradient 9s ease infinite;
+    -moz-animation: movingGradient 9s ease infinite;
+    animation: movingGradient 9s ease infinite;
+
+    h2 {
+        padding-bottom: 1rem;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 1rem 0;
+    }
+
+    a {
+        margin-top: 1.5rem;
+    }
+
+    a:hover {
+        color: $dark !important;
+    }
+}
+
 .rubriek-container {
     position: relative;
 }
