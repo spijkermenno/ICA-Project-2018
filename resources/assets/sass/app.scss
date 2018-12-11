@@ -286,25 +286,15 @@ ul.category_parents {
     }
 }
 
-.parent-category-management {
-    //display: inline;
-    //float: left;
-    //min-width: 200px;
-}
-
 .category-management {
     float: right;
 }
 
-.rubriek-card {
-    max-width: 30rem;
-
-    .rubriek-info {
-        font-size: 13px;
-        font-style: italic;
-        margin-top: -12px;
-        margin-bottom: 20px;
-    }
+.rubriek-info {
+    font-size: 13px;
+    font-style: italic;
+    margin-top: -12px;
+    margin-bottom: 20px;
 }
 
 @media (max-width: 1800px) {
