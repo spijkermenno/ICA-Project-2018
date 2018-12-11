@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Repositories\DatabaseCategoryRepository;
 use App\Repositories\Contracts\CategoryRepository;
-use Illuminate\Http\Request;
 
 class RubriekenController extends Controller
 {
@@ -34,13 +34,11 @@ class RubriekenController extends Controller
     {
         $parents = $this->categoryRepository->getAllParentsById($product_id);
         $crumb = [];
-        if ($is_admin)
-        {
+        if ($is_admin) {
             foreach ($parents as $parent) {
                 array_push($this->breadcrumbs, ['name' => $parent->name, 'link' => '/rubrieken/bekijken/' . $parent->id]);
             }
-        } else
-        {
+        } else {
             foreach ($parents as $parent) {
                 array_push($this->breadcrumbs, ['name' => $parent->name, 'link' => '/rubriek/' . $parent->id]);
             }
@@ -77,15 +75,13 @@ class RubriekenController extends Controller
 
     public function view_rubriek($id)
     {
-        if($id == -1)
-        {
+        if ($id == -1) {
             return redirect()->to('/rubrieken/');
         }
 
         $self = $this->categoryRepository->getById($id);
 
-        if(count($self) < 1)
-        {
+        if (count($self) < 1) {
             abort(404);
         }
 
@@ -103,8 +99,7 @@ class RubriekenController extends Controller
     {
         $parent = $this->categoryRepository->getById($parent_id);
 
-        if(empty($parent))
-        {
+        if (empty($parent)) {
             return redirect()->to('/rubrieken/')->with('error', 'Deze rubriek bestaat niet of kan niet aangepast worden');
         }
 
@@ -162,27 +157,21 @@ class RubriekenController extends Controller
 
         $rubriek = $this->categoryRepository->getById($id);
 
-        if($name != $rubriek[0]->name)
-        {
+        if ($name != $rubriek[0]->name) {
             $this->categoryRepository->updateName($id, $name);
         }
 
-        if ($order_number != $rubriek[0]->order_number)
-        {
+        if ($order_number != $rubriek[0]->order_number) {
             $this->categoryRepository->updateOrderNumber($id, $rubriek[0]->order_number, $order_number);
         }
 
-        if($name != $rubriek[0]->name && $order_number != $rubriek[0]->order_number)
-        {
+        if ($name != $rubriek[0]->name && $order_number != $rubriek[0]->order_number) {
             $message = 'Naam en volgnummer zijn succesvol geüpdatet';
-        } else if($name != $rubriek[0]->name)
-        {
+        } elseif ($name != $rubriek[0]->name) {
             $message = 'Naam is succesvol geüpdatet';
-        } else if($order_number != $rubriek[0]->order_number)
-        {
+        } elseif ($order_number != $rubriek[0]->order_number) {
             $message = 'Volgnummer is succesvol geüpdatet';
-        } else
-        {
+        } else {
             $message = 'Er zijn geen wijzigingen aangebracht';
         }
 
@@ -193,8 +182,7 @@ class RubriekenController extends Controller
     {
         $self = $this->categoryRepository->getById($id);
 
-        if(empty($self) || $id == -1)
-        {
+        if (empty($self) || $id == -1) {
             return redirect()->to('/rubrieken/')->with('error', 'Deze rubriek bestaat niet of kan niet aangepast worden');
         }
 

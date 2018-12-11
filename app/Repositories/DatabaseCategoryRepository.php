@@ -18,7 +18,8 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
 
     public function getAllByParentId($id)
     {
-        return $this->conn->select('
+        return $this->conn->select(
+            '
                 SELECT id, name, parent, order_number, inactive 
                 FROM categories 
                 WHERE parent = ?
@@ -43,7 +44,8 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
 
     public function getById($id)
     {
-        return $this->conn->select('
+        return $this->conn->select(
+            '
             SELECT id, name, parent, order_number, inactive
             FROM categories
             WHERE id = ?
@@ -74,7 +76,8 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
 
     public function getAllByParentIdOrdered($id)
     {
-        return $this->conn->select('
+        return $this->conn->select(
+            '
             SELECT id, name, parent, order_number, inactive
             FROM categories
             WHERE parent = ?
@@ -149,7 +152,8 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
 
     public function disable($id)
     {
-        $children = $this->conn->select('
+        $children = $this->conn->select(
+            '
             DECLARE @Id int = ? -- your UnitId
             ;WITH cte AS 
              (
@@ -167,8 +171,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
             [$id]
         );
 
-        foreach ($children as $child)
-        {
+        foreach ($children as $child) {
             $this->disableById($child->id);
         }
 
@@ -177,13 +180,15 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
 
     private function disableById($id)
     {
-        $this->conn->update('
+        $this->conn->update(
+            '
             UPDATE categories
                 SET inactive = 1
             WHERE id = :id',
             [
                 'id' => $id
-        ]);
+        ]
+        );
     }
 
     public function updateName($id, $name)
@@ -217,7 +222,8 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
 
     private function checkOrderNumber($order_number)
     {
-        return $this->conn->select('
+        return $this->conn->select(
+            '
             SELECT TOP 1 id 
             FROM categories 
             WHERE order_number = ?;',
