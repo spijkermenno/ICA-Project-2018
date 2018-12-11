@@ -11,7 +11,7 @@
             <li>6. <strong>Bied mee!</strong></li>
         </ul>
         <h5>Dit proces duurt doorgaans maximaal 5 minuten.</h5>
-        <h5>Dus registreer nu uw account en <strong>bied mee</strong>!</h5>
+        <h5>Dus registreer en <strong>bied mee</strong>!</h5>
             <a href="/register/" class="btn btn-outline-light btn-lg text-white">Registreer nu</a>
     </div>
 </div>
