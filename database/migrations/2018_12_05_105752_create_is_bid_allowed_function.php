@@ -37,7 +37,8 @@ class CreateIsBidAllowedFunction extends Migration
             
             RETURN 0
             END         
-        ');
+        '
+        );
     }
 
     /**
