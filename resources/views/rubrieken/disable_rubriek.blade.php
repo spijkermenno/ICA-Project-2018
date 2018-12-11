@@ -3,20 +3,15 @@
 @section('content')
     <div class="card rubriek-card">
         <div class="card-body">
-            <h5 class="card-title">Subrubriek toevoegen aan {{ $parent_name }}</h5>
-
+            <h5 class="card-title">Uitfaseren rubriek {{ $name }}</h5>
+            <p class="card-text">Weet u zeker dat u deze rubriek en alle ondergelegen rubrieken wilt uitfaseren?</p>
             @component('components.forms.form', [
-                        'action' => route('add_rubriek', ['parent_id' => $parent_id]),
+                        'action' => route('disable_rubriek', ['id' => $id]),
                         'class' => 'form-horizontal'
                     ])
 
-                @include('components.forms.basic-input', [
-                    'key' => 'name',
-                    'name' => 'Naam'
-                ])
-
                 <button type="submit" class="btn btn-primary text-white">
-                    Toevoegen
+                    Bevestig
                 </button>
 
                 <a href="javascript:history.back()" class="btn btn-warning text-white">

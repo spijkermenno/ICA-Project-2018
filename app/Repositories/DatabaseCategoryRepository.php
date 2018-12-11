@@ -11,7 +11,9 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
         return $this->conn->select('
             SELECT id, name, parent, order_number, inactive 
             FROM categories 
-            ORDER BY name ASC');
+            WHERE inactive = 0
+            ORDER BY name ASC
+        ');
     }
 
     public function getAllByParentId($id)
@@ -19,7 +21,8 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
         return $this->conn->select('
                 SELECT id, name, parent, order_number, inactive 
                 FROM categories 
-                WHERE parent = ?  
+                WHERE parent = ?
+                AND inactive = 0
                 ORDER BY name ASC',
             [$id]
         );
@@ -33,6 +36,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
             WHERE parent IN (
                 ' . str_replace_last(',', '', str_repeat('?,', count($ids))) .
             ')
+            AND inactive = 0
             ORDER BY order_number ASC, name ASC
         ', $ids);
     }
@@ -42,7 +46,8 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
         return $this->conn->select('
             SELECT id, name, parent, order_number, inactive
             FROM categories
-            WHERE id = ?',
+            WHERE id = ?
+            AND inactive = 0',
             [$id]
         );
     }
@@ -73,6 +78,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
             SELECT id, name, parent, order_number, inactive
             FROM categories
             WHERE parent = ?
+            AND inactive = 0
             ORDER BY order_number ASC, name ASC',
             [$id]
         );
@@ -143,12 +149,40 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
 
     public function disable($id)
     {
-        return $this->conn->update('
+        $children = $this->conn->select('
+            DECLARE @Id int = ? -- your UnitId
+            ;WITH cte AS 
+             (
+              SELECT a.id, a.parent
+              FROM categories a
+              WHERE parent = @Id
+              UNION ALL
+              SELECT a.id, a.parent
+              FROM categories a JOIN cte c ON a.parent = c.id
+               and c.id != @Id
+            
+              )
+              SELECT id
+              FROM cte',
+            [$id]
+        );
+
+        foreach ($children as $child)
+        {
+            $this->disableById($child->id);
+        }
+
+        $this->disableById($id);
+    }
+
+    private function disableById($id)
+    {
+        $this->conn->update('
             UPDATE categories
                 SET inactive = 1
-            WHERE id = :id
-        ', [
-            'id' => $id
+            WHERE id = :id',
+            [
+                'id' => $id
         ]);
     }
 

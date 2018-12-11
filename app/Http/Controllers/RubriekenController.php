@@ -30,12 +30,20 @@ class RubriekenController extends Controller
         ]);
     }
 
-    public function getBreadcrumbs($product_id)
+    public function getBreadcrumbs($product_id, $is_admin = false)
     {
         $parents = $this->categoryRepository->getAllParentsById($product_id);
         $crumb = [];
-        foreach ($parents as $parent) {
-            array_push($this->breadcrumbs, ['name' => $parent->name, 'link' => '/rubriek/'.$parent->id]);
+        if ($is_admin)
+        {
+            foreach ($parents as $parent) {
+                array_push($this->breadcrumbs, ['name' => $parent->name, 'link' => '/rubrieken/bekijken/' . $parent->id]);
+            }
+        } else
+        {
+            foreach ($parents as $parent) {
+                array_push($this->breadcrumbs, ['name' => $parent->name, 'link' => '/rubriek/' . $parent->id]);
+            }
         }
 
         $self = $this->categoryRepository->getById($product_id)[0];
@@ -67,13 +75,45 @@ class RubriekenController extends Controller
         return redirect()->route('rubrieken');
     }
 
+    public function view_rubriek($id)
+    {
+        if($id == -1)
+        {
+            return redirect()->to('/rubrieken/');
+        }
+
+        $self = $this->categoryRepository->getById($id);
+
+        if(count($self) < 1)
+        {
+            abort(404);
+        }
+
+        $this->getBreadcrumbs($id, true);
+
+        return view('rubrieken.rubrieken', [
+            'self' => $self,
+            'alphabet' => $this->getAlphabet($id),
+            'parents' => $this->categoryRepository->getLevelWithChildren($id),
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
+    }
+
     public function new_rubriek($parent_id)
     {
         $parent = $this->categoryRepository->getById($parent_id);
 
+        if(empty($parent))
+        {
+            return redirect()->to('/rubrieken/')->with('error', 'Deze rubriek bestaat niet of kan niet aangepast worden');
+        }
+
+        $this->getBreadcrumbs($parent_id, true);
+
         return view('rubrieken.add_rubriek', [
             'parent_id' => $parent_id,
-            'parent_name' => $parent[0]->name
+            'parent_name' => $parent[0]->name,
+            'breadcrumbs' => $this->breadcrumbs
         ]);
     }
 
@@ -87,19 +127,26 @@ class RubriekenController extends Controller
 
         $this->categoryRepository->create($name, $parent_id);
 
-        return redirect()->to('/rubrieken/')->with('success', 'Rubriek succesvol toegevoegd');
+        return redirect()->to('/rubrieken/bekijken/' . $parent_id)->with('success', 'Rubriek succesvol toegevoegd');
     }
 
     public function edit_rubriek($id)
     {
         $rubriek = $this->categoryRepository->getById($id);
 
+        if (empty($rubriek) || $id == -1) {
+            return redirect()->to('/rubrieken/')->with('error', 'Deze rubriek bestaat niet of kan niet aangepast worden');
+        }
+
+        $this->getBreadcrumbs($id, true);
+
         return view('rubrieken.edit_rubriek', [
             'id' => $id,
             'name' => $rubriek[0]->name,
             'order_number' => $rubriek[0]->order_number,
             'parent' => $rubriek[0]->parent,
-            'inactive' => $rubriek[0]->inactive
+            'inactive' => $rubriek[0]->inactive,
+            'breadcrumbs' => $this->breadcrumbs
         ]);
     }
 
@@ -107,7 +154,7 @@ class RubriekenController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255|min:2',
-            'order_number' => 'required|max:11|min:1'
+            'order_number' => 'required|integer|max:9min:1'
         ]);
 
         $name = $request->post('name');
@@ -140,6 +187,31 @@ class RubriekenController extends Controller
         }
 
         return redirect()->to('/rubrieken/')->with('success', $message);
+    }
+
+    public function show_disable_rubriek($id)
+    {
+        $self = $this->categoryRepository->getById($id);
+
+        if(empty($self) || $id == -1)
+        {
+            return redirect()->to('/rubrieken/')->with('error', 'Deze rubriek bestaat niet of kan niet aangepast worden');
+        }
+
+        $this->getBreadcrumbs($id, true);
+
+        return view('rubrieken.disable_rubriek', [
+            'id' => $id,
+            'name' => $self[0]->name,
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
+    }
+
+    public function disable_rubriek($id)
+    {
+        $this->categoryRepository->disable($id);
+
+        return redirect()->to('/rubrieken/')->with('success', 'Rubriek en subrubrieken succesvol uitgefaseerd');
     }
 
     /**
