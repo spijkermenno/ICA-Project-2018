@@ -11,20 +11,20 @@
                 {{ session()->get('error') }}
             </div>
         @endif
-        @if(isset($self))
-            <h1>
+        <h1>
+            @if(isset($self) && $user = Auth::user())
                 {{ $self[0]->name }}
                 <span class="badge badge-secondary" data-toggle="tooltip" data-placement="top" title="Volgnummer">{{ $self[0]->order_number }}</span>
                 <a href="/rubrieken/toevoegen/{{ $self[0]->id }}/" class="badge badge-primary text-white" data-toggle="tooltip" data-placement="top" title="Rubriek toevoegen"><i class="fas fa-plus"></i></a>
                 <a href="/rubrieken/bewerken/{{ $self[0]->id }}/" class="badge badge-success text-white" data-toggle="tooltip" data-placement="top" title="Rubriek bewerken"><i class="fas fa-edit"></i></a>
                 <a href="/rubrieken/uitfaseren/{{ $self[0]->id }}/" class="badge badge-warning text-white" data-toggle="tooltip" data-placement="top" title="Rubriek uitfaseren"><i class="fas fa-trash-alt"></i></a>
-            </h1>
-        @else
-            <h1>
+            @elseif(!isset($self) && $user = Auth::user())
                 Rubrieken
                 <a href="/rubrieken/toevoegen/-1/" class="badge badge-primary text-white" data-toggle="tooltip" data-placement="top" title="Rubriek toevoegen"><i class="fas fa-plus"></i></a>
-            </h1>
-        @endif
+            @else
+                Rubrieken
+            @endif
+        </h1>
         <div class="alphabet sticky-top">
             <ul>
                 @foreach($alphabet as $item)

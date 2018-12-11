@@ -186,7 +186,7 @@ class RubriekenController extends Controller
             $message = 'Er zijn geen wijzigingen aangebracht';
         }
 
-        return redirect()->to('/rubrieken/')->with('success', $message);
+        return redirect()->to('/rubrieken/bekijken/' . $id)->with('success', $message);
     }
 
     public function show_disable_rubriek($id)
@@ -209,9 +209,11 @@ class RubriekenController extends Controller
 
     public function disable_rubriek($id)
     {
+        $self = $this->categoryRepository->getById($id);
+
         $this->categoryRepository->disable($id);
 
-        return redirect()->to('/rubrieken/')->with('success', 'Rubriek en subrubrieken succesvol uitgefaseerd');
+        return redirect()->to('/rubrieken/bekijken/' . $self[0]->parent)->with('success', 'Rubriek en subrubrieken succesvol uitgefaseerd');
     }
 
     /**
