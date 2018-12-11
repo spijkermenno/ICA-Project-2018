@@ -15,7 +15,7 @@
         <div class="row mb-4">
             @for ($i = 0; $i < 3; $i++)
                 <div class="col">
-                    @component('product.card')
+                    @component('product.card.default')
                     @endcomponent
                 </div>
             @endfor
@@ -29,7 +29,7 @@
             <div class="row mb-4">
                 @for ($j = 0; $j < 4; $j++)
                     <div class="col">
-                        @component('product.card')
+                        @component('product.card.default')
                         @endcomponent
                     </div>
                 @endfor

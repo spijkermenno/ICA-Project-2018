@@ -54,4 +54,11 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
             sprintf('SELECT TOP %d * FROM items', $amount)
         );
     }
+
+    public function getSoonEndingItems(int $amount)
+    {
+        return $this->conn->select(
+            sprintf('SELECT TOP %d * FROM items', $amount)
+        );
+    }
 }
