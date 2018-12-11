@@ -99,7 +99,7 @@
 
             // animate
             $('html, body').animate({
-                scrollTop: $(hash).offset().top-$('.alphabet').height()
+                scrollTop: $(hash).offset().top-$('.alphabet').height()-20
             },500);
         });
 
