@@ -32,7 +32,7 @@ class ConvertIllustrations extends DataConverter
             1000,
             'Illustraties',
             function ($offset, $limit) {
-                return $this->conn->select('
+                return $this->conn()->select('
                     SELECT
                         ItemID as item_id,
                         IllustratieFile as filename

@@ -27,7 +27,7 @@ class ConvertUsers extends DataConverter
      */
     public function handle()
     {
-        $users = $this->conn->select('
+        $users = $this->conn()->select('
             select
                 Username as name,
                 Postalcode as postalcode,
