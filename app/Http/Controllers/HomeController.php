@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Repositories\DatabaseItemRepository;
 use App\Repositories\DatabaseCategoryRepository;
-use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -39,7 +39,7 @@ class HomeController extends Controller
 
         $popular_products = [];
         $fast_ending_products = [];
-
+        // TODO: test data, remove this
         $testProduct = [
             'title' => 'popular',
             'description' => 'foobar',
@@ -56,20 +56,21 @@ class HomeController extends Controller
             'end' => '2018-12-11 15:39:3.703'
         ];
 
-
-
         for ($i = 0; $i < 3; $i++) {
+            // TODO: test data, remove this
             $date = Carbon::now();
             $date->addDays(rand(0, 6));
             $date->addHours(rand(0, 23));
             $date->addMinutes(rand(0, 59));
-
-            $date->addHour();
-
             $popular_products[] = array_merge($testProduct, ['end' => $date]);
         }
 
         for ($i = 0; $i < 12; $i++) {
+            // TODO: test data, remove this
+            $date = Carbon::now();
+            $date->addMinutes(60);
+            $date->addMinutes(rand(1, 9));
+            $date->addSeconds(rand(0, 60));
             $fast_ending_products[] = array_merge($testProduct, ['end' => $date]);
         }
 

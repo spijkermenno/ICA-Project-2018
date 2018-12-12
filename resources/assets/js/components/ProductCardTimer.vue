@@ -5,7 +5,9 @@
     Wanneer er minder dan 1 uur is dan geef weer minuten:seconden
     Onder 5 minuten is rood
     -->
-    <span :class="{ 'text-danger': days < 1 && hours < 1 && minutes < 10 }">{{ timeLeft }}</span>
+    <span :class="{ 'text-danger': isToday && hours < 1 && minutes < 10 }">
+        {{ timeLeft }}
+    </span>
 </template>
 
 <script>
@@ -31,15 +33,18 @@
                 return Math.floor((this.diff / 1000) % 60);
             },
             timeLeft() {
-                if (this.days > 0) {
+                if (!this.isToday) {
                     return `${this.days}d ${this.hours}u`;
-                } else if (this.days < 1 && this.hours > 0) {
+                } else if (this.isToday && this.hours > 0) {
                     return `${this.hours}u ${this.minutes}m`;
                 } else if (this.diff > 0) {
                     return `${this.minutes}m ${this.seconds}s`;
                 } else {
-                    return 'Over'
+                    return 'Veiling afgelopen'
                 }
+            },
+            isToday() {
+                return this.days < 1;
             }
         },
         methods: {
