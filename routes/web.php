@@ -27,3 +27,5 @@ Route::get('/rubriek/{product_id}/{product_name}', 'RubriekenController@rubriek'
 
 Route::get('/product/{product}/{name}', 'ProductController@product_specific')->name('product');
 Route::get('/product/', 'ProductController@index')->name('product');
+
+Route::get('/product/toevoegen/', 'AuctionController@index')->name('auction.add');

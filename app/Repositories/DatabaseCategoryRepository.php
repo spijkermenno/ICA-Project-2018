@@ -202,4 +202,15 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
             print_r('Error 1');
         }
     }
+
+    public function getAllWithNoChildren()
+    {
+        $result = $this->conn->select('
+                select *
+                from categories
+                where (select COUNT(*) from categories as cat where cat.parent = categories.id) < 1 order by name asc');
+
+
+        return $result;
+    }
 }
