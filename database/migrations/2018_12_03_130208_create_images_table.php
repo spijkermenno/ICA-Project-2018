@@ -11,15 +11,15 @@ class CreateImagesTable extends Migration
      */
     public function up()
     {
-        statement('
+        DB::statement('
             CREATE TABLE images (
                 id          INT IDENTITY NOT NULL, -- Primary key
-                filename    CHAR(120), -- Afbeelding naam wat opgeslagen wordt in de server
-                item_id     BIGINT, -- Foreign key naar een item in de items tabel
-
+                file_name   CHAR(20), -- Afbeelding naam wat opgeslagen wordt in de server
+                item_id     INT, -- Foreign key naar een item in de items tabel
+            
                 CONSTRAINT pk_images PRIMARY KEY (id),
                 CONSTRAINT fk_images_item_id FOREIGN KEY (item_id) REFERENCES items (id),
-                CONSTRAINT chk_filename UNIQUE(filename) -- Zorgt voor dat er geen duplicate afbeelding namen zijn
+                CONSTRAINT chk_file_name UNIQUE(file_name) -- Zorgt voor dat er geen duplicate afbeelding namen zijn
             )
         ');
     }
@@ -31,7 +31,7 @@ class CreateImagesTable extends Migration
      */
     public function down()
     {
-        statement('
+        DB::statement('
             DROP TABLE images
         ');
     }

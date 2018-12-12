@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Migrations\Migration;
 
 class CreatePasswordResetsTable extends Migration
@@ -11,7 +12,7 @@ class CreatePasswordResetsTable extends Migration
      */
     public function up()
     {
-        statement('
+        DB::statement('
             CREATE TABLE password_resets (
                 id int IDENTITY NOT NULL,
 
@@ -35,7 +36,7 @@ class CreatePasswordResetsTable extends Migration
      */
     public function down()
     {
-        statement('
+        DB::statement('
             DROP TABLE password_resets
         ');
     }

@@ -18,7 +18,7 @@ interface CategoryRepository
 
     public function getLevelWithChildren($parent_id);
 
-    public function create($name, $parent);
+    public function create($id, $name, $parent, $order_number);
 
     public function disable($id);
 

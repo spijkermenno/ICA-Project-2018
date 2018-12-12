@@ -75,17 +75,6 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
         ],
-
-        'tmp_sqlsrv' => [
-            'driver' => 'sqlsrv',
-            'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', '1433'),
-            'database' => 'tmp_sql',
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
-            'charset' => 'utf8',
-            'prefix' => '',
-        ],
     ],
 
     /*

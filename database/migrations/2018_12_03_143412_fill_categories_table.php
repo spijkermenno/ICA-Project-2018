@@ -4,6 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 
 class FillCategoriesTable extends Migration
 {
+    // public $withinTransaction = false;
+
     /**
      * Run the migrations.
      *
@@ -11,11 +13,11 @@ class FillCategoriesTable extends Migration
      */
     public function up()
     {
-        $resource = fopen(database_path('csv/categories.csv'), 'r');
+        $resource = fopen(__DIR__ . '/../csv/categories-2.csv', 'r');
         $i = 0;
 
         while (($category = fgetcsv($resource, 0, ';', '\'')) !== false) {
-            statement('
+            DB::statement('
                 INSERT INTO categories
                     (id, name, parent, order_number)
                 VALUES
@@ -28,10 +30,10 @@ class FillCategoriesTable extends Migration
             $i++;
         }
 
-        $resource = fopen(database_path('csv/categories.csv'), 'r');
+        $resource = fopen(__DIR__ . '/../csv/categories-2.csv', 'r');
 
         while (($category = fgetcsv($resource, 0, ';', '\'')) !== false) {
-            statement('
+            DB::statement('
                 UPDATE categories
                     SET parent = :parent
                 WHERE id = :id
@@ -49,7 +51,7 @@ class FillCategoriesTable extends Migration
      */
     public function down()
     {
-        statement('
+        DB::statement('
             DELETE FROM categories
         ');
     }

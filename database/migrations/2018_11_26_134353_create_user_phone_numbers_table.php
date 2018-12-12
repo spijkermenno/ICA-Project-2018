@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateUserPhoneNumbersTable extends Migration
@@ -11,7 +12,7 @@ class CreateUserPhoneNumbersTable extends Migration
      */
     public function up()
     {
-        statement('
+        DB::statement('
             CREATE TABLE user_phone_numbers (
                 number tinyint NOT NULL,
                 user_name VARCHAR(20) NOT NULL,
@@ -19,7 +20,6 @@ class CreateUserPhoneNumbersTable extends Migration
 
                 CONSTRAINT pk_user_phone_numbers PRIMARY KEY (number,
                     user_name),
-                CONSTRAINT fk_user_phone_numbers_user_name FOREIGN KEY (user_name) REFERENCES users (name),
 
                 CONSTRAINT chk_phone_number_valid_rgxp CHECK (LEN(phone_number) > 7) -- Valide telefoonummer moet minimaal 8 karacters zijn
             )
@@ -33,7 +33,7 @@ class CreateUserPhoneNumbersTable extends Migration
      */
     public function down()
     {
-        statement('
+        DB::statement('
             DROP TABLE user_phone_numbers
         ');
     }

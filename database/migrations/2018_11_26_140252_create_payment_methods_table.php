@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Migrations\Migration;
 
 class CreatePaymentMethodsTable extends Migration
@@ -11,7 +12,7 @@ class CreatePaymentMethodsTable extends Migration
      */
     public function up()
     {
-        statement('
+        DB::statement('
             CREATE TABLE payment_methods (
                 name  VARCHAR(20) NOT NULL,
 
@@ -27,7 +28,7 @@ class CreatePaymentMethodsTable extends Migration
      */
     public function down()
     {
-        statement('
+        DB::statement('
             DROP TABLE payment_methods
         ');
     }

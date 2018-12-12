@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateUsersTable extends Migration
@@ -11,7 +12,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        statement('
+        DB::statement('
             CREATE TABLE users (
                 name VARCHAR(20) NOT NULL,
 
@@ -35,7 +36,6 @@ class CreateUsersTable extends Migration
                 secret_question_answer CHAR(60) NOT NULL, -- Bcrypt encrypted string heeft 60 bytes nodig (Unicode is niet nodig)
 
                 seller BIT NOT NULL DEFAULT 0, -- Geeft aan of een gebruiker een verkoper is.
-                admin BIT NOT NULL DEFAULT 0, --Geeft aan of een gebruiker een admin is.
 
                 CONSTRAINT pk_users PRIMARY KEY (name), -- Appendix C -> Gebruikers naam is de unieke identifier
                 CONSTRAINT fk_users_secret_questions_secret_question_id FOREIGN KEY (secret_question_id) REFERENCES secret_questions (id),
@@ -43,7 +43,7 @@ class CreateUsersTable extends Migration
                 CONSTRAINT unq_users_email UNIQUE(email), -- Zorg er voor dat de email unique is zodat er geen accounts met dezelfe email aangemaakt kunnen worden.
 
                 CONSTRAINT chk_users_name_length CHECK (LEN(LTRIM(RTRIM(name))) > 3), -- Appendix B -> Gebruikersnaam moet minnimaal 7 characters zijn.
-                CONSTRAINT chk_users_email_valid CHECK (email NOT LIKE \'%[^a-z-0-9-_.@]%\' -- Email kan alleen a-z _ . en @ bevatten
+                CONSTRAINT chk_users_email_valid CHECK (email NOT LIKE \'%[^a-z-_.@]%\' -- Email kan alleen a-z _ . en @ bevatten
                 AND LEN(email) - LEN(REPLACE(email,\'@\',\'\')) = 1) -- Email mag alleen 1 @ bevatten.
             )
         ');
@@ -56,7 +56,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        statement('
+        DB::statement('
             DROP TABLE users
         ');
     }
