@@ -1,6 +1,7 @@
 <div class="row">
-    <div class="col mb-3">
-        <h3>Populair</h3>
+    <div class="col my-3">
+        <h2>Populaire veilingen</h2>
+        <hr/>
     </div>
 </div>
 <div class="row mb-4">
@@ -11,8 +12,9 @@
     @endforeach
 </div>
 <div class="row">
-    <div class="col mb-3">
-        <h3>Gauw voorbij!</h3>
+    <div class="col my-3">
+        <h3>Snel aflopende veilingen</h3>
+        <hr/>
     </div>
 </div>
 <div class="row mb-4">
