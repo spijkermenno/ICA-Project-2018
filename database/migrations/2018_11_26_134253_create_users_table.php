@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateUsersTable extends Migration
@@ -12,7 +11,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        DB::statement('
+        statement('
             CREATE TABLE users (
                 name VARCHAR(20) NOT NULL,
 
@@ -43,7 +42,7 @@ class CreateUsersTable extends Migration
                 CONSTRAINT unq_users_email UNIQUE(email), -- Zorg er voor dat de email unique is zodat er geen accounts met dezelfe email aangemaakt kunnen worden.
 
                 CONSTRAINT chk_users_name_length CHECK (LEN(LTRIM(RTRIM(name))) > 3), -- Appendix B -> Gebruikersnaam moet minnimaal 7 characters zijn.
-                CONSTRAINT chk_users_email_valid CHECK (email NOT LIKE \'%[^a-z-_.@]%\' -- Email kan alleen a-z _ . en @ bevatten
+                CONSTRAINT chk_users_email_valid CHECK (email NOT LIKE \'%[^a-z-0-9-_.@]%\' -- Email kan alleen a-z _ . en @ bevatten
                 AND LEN(email) - LEN(REPLACE(email,\'@\',\'\')) = 1) -- Email mag alleen 1 @ bevatten.
             )
         ');
@@ -56,7 +55,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        DB::statement('
+        statement('
             DROP TABLE users
         ');
     }
