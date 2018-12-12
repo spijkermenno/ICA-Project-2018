@@ -2,7 +2,7 @@
 
 @section('content')
     <div id="top"></div>
-    <div class="container rubrieken_pagina">
+    <div class="rubrieken_pagina">
         <h1>Rubrieken</h1>
         <div class="alphabet sticky-top">
             <ul>

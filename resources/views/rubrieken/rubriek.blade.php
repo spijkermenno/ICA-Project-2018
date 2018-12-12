@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container rubriek-container">
-        @include("breadcrumbs")
+    <div class="rubriek-container">
         <div class="row">
             <div class="col mb-3">
                 <h1>{{ $sidebar['current'][0]->name }}</h1>
@@ -16,7 +15,7 @@
         <div class="row mb-4">
             @for ($i = 0; $i < 3; $i++)
                 <div class="col">
-                    @component('product.card')
+                    @component('product.card.default')
                     @endcomponent
                 </div>
             @endfor
@@ -30,7 +29,7 @@
             <div class="row mb-4">
                 @for ($j = 0; $j < 4; $j++)
                     <div class="col">
-                        @component('product.card')
+                        @component('product.card.default')
                         @endcomponent
                     </div>
                 @endfor
