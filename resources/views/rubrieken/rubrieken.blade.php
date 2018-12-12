@@ -1,9 +1,48 @@
 @extends('layouts.app')
 
 @section('content')
-    <div id="top"></div>
     <div class="rubrieken_pagina">
-        <h1>Rubrieken</h1>
+        @if(session()->has('success'))
+            <div class="alert alert-primary">
+                {{ session()->get('success') }}
+            </div>
+        @elseif(session()->has('error'))
+            <div class="alert alert-warning">
+                {{ session()->get('error') }}
+            </div>
+        @endif
+        <h1>
+            @if(optional(auth()->user())->admin == 1)
+                @if(isset($self))
+                    {{ $self[0]->name }}
+                    @include('rubrieken.components.admin_options', [
+                        'order_number' => [
+                            'value' => $self[0]->order_number,
+                            'active' => true
+                        ],
+                        'id' => $self[0]->id,
+                        'add' => true,
+                        'edit' => true,
+                        'disable' => true,
+                        'view' => false
+                    ])
+                @else
+                    Rubrieken
+                    @include('rubrieken.components.admin_options', [
+                        'order_number' => [
+                            'active'=> false
+                        ],
+                        'id' => -1,
+                        'add' => true,
+                        'edit' => false,
+                        'disable' => false,
+                        'view' => false
+                    ])
+                @endif
+            @else
+                Rubrieken
+            @endif
+        </h1>
         <div class="alphabet sticky-top">
             <ul>
                 @foreach($alphabet as $item)
@@ -17,17 +56,61 @@
         </div>
         <div class="categories">
             <ul class="category_parents">
-                @foreach($parents as $parent)
-                    <li class="parent" id="{{ $parent->name[0] }}"><a class="text-dark" href="/rubriek/{{ $parent->id }}/{{ str_slug($parent->name) }}">{{ $parent->name }}</a>
-                        <ul class="category_children">
-                            @foreach($parent->children as $child)
-                                @if($child->parent == $parent->id)
-                                    <li><a class="text-dark" href="/rubriek/{{ $child->id }}/{{ str_slug($child->name) }}">{{ $child->name }}</a></li>
-                                @endif
-                            @endforeach
-                        </ul>
-                    </li>
-                @endforeach
+                @if (optional(auth()->user())->admin == 1)
+                    @foreach($parents as $parent)
+                        <div class="parent-category-management">
+                            @include('rubrieken.components.admin_options', [
+                                'order_number' => [
+                                    'value' => $parent->order_number,
+                                    'active' => true
+                                ],
+                                'id' => $parent->id,
+                                'add' => true,
+                                'edit' => true,
+                                'disable' => true,
+                                'view' => true
+                            ])
+                        </div>
+                        <li class="parent" id="{{ $parent->name[0] }}"><a class="text-dark" href="/rubriek/{{ $parent->id }}/{{ str_slug($parent->name) }}">{{ $parent->name }}</a>
+                            <ul class="category_children">
+                                @foreach($parent->children as $child)
+                                    @if($child->parent == $parent->id)
+                                        <li>
+                                            <a class="text-dark" href="/rubriek/{{ $child->id }}/{{ str_slug($child->name) }}">{{ $child->name }}</a>
+                                            <div class="category-management">
+                                                @include('rubrieken.components.admin_options', [
+                                                    'order_number' => [
+                                                        'value' => $child->order_number,
+                                                        'active' => true
+                                                    ],
+                                                    'id' => $child->id,
+                                                    'add' => true,
+                                                    'edit' => true,
+                                                    'disable' => true,
+                                                    'view' => true
+                                                ])
+                                            </div>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endforeach
+                @else
+                    @foreach($parents as $parent)
+                        <li class="parent" id="{{ $parent->name[0] }}"><a class="text-dark" href="/rubriek/{{ $parent->id }}/{{ str_slug($parent->name) }}">{{ $parent->name }}</a>
+                            <ul class="category_children">
+                                @foreach($parent->children as $child)
+                                    @if($child->parent == $parent->id)
+                                        <li>
+                                            <a class="text-dark" href="/rubriek/{{ $child->id }}/{{ str_slug($child->name) }}">{{ $child->name }}</a>
+                                        </li>
+                                    @endif
+                                @endforeach
+                            </ul>
+                        </li>
+                    @endforeach
+                @endif
             </ul>
         </div>
     </div>
@@ -45,8 +128,12 @@
 
             // animate
             $('html, body').animate({
-                scrollTop: $(hash).offset().top-$('.alphabet').height()
+                scrollTop: $(hash).offset().top-$('.alphabet').height()-20
             },500);
         });
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     </script>
 @endpush
