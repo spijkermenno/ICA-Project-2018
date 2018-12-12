@@ -33,7 +33,7 @@ class ConvertItems extends DataConverter
             100,
             'Items',
             function ($offset, $limit) {
-                return $this->conn->select('
+                return $this->conn()->select('
                     SELECT
                         ID as id,
                         Titel as title,
