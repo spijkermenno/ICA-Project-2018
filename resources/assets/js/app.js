@@ -19,6 +19,7 @@ window.Vue = require("vue");
  */
 
 Vue.component("date-picker", DatePicker);
+Vue.component('product-card-timer', require('./components/ProductCardTimer.vue'));
 
 const app = new Vue({
     el: "#app",
