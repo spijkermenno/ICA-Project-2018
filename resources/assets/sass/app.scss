@@ -7,8 +7,10 @@
 
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
-
-@import "node_modules/font-awesome/scss/font-awesome.scss";
+@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import '~@fortawesome/fontawesome-free/scss/solid.scss';
+@import '~@fortawesome/fontawesome-free/scss/regular.scss';
+@import '~@fortawesome/fontawesome-free/scss/brands.scss';
 
 // @import '~pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 // @import "~bootstrap-datepicker/dist/css/bootstrap-datepicker.css";
