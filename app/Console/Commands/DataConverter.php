@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use Closure;
-use Carbon\Carbon;
 use Faker\Factory as Faker;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -23,23 +22,14 @@ abstract class DataConverter extends Command
     ) {
         parent::__construct();
 
-        $this->conn = DB::connection('tmp_sqlsrv');
-
         $this->faker = Faker::create();
 
         $this->hasher = $hasher;
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle()
+    public function conn()
     {
-        $this->conn = DB::connection('sqlsrv');
-
-        $this->items();
+        return DB::connection('tmp_sqlsrv');
     }
 
     protected function convert($data, $file, Closure $callback, $progress = true)
@@ -75,7 +65,7 @@ abstract class DataConverter extends Command
 
     protected function convertInChunks($file, $amount, $table, Closure $query, Closure $callback)
     {
-        $count = $this->conn->select('
+        $count = $this->conn()->select('
             SELECT
                 COUNT(*) as count
             FROM ' . $table . '
@@ -102,94 +92,5 @@ abstract class DataConverter extends Command
         $bar->finish();
 
         fclose($file);
-    }
-
-    protected function users()
-    {
-        $users = $this->tmpDB->select('
-            select
-                Username as name,
-                Postalcode as postalcode,
-                Location as country
-            from Users
-        ');
-
-        $this->convert($users, './users.csv', function ($user) {
-            return [
-                'name' => $user->name,
-                'firstname' => $this->faker->firstName,
-                'lastname' => $this->faker->lastName,
-
-                'adress_line_1' => $this->faker->streetAddress,
-                'postalcode' => $user->postalcode,
-                'city' => $this->faker->city,
-                'country' => $user->country,
-
-                'birthday' => $this->faker->dateTimeThisCentury->format('Y-m-d'),
-
-                'email' => $this->faker->email,
-                'password' => $this->hasher->make($this->faker->password),
-
-                'secret_question_id' => $this->faker->numberBetween(1, 5),
-                'secret_question_answer' => $this->hasher->make($this->faker->password),
-
-                'seller' => 1
-            ];
-        });
-    }
-
-    protected function items()
-    {
-        $this->info('Query');
-
-        $this->convertInChunks(
-            './items.csv',
-            100,
-            'Items',
-            function ($offset, $limit) {
-                return $this->tmpDB->select('
-                    SELECT
-                        ID as id,
-                        Titel as title,
-                        Beschrijving as description,
-                        Verkoper as seller,
-                        Prijs as selling_price
-                    FROM Items
-                    ORDER BY ID
-                    OFFSET ' . $offset . ' ROWS
-                    FETCH NEXT ' . $limit . ' ROWS ONLY
-                ');
-            },
-            function ($item) {
-                return [
-                    'id' => $item->id,
-                    'title' => $item->title,
-                    'description' => $item->description,
-
-                    'start_price' => 0.0,
-                    'selling_price' => $item->selling_price,
-
-                    'payment_method' => $this->faker->randomElement([
-                        'Bank/Giro',
-                        'Creditcard'
-                    ]),
-                    'payment_instruction' => $this->faker->randomElement([
-                        'Bank/Giro',
-                        'Creditcard'
-                    ]),
-
-                    'duration' => $this->faker->randomElement([
-                        1, 3, 5, 7, 10
-                    ]),
-                    'start' => $this->faker->dateTimeBetween(
-                        Carbon::today(),
-                        Carbon::today()->addMonths(3)
-                    )->format('Y-m-d'),
-
-                    'shipping_cost' => $this->faker->randomNumber(2),
-                    'seller' => $item->seller
-                ];
-            }
-        );
     }
 }
