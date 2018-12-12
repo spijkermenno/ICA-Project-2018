@@ -11,7 +11,9 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
         return $this->conn->select('
             SELECT id, name, parent, order_number, inactive 
             FROM categories 
-            ORDER BY name ASC');
+            WHERE inactive = 0
+            ORDER BY name ASC
+        ');
     }
 
     public function getAllByParentId($id)
@@ -20,7 +22,8 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
             '
                 SELECT id, name, parent, order_number, inactive 
                 FROM categories 
-                WHERE parent = ?  
+                WHERE parent = ?
+                AND inactive = 0
                 ORDER BY name ASC',
             [$id]
         );
@@ -34,6 +37,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
             WHERE parent IN (
                 ' . str_replace_last(',', '', str_repeat('?,', count($ids))) .
             ')
+            AND inactive = 0
             ORDER BY order_number ASC, name ASC
         ', $ids);
     }
@@ -44,7 +48,8 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
             '
             SELECT id, name, parent, order_number, inactive
             FROM categories
-            WHERE id = ?',
+            WHERE id = ?
+            AND inactive = 0',
             [$id]
         );
     }
@@ -76,6 +81,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
             SELECT id, name, parent, order_number, inactive
             FROM categories
             WHERE parent = ?
+            AND inactive = 0
             ORDER BY order_number ASC, name ASC',
             [$id]
         );
@@ -101,8 +107,14 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
         return [];
     }
 
-    public function create($id, $name, $parent, $order_number)
+    public function create($name, $parent)
     {
+        $id = $this->getHighestId();
+        $id++;
+
+        $order_number = $this->getHighestOrderNumber();
+        $order_number++;
+
         $this->conn->insert('
             INSERT INTO categories
                 (id, name, parent, order_number)
@@ -116,15 +128,67 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
         ]);
     }
 
+    private function getHighestId()
+    {
+        $highest_id = $this->conn->select('
+            SELECT TOP 1 id 
+            FROM categories 
+            ORDER BY id DESC;
+        ');
+
+        return intval($highest_id[0]->id);
+    }
+
+    private function getHighestOrderNumber()
+    {
+        $highest_order_number = $this->conn->select('
+            SELECT TOP 1 order_number 
+            FROM categories 
+            ORDER BY order_number DESC;
+        ');
+
+        return intval($highest_order_number[0]->order_number);
+    }
+
     public function disable($id)
     {
-        return $this->conn->update('
+        $children = $this->conn->select(
+            '
+            DECLARE @Id int = ? -- your UnitId
+            ;WITH cte AS 
+             (
+              SELECT a.id, a.parent
+              FROM categories a
+              WHERE parent = @Id
+              UNION ALL
+              SELECT a.id, a.parent
+              FROM categories a JOIN cte c ON a.parent = c.id
+               and c.id != @Id
+            
+              )
+              SELECT id
+              FROM cte',
+            [$id]
+        );
+
+        foreach ($children as $child) {
+            $this->disableById($child->id);
+        }
+
+        $this->disableById($id);
+    }
+
+    private function disableById($id)
+    {
+        $this->conn->update(
+            '
             UPDATE categories
                 SET inactive = 1
-            WHERE id = :id
-        ', [
-            'id' => $id
-        ]);
+            WHERE id = :id',
+            [
+                'id' => $id
+        ]
+        );
     }
 
     public function updateName($id, $name)
