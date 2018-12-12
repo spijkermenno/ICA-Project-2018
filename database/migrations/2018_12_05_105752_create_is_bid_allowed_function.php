@@ -15,7 +15,7 @@ class CreateIsBidAllowedFunction extends Migration
             'CREATE FUNCTION dbo.is_bid_allowed(@bid_price NUMERIC(7, 2), @item_id INT) RETURNS BIT
             BEGIN
             DECLARE @bid_to_beat NUMERIC(7, 2);
-            DECLARE @end_date DATE;
+            DECLARE @end_date DATETIME;
             
             SELECT top 1 @bid_to_beat = CASE
                                             WHEN EXISTS(
@@ -32,7 +32,7 @@ class CreateIsBidAllowedFunction extends Migration
                 END
             SELECT @end_date = [end] FROM items WHERE items.id = @item_id
             
-            IF @bid_price > @bid_to_beat AND getdate() <= @end_date
+            IF @bid_price > @bid_to_beat AND CURRENT_TIMESTAMP < @end_date
                 RETURN 1
             
             RETURN 0
