@@ -49,4 +49,14 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
             sprintf('SELECT TOP %d * FROM items', $amount)
         );
     }
+    public function createBid(array $data){
+        $keys = collect(array_keys($data));
+
+        return $this->conn->statement('
+            INSERT INTO bids
+                (' . $keys->implode(', ') . ')
+            VALUES
+                (' . $keys->map(function ($key) { return ':' . $key; })->implode(', ') . ')
+        ', $data);        
+    }
 }
