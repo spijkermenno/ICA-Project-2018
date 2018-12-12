@@ -14,6 +14,8 @@ use App\Repositories\DatabasePasswordResetRepository;
 use App\Repositories\DatabaseSecretQuestionRepository;
 use App\Repositories\Contracts\PasswordResetRepository;
 use App\Repositories\Contracts\SecretQuestionRepository;
+use App\Repositories\Contracts\BidsRepository;
+use App\Repositories\DatabaseBidsRepository;
 
 class RepositoryProvider extends ServiceProvider
 {
@@ -23,7 +25,9 @@ class RepositoryProvider extends ServiceProvider
         UserProvider::class => DatabaseUserRepository::class,
         SecretQuestionRepository::class => DatabaseSecretQuestionRepository::class,
         PasswordResetRepository::class => DatabasePasswordResetRepository::class,
-        ItemRepository::class => DatabaseItemRepository::class
+        ItemRepository::class => DatabaseItemRepository::class,
+        BidsRepository::class => DatabaseBidsRepository::class
+        
     ];
 
     public function register()
