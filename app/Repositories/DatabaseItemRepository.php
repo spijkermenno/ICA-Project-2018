@@ -44,16 +44,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
-    /**
-     * @param int $amout
-     * @return mixed|null
-     */
-    public function getMostPopularItems(int $amount)
-    {
-        return $this->conn->select(
-            sprintf('SELECT TOP %d * FROM items', $amount)
-        );
-    }
+    
 
     public function getSoonEndingItems(int $amount)
     {
