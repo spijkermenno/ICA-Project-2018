@@ -6,7 +6,7 @@ interface ItemRepository
 {
     public function getAll();
 
-    public function getById(int $id);    
+    public function getById(int $id);
 
     public function getAllBetween(int $from, int $to);
 

@@ -44,8 +44,6 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
-    
-
     public function getSoonEndingItems(int $amount)
     {
         return $this->conn->select(

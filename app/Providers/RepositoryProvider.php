@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Auth\UserProvider;
+use App\Repositories\DatabaseBidsRepository;
 use App\Repositories\DatabaseUserRepository;
+use App\Repositories\Contracts\BidsRepository;
 use App\Repositories\Contracts\ItemRepository;
 use App\Repositories\Contracts\UserRepository;
 use App\Repositories\DatabaseCategoryRepository;
@@ -14,8 +16,6 @@ use App\Repositories\DatabasePasswordResetRepository;
 use App\Repositories\DatabaseSecretQuestionRepository;
 use App\Repositories\Contracts\PasswordResetRepository;
 use App\Repositories\Contracts\SecretQuestionRepository;
-use App\Repositories\Contracts\BidsRepository;
-use App\Repositories\DatabaseBidsRepository;
 
 class RepositoryProvider extends ServiceProvider
 {
@@ -27,7 +27,6 @@ class RepositoryProvider extends ServiceProvider
         PasswordResetRepository::class => DatabasePasswordResetRepository::class,
         ItemRepository::class => DatabaseItemRepository::class,
         BidsRepository::class => DatabaseBidsRepository::class
-        
     ];
 
     public function register()

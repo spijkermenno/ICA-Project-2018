@@ -15,6 +15,7 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
             'SELECT * FROM bids'
         );
     }
+
     /**
      * @param int $id
      * @return mixed|null
@@ -49,7 +50,9 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
             sprintf('SELECT TOP %d * FROM items', $amount)
         );
     }
-    public function createBid(array $data){
+
+    public function createBid(array $data)
+    {
         $keys = collect(array_keys($data));
 
         return $this->conn->statement('
@@ -57,6 +60,6 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
                 (' . $keys->implode(', ') . ')
             VALUES
                 (' . $keys->map(function ($key) { return ':' . $key; })->implode(', ') . ')
-        ', $data);        
+        ', $data);
     }
 }
