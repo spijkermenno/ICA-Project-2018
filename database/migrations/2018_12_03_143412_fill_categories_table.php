@@ -4,8 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class FillCategoriesTable extends Migration
 {
-    // public $withinTransaction = false;
-
     /**
      * Run the migrations.
      *
