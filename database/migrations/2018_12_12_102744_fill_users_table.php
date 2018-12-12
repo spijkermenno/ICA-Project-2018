@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class FillUsersTable extends Migration
@@ -69,7 +67,7 @@ class FillUsersTable extends Migration
     {
         collect($this->users)->map(function ($row) {
             return (object)$row;
-        })->each(function($row) {
+        })->each(function ($row) {
             $this->insertUser($row->name, $row->firstname, $row->lastname, $row->adress_line_1, $row->adress_line_2, $row->postalcode, $row->city, $row->country, $row->birthday, $row->email, $row->password, $row->secret_question_id, $row->secret_question_answer, $row->seller, $row->admin);
         });
     }
