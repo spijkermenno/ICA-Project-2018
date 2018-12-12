@@ -9,7 +9,9 @@
         <hr class="mt-1 mb-3">
         <div class="row mb-2">
             <span class="col-6 text-center">€{{$product['selling_price']}}</span>
-            <span class="col-6 text-danger text-center">{{$product['time_left']}}</span>
+            <span class="col-6 text-center">
+                <product-card-timer end="{{$product['end']}}"></product-card-timer>
+            </span>
         </div>
         <div class="row">
             <div class="btn-group m-0 mx-auto rounded" style="width: 90%;">
