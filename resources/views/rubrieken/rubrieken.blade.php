@@ -12,31 +12,33 @@
             </div>
         @endif
         <h1>
-            @if(isset($self) && $user = Auth::user())
-                {{ $self[0]->name }}
-                @include('rubrieken.components.admin_options', [
-                    'order_number' => [
-                        'value' => $self[0]->order_number,
-                        'active' => true
-                    ],
-                    'id' => $self[0]->id,
-                    'add' => true,
-                    'edit' => true,
-                    'disable' => true,
-                    'view' => false
-                ])
-            @elseif(!isset($self) && $user = Auth::user())
-                Rubrieken
-                @include('rubrieken.components.admin_options', [
-                    'order_number' => [
-                        'active'=> false
-                    ],
-                    'id' => -1,
-                    'add' => true,
-                    'edit' => false,
-                    'disable' => false,
-                    'view' => false
-                ])
+            @if(optional(auth()->user())->admin == 1)
+                @if(isset($self))
+                    {{ $self[0]->name }}
+                    @include('rubrieken.components.admin_options', [
+                        'order_number' => [
+                            'value' => $self[0]->order_number,
+                            'active' => true
+                        ],
+                        'id' => $self[0]->id,
+                        'add' => true,
+                        'edit' => true,
+                        'disable' => true,
+                        'view' => false
+                    ])
+                @else
+                    Rubrieken
+                    @include('rubrieken.components.admin_options', [
+                        'order_number' => [
+                            'active'=> false
+                        ],
+                        'id' => -1,
+                        'add' => true,
+                        'edit' => false,
+                        'disable' => false,
+                        'view' => false
+                    ])
+                @endif
             @else
                 Rubrieken
             @endif
@@ -54,7 +56,7 @@
         </div>
         <div class="categories">
             <ul class="category_parents">
-                @if ($user = Auth::user())
+                @if (optional(auth()->user())->admin == 1)
                     @foreach($parents as $parent)
                         <div class="parent-category-management">
                             @include('rubrieken.components.admin_options', [
@@ -94,7 +96,7 @@
                             </ul>
                         </li>
                     @endforeach
-                    @else
+                @else
                     @foreach($parents as $parent)
                         <li class="parent" id="{{ $parent->name[0] }}"><a class="text-dark" href="/rubriek/{{ $parent->id }}/{{ str_slug($parent->name) }}">{{ $parent->name }}</a>
                             <ul class="category_children">
