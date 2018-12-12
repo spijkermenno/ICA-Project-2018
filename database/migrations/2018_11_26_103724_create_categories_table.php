@@ -20,7 +20,9 @@ class CreateCategoriesTable extends Migration
               inactive     BIT DEFAULT 0             NOT NULL, --Uitfaseren 0 is false, 1 is true
 
               CONSTRAINT pk_categories PRIMARY KEY (id),
-              CONSTRAINT fk_categories_parent FOREIGN KEY (parent) REFERENCES categories (id)
+              CONSTRAINT fk_categories_parent FOREIGN KEY (parent) REFERENCES categories (id),
+            
+              CONSTRAINT chk_name CHECK (LEN(RTRIM(LTRIM(name))) > 1) --minimale lengte van 2 zonder spaties voor en na
             )
         ');
     }
