@@ -1,31 +1,11 @@
-{{--
-test data:
-            'breadcrumbs' => [
-                                [
-                                    'name' => 'EenmaalAndermaal',
-                                    'link' => 'home'
-                                ],
-                                [
-                                    'name' => 'product',
-                                    'link' => 'product'
-                                ],
-                                [
-                                    'name' => 'Antieke Microfoon',
-                                    'link' => ''
-                                ]
-                            ],
---}}
-
 @if(isset($breadcrumbs))
     <div class="w-100 mb-2 d-none d-sm-block d-md-block d-lg-block d-xl-block m-2">
 
-        <ol class="breadcrumb w-50 p-1 m-0 bg-white ">
-
+        <ol class="breadcrumb w-100 p-1 m-0 bg-white ">
             @foreach ($breadcrumbs as $breadcrumb)
-
                 <li class="breadcrumb-item">
                     @if($breadcrumb['link'] != '')
-                        <a href="{{ route($breadcrumb['link']) }}">{{$breadcrumb['name']}}</a>
+                        <a href="{{ $breadcrumb['link'] }}">{{$breadcrumb['name']}}</a>
                     @else
                         {{$breadcrumb['name']}}
                     @endif
