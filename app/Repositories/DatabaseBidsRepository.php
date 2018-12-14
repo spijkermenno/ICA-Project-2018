@@ -41,6 +41,8 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
     }
 
     /**
+     * @TODO functionality not implemented yet
+     *
      * @param int $amount
      * @return mixed|null
      */
