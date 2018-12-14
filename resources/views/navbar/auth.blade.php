@@ -7,8 +7,8 @@
            aria-haspopup="true" aria-expanded="false">
             {{ Auth::user()->name }}
         </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-            <a href="{{ route('logout') }}" class="dropdown-item"
+        <div class="dropdown-menu dropdown-menu-left bg-dark border-0 p-2" aria-labelledby="navbarDropdownMenuLink">
+            <a href="{{ route('logout') }}" class="dropdown-item bg-dark text-white"
                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                 Uitloggen
             </a>
