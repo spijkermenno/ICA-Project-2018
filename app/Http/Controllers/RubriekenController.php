@@ -44,7 +44,9 @@ class RubriekenController extends Controller
             }
         }
 
-        $self = $this->categoryRepository->getById($product_id)[0];
+        $self = $this->categoryRepository->getById($product_id);
+        var_dump($self);
+        exit;
 
         array_push($this->breadcrumbs, ['name' => $self->name, 'link' => '']);
     }

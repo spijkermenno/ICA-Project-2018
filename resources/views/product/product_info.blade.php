@@ -1,10 +1,12 @@
 <div class="col-lg-6 col-md-6 col-sm-12">
     <div class="row">
         <div class="col-12">
-            <h3> {{$product['title']}}</h3>
+            <h3> {{$product->title}}</h3>
         </div>
-        <div class="col-12 text-justify">
-            <p> {{$product['description']}}</p>
+        <div class="col-12">
+            <iframe src="/api/productDescriptionIFrame/{{$product->id}}" style="width: 100%; height: 100vh;">
+
+            </iframe>
         </div>
     </div>
 </div>

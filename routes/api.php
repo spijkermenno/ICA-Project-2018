@@ -18,3 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('/category/children/{id}', 'CategoryGetChildrenController');
+Route::get('/productDescriptionIFrame/{id}', 'ProductDescriptionIFrameController@index');

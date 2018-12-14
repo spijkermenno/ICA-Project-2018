@@ -44,6 +44,26 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
+    public function getDescriptionById(int $id)
+    {
+        // TODO: Implement getById() method.
+
+        return $this->conn->select(
+            'SELECT description FROM items WHERE id = ?',
+            [$id]
+        );
+    }
+
+    public function getByIdWithImage(int $id)
+    {
+        // TODO: Implement getById() method.
+
+        return $this->conn->select(
+            'SELECT i.*, im.filename FROM items as i inner join images as im on i.id = im.item_id WHERE i.id = ?',
+            [$id]
+        );
+    }
+
     /**
      * @param int $amout
      * @return mixed|null
@@ -51,14 +71,20 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
     public function getMostPopularItems(int $amount)
     {
         return $this->conn->select(
-            sprintf('SELECT TOP %d * FROM items', $amount)
+            sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id', $amount)
         );
     }
 
     public function getSoonEndingItems(int $amount)
     {
-        return $this->conn->select(
-            sprintf('SELECT TOP %d * FROM items', $amount)
+        $result = $this->conn->select(
+            sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id where DATEDIFF(d, getdate(), i.[end]) !< 0 order by [end]', $amount)
         );
+
+        if (count($result) > 0){
+            return $result;
+        }else{
+            return $this->getSoonEndingItems($amount, ($period + 1));
+        }
     }
 }

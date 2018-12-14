@@ -44,12 +44,21 @@ hr {
     }
 
     .btn.goto {
+        opacity: 0.8;
         position: absolute;
         top: 1rem;
         right: 1rem;
         border-radius: 50%;
         width: 35px;
         height: 35px;
+
+        &:hover {
+            opacity: 1;
+        }
+        i {
+            position: relative;
+            left: -2px;
+        }
     }
 }
 
@@ -386,4 +395,11 @@ ul.category_parents {
 .auction-form-wrapper .form-group label {
     font-size: 1.4rem;
     color: $light !important;
+}
+
+.truncate {
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
