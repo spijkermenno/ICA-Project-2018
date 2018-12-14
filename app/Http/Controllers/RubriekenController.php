@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -50,17 +49,32 @@ class RubriekenController extends Controller
         }
 
         $self = $this->categoryRepository->getById($product_id)[0];
-
         array_push($this->breadcrumbs, ['name' => $self->name, 'link' => '']);
     }
 
-    public function rubriek($product_id, $product_name)
+    public function rubriek($product_id)
     {
         $this->getBreadcrumbs($product_id);
 
         return view('rubrieken.rubriek', [
             'popular_products' => $this->itemRepository->getMostPopularItems(3, $product_id),
             'fast_ending_products' => $this->itemRepository->getSoonEndingItems(12, $product_id),
+            'sidebar' => [
+                'parents' => $this->categoryRepository->getAllParentsById($product_id),
+                'current' => $this->categoryRepository->getById($product_id),
+                'children' => $this->categoryRepository->getAllByParentIdOrdered($product_id)
+            ],
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
+    }
+
+    public function rubriek_all_children($product_id)
+    {
+        $this->getBreadcrumbs($product_id);
+
+        return view('rubrieken.rubriek', [
+            'popular_products' => [],
+            'fast_ending_products' => [],
             'sidebar' => [
                 'parents' => $this->categoryRepository->getAllParentsById($product_id),
                 'current' => $this->categoryRepository->getById($product_id),

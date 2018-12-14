@@ -49,14 +49,16 @@ class ProductController extends Controller
     public function product_specific($product_id)
     {
         $productRepo = app()->make(DatabaseItemRepository::class);
-        $itemObject = $productRepo->getByIdWithImage($product_id);
+        $itemObject = $productRepo->getById($product_id);
 
         if (isset($itemObject[0])) {
+            $itemPictures = $productRepo->getAllImages($product_id);
             $this->createCategoryBreadcrumbs($itemObject[0]->category_id);
             array_push($this->breadcrumbs, ['name' => strlen($itemObject[0]->title) > 50 ? substr($itemObject[0]->title, 0, 50).'...' : $itemObject[0]->title, 'link' => '']);
 
             return view('product.specific', [
                 'product' => $itemObject[0],
+                'images' => $itemPictures,
                 'breadcrumbs' => $this->breadcrumbs,
                 'bids' => [ //test boden
                     [

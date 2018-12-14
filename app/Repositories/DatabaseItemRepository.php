@@ -64,6 +64,13 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
+    public function getAllImages (int $product_id) {
+        return $this->conn->select(
+            'SELECT filename FROM images where item_id = ?',
+            [$product_id]
+        );
+    }
+
     /**
      * @param int $amout
      * @return mixed|null
@@ -86,15 +93,16 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
             $result = $this->conn->select(
                 sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id where DATEDIFF(d, getdate(), i.[end]) !< 0 order by [end]', $amount)
             );
-        }
-        $result = $this->conn->select(
-            sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id where DATEDIFF(d, getdate(), i.[end]) !< 0 and i.category_id = %d order by [end]', $amount, $rubriek_id)
-        );
+        }else {
+            $result = $this->conn->select(
+                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id where DATEDIFF(d, getdate(), i.[end]) !< 0 and i.category_id = %d order by [end]', $amount, $rubriek_id)
+            );
+        };
 
         if (count($result) > 0) {
             return $result;
         } else {
-            return $this->getSoonEndingItems($amount, ($period + 1));
+            //return $this->getSoonEndingItems($amount, $rubriek_id);
         }
     }
 }
