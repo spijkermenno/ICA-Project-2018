@@ -13,9 +13,9 @@ class FillItemsTable extends Migration
     {
         $resource = fopen(database_path('csv/items.csv'), 'r');
 
-        statement('
-            SET IDENTITY_INSERT dbo.items ON;
-        ');
+        // statement('
+        //     SET IDENTITY_INSERT dbo.items ON;
+        // ');
 
         while (($item = fgetcsv($resource, 0, ';', '\'')) !== false) {
             $item = [
@@ -45,9 +45,9 @@ class FillItemsTable extends Migration
             ', $item);
         }
 
-        statement('
-            SET IDENTITY_INSERT dbo.items OFF;
-        ');
+        // statement('
+        //     SET IDENTITY_INSERT dbo.items OFF;
+        // ');
     }
 
     /**
