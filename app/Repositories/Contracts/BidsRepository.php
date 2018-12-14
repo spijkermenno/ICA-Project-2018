@@ -10,7 +10,7 @@ interface BidsRepository
 
     public function getMostPopularItems(int $amount);
 
-    public function getAllBetween(int $from, int $to);
+    public function getAllBetweenId(int $from, int $to);
 
-    public function createNewBid(string $bid);
+    public function createBid(string $bid);
 }
