@@ -13,7 +13,7 @@ class CreateItemsTable extends Migration
     {
         statement('
             CREATE TABLE items (
-                id                  BIGINT IDENTITY  NOT NULL, -- App C genereert zelf
+                id                  BIGINT IDENTITY NOT NULL, -- App C genereert zelf
                 title               VARCHAR(max)  NOT NULL, -- 60 -> Omdat martkplaats 60 heeft
                 description         VARCHAR(max)  NOT NULL,
                 start_price         NUMERIC(7, 2) NOT NULL, -- Bedragen tot 100mjn
@@ -32,8 +32,8 @@ class CreateItemsTable extends Migration
                 END
                 ),
                 shipping_cost       NUMERIC(7, 2) NOT NULL,
-                seller              VARCHAR(20)   NOT NULL,
-                buyer               VARCHAR(20)   NULL,
+                seller              VARCHAR(60)   NOT NULL,
+                buyer               VARCHAR(60)   NULL,
                 CONSTRAINT pk_items PRIMARY KEY (id),
                 CONSTRAINT fk_items_payment_method FOREIGN KEY (payment_method) REFERENCES payment_methods (name),
                 CONSTRAINT fk_items_seller FOREIGN KEY (seller) REFERENCES users (name),
