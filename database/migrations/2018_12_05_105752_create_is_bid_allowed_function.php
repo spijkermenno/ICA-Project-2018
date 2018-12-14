@@ -11,6 +11,8 @@ class CreateIsBidAllowedFunction extends Migration
      */
     public function up()
     {
+        $this->down();
+
         statement(
             'CREATE FUNCTION dbo.is_bid_allowed(@bid_price NUMERIC(7, 2), @item_id INT, @bid_id INT) RETURNS BIT
             BEGIN
@@ -49,6 +51,8 @@ class CreateIsBidAllowedFunction extends Migration
     public function down()
     {
         statement('
+            IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N\'dbo.is_bid_allowed\')
+            AND type in (N\'FN\', N\'IF\',N\'TF\', N\'FS\', N\'FT\'))
             DROP FUNCTION dbo.is_bid_allowed
         ');
     }

@@ -16,7 +16,7 @@ class CreateBidsTable extends Migration
                 id        INT IDENTITY NOT NULL, -- Primary key
                 item_id   BIGINT NOT NULL, -- Verwijst naar de item waar op geboden is
                 price     NUMERIC(7, 2) NOT NULL, -- Bied prijs
-                user_name VARCHAR(40) NOT NULL, -- De gebruiker die geboden heeft
+                user_name VARCHAR(60) NOT NULL, -- De gebruiker die geboden heeft
                 date      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, -- Tijdstip wanneer er een bod is geplaatst
 
                 CONSTRAINT pk_bids PRIMARY KEY (id),

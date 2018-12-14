@@ -13,7 +13,7 @@ class CreateUsersTable extends Migration
     {
         statement('
             CREATE TABLE users (
-                name VARCHAR(40) NOT NULL,
+                name VARCHAR(60) NOT NULL,
 
                 firstname VARCHAR(50) NOT NULL,
                 lastname VARCHAR(50) NOT NULL,
