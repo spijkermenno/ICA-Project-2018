@@ -12,5 +12,5 @@ interface BidsRepository
 
     public function getAllBetweenId(int $from, int $to);
 
-    public function createBid(string $bid);
+    public function createBid(array $bid);
 }
