@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Fakes;
 
+use App\Repositories\DatabaseRepository;
 use App\Repositories\Contracts\ItemRepository;
 
 /**
@@ -15,8 +16,6 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
      */
     public function getAll()
     {
-        // TODO: Implement getAll() method.
-
         return [
             [
                 'id' => 1,
@@ -59,8 +58,6 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
      */
     public function getById(int $id)
     {
-        // TODO: Implement getById() method.
-
         $items = $this->getAll();
 
         foreach ($items as $item) {
@@ -108,6 +105,15 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
                 'buyer' => null
             ]
         ];
-        // TODO: Implement getMostPopularItems() method.
+    }
+
+    public function getAllBetween(int $from, int $to)
+    {
+        // TODO: Implement getAllBetween() method.
+    }
+
+    public function getSoonEndingItems(int $amount)
+    {
+        // TODO: Implement getSoonEndingItems() method.
     }
 }
