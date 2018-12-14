@@ -22,8 +22,6 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
      */
     public function getById(int $id)
     {
-        // TODO: Implement getById() method.
-
         return $this->conn->select(
             'SELECT * FROM bids WHERE id = ?',
             [$id]
@@ -31,6 +29,8 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
     }
 
     /**
+     * @param int $from
+     * @param int $to
      * @return array
      */
     public function getAllBetweenId(int $from, int $to)
@@ -41,7 +41,7 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
     }
 
     /**
-     * @param int $amout
+     * @param int $amount
      * @return mixed|null
      */
     public function getMostPopularItems(int $amount)
