@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\Contracts\ItemRepository;
 use App\Repositories\DatabaseItemRepository;
 
 class ProductController extends Controller
@@ -38,9 +37,10 @@ class ProductController extends Controller
         abort(404);
     }
 
-    function createCategoryBreadcrumbs ($categoryID) {
+    public function createCategoryBreadcrumbs($categoryID)
+    {
         $parent = $this->categoryRepository->getById($categoryID)[0];
-        if ($parent->parent != '-1'){
+        if ($parent->parent != '-1') {
             $this->createCategoryBreadcrumbs($parent->parent);
         }
         array_push($this->breadcrumbs, ['name' => $parent->name, 'link' => '/rubriek/'.$parent->id . '/']);
@@ -53,7 +53,7 @@ class ProductController extends Controller
 
         if (isset($itemObject[0])) {
             $this->createCategoryBreadcrumbs($itemObject[0]->category_id);
-            array_push($this->breadcrumbs, ['name' => strlen($itemObject[0]->title) > 50 ? substr($itemObject[0]->title,0,50)."..." : $itemObject[0]->title, 'link' => '']);
+            array_push($this->breadcrumbs, ['name' => strlen($itemObject[0]->title) > 50 ? substr($itemObject[0]->title, 0, 50).'...' : $itemObject[0]->title, 'link' => '']);
 
             return view('product.specific', [
                 'product' => $itemObject[0],

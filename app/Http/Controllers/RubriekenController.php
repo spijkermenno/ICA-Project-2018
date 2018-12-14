@@ -3,21 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Repositories\DatabaseItemRepository;
 use App\Repositories\DatabaseCategoryRepository;
 use App\Repositories\Contracts\CategoryRepository;
 
 class RubriekenController extends Controller
 {
+    private $itemRepository;
+
     /**
      * Show the application dashboard.
      *
      * @param DatabaseCategoryRepository $categoryRepository
+     * @param DatabaseItemRepository $databaseItemRepository
      */
-    public function __construct(DatabaseCategoryRepository $categoryRepository)
+    public function __construct(DatabaseCategoryRepository $categoryRepository, DatabaseItemRepository $databaseItemRepository)
     {
         parent::__construct($categoryRepository);
         $crumb = ['name' => 'Rubrieken', 'link' => '/rubrieken'];
         array_push($this->breadcrumbs, $crumb);
+        $this->itemRepository = $databaseItemRepository;
     }
 
     public function index()
@@ -44,9 +49,7 @@ class RubriekenController extends Controller
             }
         }
 
-        $self = $this->categoryRepository->getById($product_id);
-        var_dump($self);
-        exit;
+        $self = $this->categoryRepository->getById($product_id)[0];
 
         array_push($this->breadcrumbs, ['name' => $self->name, 'link' => '']);
     }
@@ -56,6 +59,8 @@ class RubriekenController extends Controller
         $this->getBreadcrumbs($product_id);
 
         return view('rubrieken.rubriek', [
+            'popular_products' => $this->itemRepository->getMostPopularItems(3, $product_id),
+            'fast_ending_products' => $this->itemRepository->getSoonEndingItems(12, $product_id),
             'sidebar' => [
                 'parents' => $this->categoryRepository->getAllParentsById($product_id),
                 'current' => $this->categoryRepository->getById($product_id),
