@@ -11,7 +11,7 @@ class CreateIsAuctionClosedFunction extends Migration
      */
     public function up()
     {
-        DB::statement('
+        statement('
             CREATE FUNCTION dbo.is_auction_closed (@item_id INT) RETURNS BIT
                 AS BEGIN RETURN (
                     SELECT auction_closed FROM items where id = @item_id
@@ -27,7 +27,7 @@ class CreateIsAuctionClosedFunction extends Migration
      */
     public function down()
     {
-        DB::statement('
+        statement('
             DROP FUNCTION dbo.is_auction_closed
         ');
     }

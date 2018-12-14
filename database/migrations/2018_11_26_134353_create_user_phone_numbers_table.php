@@ -14,7 +14,7 @@ class CreateUserPhoneNumbersTable extends Migration
         statement('
             CREATE TABLE user_phone_numbers (
                 number tinyint NOT NULL,
-                user_name VARCHAR(20) NOT NULL,
+                user_name VARCHAR(40) NOT NULL,
                 phone_number VARCHAR(15) -- E.164 nummers mogen niet langer zijn dan 15 characters
 
                 CONSTRAINT pk_user_phone_numbers PRIMARY KEY (number,
