@@ -44,6 +44,29 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
+    public function getMultipleByIds(array $ids)
+    {
+        return $this->conn->select('
+            SELECT top 16 *
+            FROM items
+            WHERE category_id IN (
+                ' . str_replace_last(',', '', str_repeat('?,', count($ids))) .
+            ')
+            order by [end] ASC
+        ', $ids);
+    }
+
+    public function getMultipleImages(array $ids)
+    {
+        return $this->conn->select('
+            SELECT max (filename) as filename, item_id
+            FROM images
+            WHERE item_id IN (
+                ' . str_replace_last(',', '', str_repeat('?,', count($ids))) .
+            ') group by item_id
+        ', $ids);
+    }
+
     public function getDescriptionById(int $id)
     {
         // TODO: Implement getById() method.
@@ -64,10 +87,27 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
-    public function getAllImages (int $product_id) {
+    public function getAllImages(int $product_id)
+    {
         return $this->conn->select(
             'SELECT filename FROM images where item_id = ?',
             [$product_id]
+        );
+    }
+
+    public function getbyCategoryId(int $category_id)
+    {
+        return $this->conn->select(
+            'SELECT * FROM items where category_id = ?',
+            [$category_id]
+        );
+    }
+
+    public function getbyCategoryIdWithImage(int $category_id)
+    {
+        return $this->conn->select(
+            'select i.*, im.filename FROM items as i inner join images as im on i.id = im.item_id WHERE i.category_id = ?',
+            [$category_id]
         );
     }
 
@@ -93,7 +133,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
             $result = $this->conn->select(
                 sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id where DATEDIFF(d, getdate(), i.[end]) !< 0 order by [end]', $amount)
             );
-        }else {
+        } else {
             $result = $this->conn->select(
                 sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id where DATEDIFF(d, getdate(), i.[end]) !< 0 and i.category_id = %d order by [end]', $amount, $rubriek_id)
             );

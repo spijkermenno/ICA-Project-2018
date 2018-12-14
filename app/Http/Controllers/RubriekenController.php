@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -52,13 +53,48 @@ class RubriekenController extends Controller
         array_push($this->breadcrumbs, ['name' => $self->name, 'link' => '']);
     }
 
+    public function getItemsOfParent($product_id)
+    {
+        $temp_items = [];
+        $parents_array = [];
+
+        $subrubrieken = $this->categoryRepository->getChildrenFor([$product_id]);
+
+        foreach ($subrubrieken as $subrubriek) {
+            array_push($parents_array, $subrubriek->id);
+        }
+
+        $sub = $this->categoryRepository->getChildrenFor($parents_array);
+
+        foreach ($sub as $item) {
+            $temp = $this->categoryRepository->getChildrenFor([$item->id]);
+            if (count($temp) == 0) {
+                array_push($temp_items, $this->itemRepository->getbyCategoryIdWithImage($item->id));
+            } else {
+                $this->getItemsOfParent($item->id);
+            }
+        }
+        return $temp_items;
+    }
+
     public function rubriek($product_id)
     {
-        $this->getBreadcrumbs($product_id);
+        $images = [];
 
-        return view('rubrieken.rubriek', [
-            'popular_products' => $this->itemRepository->getMostPopularItems(3, $product_id),
-            'fast_ending_products' => $this->itemRepository->getSoonEndingItems(12, $product_id),
+        $ids = array_pluck($this->categoryRepository->getAllChildrenForParent($product_id), 'id');
+        $items = $this->itemRepository->getMultipleByIds($ids);
+        if (count($items) > 0) {
+            $images = $this->itemRepository->getMultipleImages(array_pluck($items, 'id'));
+        }
+
+        $images = collect($images)->keyBy('item_id');
+        $items = collect($items)->map(function ($item) use ($images) {
+            $item->filename = optional($images->get($item->id))->filename;
+            return $item;
+        });
+
+        return view('rubrieken.rubriek_deep', [
+            'products' => $items,
             'sidebar' => [
                 'parents' => $this->categoryRepository->getAllParentsById($product_id),
                 'current' => $this->categoryRepository->getById($product_id),
