@@ -33,7 +33,7 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
     /**
      * @return array
      */
-    public function getAllBetween(int $from, int $to)
+    public function getAllBetweenId(int $from, int $to)
     {
         return $this->conn->select(
             sprintf('SELECT * FROM bids WHERE id BETWEEN %d AND %d', $from, $to)
