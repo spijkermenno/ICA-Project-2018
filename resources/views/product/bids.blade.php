@@ -45,8 +45,7 @@
             </div>
         </div>
     </div>
-    <div id="betaalmiddel">
-        <span class="d-block text-center far fa-card">((Font Awesome icon))</span>
+    <div id="betaalmiddel" class="text-center">
         <h5>
             Betaling via {{$product->payment_method}}
         </h5>

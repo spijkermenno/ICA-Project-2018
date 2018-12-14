@@ -2,9 +2,10 @@
     <div class="row">
         <div class="col-12">
             <h3> {{$product->title}}</h3>
+            <hr/>
         </div>
         <div class="col-12">
-            <iframe src="/api/productDescriptionIFrame/{{$product->id}}" style="width: 100%; height: 100vh;">
+            <iframe src="/api/productDescriptionIFrame/{{$product->id}}" style="width: 100%; height: 100vh; border: none;">
 
             </iframe>
         </div>
