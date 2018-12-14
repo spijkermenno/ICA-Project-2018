@@ -26,7 +26,7 @@ class FillSecretQuestionsTable extends Migration
 
     public function insertSecretQuestion($question)
     {
-        return DB::statement('
+        return statement('
             INSERT INTO secret_questions
                 (question)
             VALUES
@@ -43,7 +43,7 @@ class FillSecretQuestionsTable extends Migration
      */
     public function down()
     {
-        DB::statement('
+        statement('
             DELETE FROM secret_questions
         ');
     }
