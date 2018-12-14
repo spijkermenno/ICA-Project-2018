@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Migrations\Migration;
 
 class CreateSecretQuestionsTable extends Migration
@@ -12,7 +11,7 @@ class CreateSecretQuestionsTable extends Migration
      */
     public function up()
     {
-        DB::statement('
+        statement('
             CREATE TABLE secret_questions (
                 id int IDENTITY NOT NULL,
 
@@ -30,7 +29,7 @@ class CreateSecretQuestionsTable extends Migration
      */
     public function down()
     {
-        DB::statement('
+        statement('
             DROP TABLE secret_questions
         ');
     }
