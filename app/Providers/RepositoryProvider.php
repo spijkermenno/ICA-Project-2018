@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Contracts\Auth\UserProvider;
+use App\Repositories\DatabaseBidsRepository;
 use App\Repositories\DatabaseUserRepository;
+use App\Repositories\Contracts\BidsRepository;
 use App\Repositories\Contracts\ItemRepository;
 use App\Repositories\Contracts\UserRepository;
 use App\Repositories\DatabaseCategoryRepository;
@@ -23,7 +25,8 @@ class RepositoryProvider extends ServiceProvider
         UserProvider::class => DatabaseUserRepository::class,
         SecretQuestionRepository::class => DatabaseSecretQuestionRepository::class,
         PasswordResetRepository::class => DatabasePasswordResetRepository::class,
-        ItemRepository::class => DatabaseItemRepository::class
+        ItemRepository::class => DatabaseItemRepository::class,
+        BidsRepository::class => DatabaseBidsRepository::class
     ];
 
     public function register()

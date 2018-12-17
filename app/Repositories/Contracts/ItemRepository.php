@@ -8,7 +8,7 @@ interface ItemRepository
 
     public function getById(int $id);
 
-    public function getMostPopularItems(int $amount);
-
     public function getAllBetween(int $from, int $to);
+
+    public function getSoonEndingItems(int $amount);
 }
