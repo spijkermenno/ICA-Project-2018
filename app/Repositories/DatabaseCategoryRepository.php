@@ -54,6 +54,21 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
         );
     }
 
+    public function getAllChildrenForParent($id)
+    {
+        return $this->conn->select('WITH parent AS (
+    SELECT *
+    FROM categories WHERE id = ?
+    UNION ALL
+        SELECT categories.*
+        FROM categories
+            JOIN parent  ON categories.parent = parent.id
+)
+SELECT id FROM parent
+ORDER BY parent ASC
+OPTION(MAXRECURSION 64)', [$id]);
+    }
+
     public function getAllParentsById($id)
     {
         return $this->conn->select(
@@ -187,7 +202,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
             WHERE id = :id',
             [
                 'id' => $id
-        ]
+            ]
         );
     }
 
@@ -265,5 +280,15 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
         } else {
             print_r('Error 1');
         }
+    }
+
+    public function getAllWithNoChildren()
+    {
+        $result = $this->conn->select('
+                select *
+                from categories
+                where (select COUNT(*) from categories as cat where cat.parent = categories.id) < 1 order by name asc');
+
+        return $result;
     }
 }

@@ -3,21 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Repositories\DatabaseItemRepository;
 use App\Repositories\DatabaseCategoryRepository;
 use App\Repositories\Contracts\CategoryRepository;
 
 class RubriekenController extends Controller
 {
+    private $itemRepository;
+
     /**
      * Show the application dashboard.
      *
      * @param DatabaseCategoryRepository $categoryRepository
+     * @param DatabaseItemRepository $databaseItemRepository
      */
-    public function __construct(DatabaseCategoryRepository $categoryRepository)
+    public function __construct(DatabaseCategoryRepository $categoryRepository, DatabaseItemRepository $databaseItemRepository)
     {
         parent::__construct($categoryRepository);
         $crumb = ['name' => 'Rubrieken', 'link' => '/rubrieken'];
         array_push($this->breadcrumbs, $crumb);
+        $this->itemRepository = $databaseItemRepository;
     }
 
     public function index()
@@ -45,15 +50,67 @@ class RubriekenController extends Controller
         }
 
         $self = $this->categoryRepository->getById($product_id)[0];
-
         array_push($this->breadcrumbs, ['name' => $self->name, 'link' => '']);
     }
 
-    public function rubriek($product_id, $product_name)
+    public function getItemsOfParent($product_id)
+    {
+        $temp_items = [];
+        $parents_array = [];
+
+        $subrubrieken = $this->categoryRepository->getChildrenFor([$product_id]);
+
+        foreach ($subrubrieken as $subrubriek) {
+            array_push($parents_array, $subrubriek->id);
+        }
+
+        $sub = $this->categoryRepository->getChildrenFor($parents_array);
+
+        foreach ($sub as $item) {
+            $temp = $this->categoryRepository->getChildrenFor([$item->id]);
+            if (count($temp) == 0) {
+                array_push($temp_items, $this->itemRepository->getbyCategoryIdWithImage($item->id));
+            } else {
+                $this->getItemsOfParent($item->id);
+            }
+        }
+        return $temp_items;
+    }
+
+    public function rubriek($product_id)
+    {
+        $images = [];
+
+        $ids = array_pluck($this->categoryRepository->getAllChildrenForParent($product_id), 'id');
+        $items = $this->itemRepository->getMultipleByIds($ids);
+        if (count($items) > 0) {
+            $images = $this->itemRepository->getMultipleImages(array_pluck($items, 'id'));
+        }
+
+        $images = collect($images)->keyBy('item_id');
+        $items = collect($items)->map(function ($item) use ($images) {
+            $item->filename = optional($images->get($item->id))->filename;
+            return $item;
+        });
+
+        return view('rubrieken.rubriek_deep', [
+            'products' => $items,
+            'sidebar' => [
+                'parents' => $this->categoryRepository->getAllParentsById($product_id),
+                'current' => $this->categoryRepository->getById($product_id),
+                'children' => $this->categoryRepository->getAllByParentIdOrdered($product_id)
+            ],
+            'breadcrumbs' => $this->breadcrumbs
+        ]);
+    }
+
+    public function rubriek_all_children($product_id)
     {
         $this->getBreadcrumbs($product_id);
 
         return view('rubrieken.rubriek', [
+            'popular_products' => [],
+            'fast_ending_products' => [],
             'sidebar' => [
                 'parents' => $this->categoryRepository->getAllParentsById($product_id),
                 'current' => $this->categoryRepository->getById($product_id),

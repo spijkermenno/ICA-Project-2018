@@ -24,6 +24,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/rubrieken/', 'RubriekenController@index')->name('rubrieken');
 Route::get('/rubriek/{product_id}', 'RubriekenController@rubriek_no_name')->name('rubriek_without_name');
 Route::get('/rubriek/{product_id}/{product_name}', 'RubriekenController@rubriek')->name('rubriek_with_name');
+
 Route::group(['middleware' => 'admin'], function () {
     Route::get('/rubrieken/bekijken/{id}', 'RubriekenController@view_rubriek')->name('view_rubriek');
     Route::get('/rubrieken/toevoegen/{parent_id}', 'RubriekenController@new_rubriek')->name('new_rubriek');
@@ -34,5 +35,8 @@ Route::group(['middleware' => 'admin'], function () {
     Route::post('/rubrieken/uitfaseren/{id}', 'RubriekenController@disable_rubriek')->name('disable_rubriek');
 });
 
-Route::get('/product/{product}/{name}', 'ProductController@product_specific')->name('product');
+Route::get('/product/{product}', 'ProductController@product_no_name')->name('product_no_name');
+Route::get('/product/{product}/{name}', 'ProductController@product_specific')->name('product_specific');
 Route::get('/product/', 'ProductController@index')->name('product');
+
+Route::get('/product/toevoegen/', 'AuctionController@index')->name('auction.add');
