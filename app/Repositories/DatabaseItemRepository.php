@@ -20,6 +20,12 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
+    public function getItemsBySearch($item, $field, $amount = 16)
+    {
+        return $this->conn->select(
+            "SELECT top " . $amount . " i.*, im.filename FROM items i inner join images im on i.id = im.item_id where i.".$field." like '%" . $item . "%' and auction_closed = 0");
+    }
+
     /**
      * @return array
      */

@@ -18,7 +18,7 @@
         <div class="row">
             <div class="btn-group m-0 mx-auto rounded" style="width: 90%;">
                 @for($i = 1, $x = ($buttons +1); $i < $x; $i++)
-                    <a class="btn btn-primary text-white align-items-center px-4"
+                    <a class="btn btn-primary text-white align-items-center px-2"
                        style="width: {{ 100 / $buttons }}%">+ €{{ (getMinimalTopUp($product->selling_price) * $i) }}</a>
                 @endfor
             </div>
