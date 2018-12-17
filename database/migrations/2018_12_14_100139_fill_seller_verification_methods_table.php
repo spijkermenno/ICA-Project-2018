@@ -6,7 +6,7 @@ class FillSellerVerificationMethodsTable extends Migration
 {
     protected $methods = [
         'creditcard',
-        'mail'
+        'post'
     ];
 
     /**

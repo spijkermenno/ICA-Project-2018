@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\User;
 
-use App\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Notifications\Verification;
 use App\Http\Controllers\Controller;
+use App\Repositories\DatabaseSellerRepository;
+use App\Repositories\Contracts\SellerRepository;
 use App\Repositories\DatabaseCategoryRepository;
+use App\Repositories\Contracts\CategoryRepository;
+use App\Repositories\Contracts\SellerVerificationMethodRepository;
 
-class EmailController extends Controller
+class SellerValidationController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -30,84 +31,49 @@ class EmailController extends Controller
      * @return void
      */
     public function __construct(
-        DatabaseCategoryRepository $categoryRepository,
-        DatabaseUserRepository $userRepository
+        SellerRepository $sellerRepository,
+        SellerVerificationMethodRepository $sellerValidationMethodRepository,
+        CategoryRepository $categoryRepository
     ) {
         parent::__construct($categoryRepository);
 
-        $this->userRepository = $userRepository;
+        $this->sellerRepository = $sellerRepository;
+        $this->sellerValidationMethodRepository = $sellerValidationMethodRepository;
 
         $this->middleware(['not.seller']);
     }
 
     public function showVerificationForm()
     {
-        return view('user.seller.verify');
+        return view('user.seller.verify', [
+            'verification_methods' => array_map(
+                'ucfirst',
+                array_pluck(
+                    $this->sellerValidationMethodRepository->getAll(),
+                    'name'
+                )
+            )
+        ]);
     }
 
-    public function sendVerificationEmail(Request $request)
+    public function sendVerification(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|string|email|max:255|unique:users'
+            'bank' => 'required|string',
+            'iban' => 'required|string|iban',
+            'verification_method' => 'required',
+            'creditcard' => 'required_if:verification_method,creditcard|string|creditcard',
         ]);
 
-        (new User([
-            'email' => $request->get('email')
-        ]))->notify(
-            new Verification(
-                $this->passwordResetRepository->createTokenForUserEmail($request->get('email'))
+        $seller = $this->sellerRepository->create(
+            array_merge(
+                [
+                    $sellerRepository->getIdentifierName()
+                        => auth()->user()->offsetGet($this->sellerRepository->getIdentifierName())
+                ],
+                $request->only('bank', 'iban', 'creditcard')
             )
         );
 
-        return redirect()
-            ->route('email.verify')
-            ->with('email', $request->get('email'))
-            ->with('status', 'Er is een verificatie code naar uw E-mailadres verstuurd');
-    }
-
-    public function showVerifyForm($token = null)
-    {
-        return view('auth.verify-email', [
-            'token' => $token
-        ]);
-    }
-
-    public function verifyEmail(Request $request)
-    {
-        $this->validate($request, [
-            'email' => 'required|string|email|max:255|unique:users',
-            'token' => 'required'
-        ]);
-
-        $reset = $this->passwordResetRepository->getByUserEmail($request->get('email'));
-
-        if (!$reset || $reset->expired) {
-            return redirect()
-                ->route('email.verification')
-                ->with('status', 'Uw verificatie code is niet meer geldig.');
-        }
-
-        if (!$this->passwordResetRepository->validateCredentials(
-            $reset,
-            $request->only('token')
-        )) {
-            return back()
-                ->with('email', $request->get('email'))
-                ->with('status', 'Uw verificatie code is niet correct.');
-        }
-
-        $this->passwordResetRepository->removeByUserEmail($request->get('email'));
-
-        $request->session()->put('email.verification', [
-            'verified' => true,
-            'email' => $request->get('email'),
-            'expires_at' => Carbon::now()->addHours(4)
-        ]);
-
-        $request->session()->save();
-
-        return redirect()
-            ->route('register')
-            ->with('email', $request->get('email'));
     }
 }

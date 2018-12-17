@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use App\Repositories\Contracts\UserRepository;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Notifications\UserCreationConfirmation;
 use App\Repositories\Contracts\CategoryRepository;
 use App\Repositories\Contracts\SecretQuestionRepository;
 
@@ -102,19 +104,27 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user = $this->userRepository->create(
-            array_merge(
-                array_except(
-                    $data,
-                    ['_token', 'password_confirmation']
-                ),
-                [
-                    'birthday' => Carbon::createFromFormat('d-m-Y', $data['birthday'])->toDateString()
-                ]
-            )
-        );
+        return DB::transaction(function () use ($data) {
+            $user = $this->userRepository->create(
+                array_merge(
+                    array_except(
+                        $data,
+                        ['_token', 'password_confirmation']
+                    ),
+                    [
+                        'birthday' => Carbon::createFromFormat('d-m-Y', $data['birthday'])->toDateString()
+                    ]
+                )
+            );
 
-        return $user;
+            $user->notify(
+                new UserCreationConfirmation(
+                    $user
+                )
+            );
+
+            return $user;
+        });
     }
 
     /**

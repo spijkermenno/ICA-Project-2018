@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Notifications\Verification;
 use App\Http\Controllers\Controller;
+use App\Notifications\EmailVerification;
 use App\Repositories\DatabaseCategoryRepository;
 use App\Repositories\Contracts\PasswordResetRepository;
 
@@ -55,7 +55,7 @@ class EmailController extends Controller
         (new User([
             'email' => $request->get('email')
         ]))->notify(
-            new Verification(
+            new EmailVerification(
                 $this->passwordResetRepository->createTokenForUserEmail($request->get('email'))
             )
         );

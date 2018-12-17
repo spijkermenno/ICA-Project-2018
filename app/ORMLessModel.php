@@ -15,8 +15,10 @@ abstract class ORMLessModel implements ArrayAccess
 
     public function offsetExists($offset): bool
     {
-        return isset($this->data[$offset])
-            || isset($this->data->{$offset});
+        if (is_array($this->data)) {
+            return isset($this->data[$offset]);
+        }
+        return isset($this->data->{$offset});
     }
 
     public function offsetGet($offset)

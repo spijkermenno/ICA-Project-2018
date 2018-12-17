@@ -19,11 +19,14 @@ Route::post('/register-email', 'Auth\EmailController@sendVerificationEmail')->na
 Route::get('/verify-email/{token?}', 'Auth\EmailController@showVerifyForm')->name('email.verify');
 Route::post('/verify-email', 'Auth\EmailController@verifyEmail')->name('email.verify.check');
 
+Route::get('/seller', 'User\SellerValidationController@showVerificationForm')->name('seller.verify');
+
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/rubrieken/', 'RubriekenController@index')->name('rubrieken');
 Route::get('/rubriek/{product_id}', 'RubriekenController@rubriek_no_name')->name('rubriek_without_name');
 Route::get('/rubriek/{product_id}/{product_name}', 'RubriekenController@rubriek')->name('rubriek_with_name');
+
 Route::group(['middleware' => 'admin'], function () {
     Route::get('/rubrieken/bekijken/{id}', 'RubriekenController@view_rubriek')->name('view_rubriek');
     Route::get('/rubrieken/toevoegen/{parent_id}', 'RubriekenController@new_rubriek')->name('new_rubriek');
