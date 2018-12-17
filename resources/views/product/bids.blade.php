@@ -31,17 +31,7 @@
                 </div>
             </div>
             <div class="card-body p-2 position-relative">
-                <div class="btn-group" role="group" style="width: 100%">
-                    <button type="button" class="btn btn-outline-dark w-50" {{auth()->check() ? '': 'disabled'}}>€5
-                    </button>
-                    <button type="button" class="btn btn-outline-dark w-50" {{auth()->check() ? '': 'disabled'}}>€10
-                    </button>
-                    <button type="button" class="btn btn-outline-dark w-50" {{auth()->check() ? '': 'disabled'}}>€20
-                    </button>
-                    <button type="button" class="btn btn-outline-dark w-50" {{auth()->check() ? '': 'disabled'}}>€50
-                    </button>
-                </div>
-
+                @include('product.bids_buttons', ['buttons' => 4])
             </div>
         </div>
     </div>

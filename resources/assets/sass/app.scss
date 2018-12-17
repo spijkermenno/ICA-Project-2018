@@ -62,6 +62,25 @@ hr {
     }
 }
 
+
+.bids-buttons form {
+    $radius: 5px;
+
+    button {
+        border-radius: 0;
+    }
+
+    &:first-child button {
+        border-bottom-left-radius: $radius;
+        border-top-left-radius: $radius;
+    }
+
+    &:last-child button {
+        border-top-right-radius: $radius;
+        border-bottom-right-radius: $radius;
+    }
+}
+
 .overflow-hide-y {
     overflow-y: hidden !important;
 }
