@@ -1,5 +1,5 @@
-<div class="col-12 p-2">
-    <div class="row">
+<div class="col-12 hidden-sm-down">
+    <div class="row p-2">
         @php
             setlocale(LC_TIME, "nl_NL");
 
@@ -13,7 +13,7 @@
             6 => 'Sun',
             );
 
-            if ($product['auction_length'] > 10){
+            if ($product->duration > 10){
                 $end_day = 21;
                 $calender = [0 => null, 1 => null,2 => null,3 => null,4 => null,5 => null,6 => null,7 => null,8 => null,9 => null,10 => null,11 => null,12 => null,13 => null,14 => null,15 => null, 16 => null,17 => null,18 => null,19 => null,20 => null];
             }else{
@@ -22,10 +22,10 @@
             }
             $start_day = 0;
             $days_to_go = 0;
-            $start_date = $product['start_date'];
+            $start_date = $product->start;
             $end_date = '';
             $date_format = 'd M Y';
-            $enddatestring = strtotime($start_date  . '+' . $product['auction_length'] . ' day');
+            $enddatestring = strtotime($start_date  . '+' . $product->duration . ' day');
             $startdatestring = strtotime($start_date);
             $end_date = date($date_format, $enddatestring);
 

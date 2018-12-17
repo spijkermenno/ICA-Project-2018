@@ -15,7 +15,7 @@
 </head>
 <body class="bg-white">
 @include('navigationbar')
-<a class="bg-dark hidden" id="return-to-top"><i class="fas fa-angle-up"></i></a>
+<a class="bg-dark hidden border-secondary border" id="return-to-top"><i class="fas fa-angle-up"></i></a>
 <div class="container">
     @include('breadcrumbs')
     <div id="app" class="">
