@@ -2,10 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\DatabaseBidsRepository;
+use App\Repositories\DatabaseCategoryRepository;
 use App\Repositories\DatabaseItemRepository;
 
 class ProductController extends Controller
 {
+    /**
+     * @var DatabaseBidsRepository
+     */
+    private $bidsRepository;
+
+    /**
+     * ProductController constructor.
+     * @param DatabaseCategoryRepository $categoryRepository
+     * @param DatabaseBidsRepository $bidsRepository
+     */
+    public function __construct(DatabaseCategoryRepository $categoryRepository, DatabaseBidsRepository $bidsRepository)
+    {
+        parent::__construct($categoryRepository);
+
+        $this->bidsRepository = $bidsRepository;
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -56,36 +75,13 @@ class ProductController extends Controller
             $this->createCategoryBreadcrumbs($itemObject[0]->category_id);
             array_push($this->breadcrumbs, ['name' => strlen($itemObject[0]->title) > 50 ? substr($itemObject[0]->title, 0, 50).'...' : $itemObject[0]->title, 'link' => '']);
 
+            $bids = $this->bidsRepository->get_top_bids(6, $product_id);
+
             return view('product.specific', [
                 'product' => $itemObject[0],
                 'images' => $itemPictures,
                 'breadcrumbs' => $this->breadcrumbs,
-                'bids' => [ //test boden
-                    [
-                        'user' => 'KeesAntiek',
-                        'amount' => '120.000'
-                    ],
-                    [
-                        'user' => 'AnnieAntiek',
-                        'amount' => '100.000'
-                    ],
-                    [
-                        'user' => 'KeesAntiek',
-                        'amount' => '80.000'
-                    ],
-                    [
-                        'user' => 'AnnieAntiek',
-                        'amount' => '60.000'
-                    ],
-                    [
-                        'user' => 'KeesAntiek',
-                        'amount' => '40.000'
-                    ],
-                    [
-                        'user' => 'AnnieAntiek',
-                        'amount' => '20.000'
-                    ]
-                ]
+                'bids' => $bids
             ]);
         }
 
