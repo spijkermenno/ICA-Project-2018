@@ -40,3 +40,5 @@ Route::get('/product/{product}/{name}', 'ProductController@product_specific')->n
 Route::get('/product/', 'ProductController@index')->name('product');
 
 Route::get('/product/toevoegen/', 'AuctionController@index')->name('auction.add');
+
+Route::post('/bied/toevoegen', 'BidsController@create_bid')->name('bid.create');

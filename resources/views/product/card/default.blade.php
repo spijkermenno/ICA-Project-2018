@@ -16,10 +16,18 @@
             </span>
         </div>
         <div class="row">
-            <div class="btn-group m-0 mx-auto rounded" style="width: 90%;">
+            <div class="d-flex">
                 @for($i = 1, $x = ($buttons +1); $i < $x; $i++)
-                    <a class="btn btn-primary text-white align-items-center px-4"
-                       style="width: {{ 100 / $buttons }}%">+ €{{ (getMinimalTopUp($product->selling_price) * $i) }}</a>
+                    <form action="{{ route('bid.create') }}" method="post">
+                        @php $price = (getMinimalTopUp($product->selling_price) * $i) @endphp
+                        {{ csrf_field() }}
+                        <input type="hidden" name="product" value="{{ $product->id }}">
+                        <input type="hidden" name="price" value="{{ $product->selling_price + $price }}">
+                        <button class="btn btn-primary text-white" type="submit">
+                            +
+                            €{{ $price }}
+                        </button>
+                    </form>
                 @endfor
             </div>
         </div>
