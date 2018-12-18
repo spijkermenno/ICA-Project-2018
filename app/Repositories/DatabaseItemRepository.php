@@ -124,14 +124,22 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
      */
     public function getMostPopularItems(int $amount, $rubriek_id = null)
     {
+        $items = [];
         if ($rubriek_id == null) {
-            return $this->conn->select(
-                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id', $amount)
+            $item_ids = $this->conn->select(
+                sprintf('select top %d b.item_id, count(b.id) as bids from items i inner join bids b on i.id = b.item_id where i.auction_closed = 0 group by b.item_id order by bids desc', $amount)
+            );
+        } else {
+            $item_ids = $this->conn->select(
+                sprintf('select top %d b.item_id, count(b.id) as bids from items i inner join bids b on i.id = b.item_id where i.auction_closed = 0 and i.category_id = %d group by b.item_id order by bids desc', $amount, $rubriek_id)
             );
         }
-        return $this->conn->select(
-            sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id where i.category_id = %d', $amount, $rubriek_id)
-        );
+
+        foreach ($item_ids as $item_id) {
+            array_push($items, $this->getByIdWithImage($item_id->item_id)[0]);
+        }
+
+        return $items;
     }
 
     public function getSoonEndingItems(int $amount, $rubriek_id = null)
