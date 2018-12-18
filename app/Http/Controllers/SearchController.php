@@ -46,7 +46,6 @@ class SearchController extends Controller
         ], 24);
         $buttons = 2;
 
-
         $products->appends([
             'query' => $request->get('query')
         ]);
