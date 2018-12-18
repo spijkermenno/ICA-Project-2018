@@ -93,6 +93,8 @@ class RubriekenController extends Controller
             return $item;
         });
 
+        $this->getBreadcrumbs($product_id);
+
         return view('rubrieken.rubriek_deep', [
             'products' => $items,
             'sidebar' => [
