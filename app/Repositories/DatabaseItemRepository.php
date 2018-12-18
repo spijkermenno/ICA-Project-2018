@@ -51,7 +51,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
             FROM items
             WHERE category_id IN (
                 ' . str_replace_last(',', '', str_repeat('?,', count($ids))) .
-            ')
+            ') and auction_closed = 0
             order by [end] ASC
         ', $ids);
     }
@@ -98,7 +98,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
     public function getbyCategoryId(int $category_id)
     {
         return $this->conn->select(
-            'SELECT * FROM items where category_id = ?',
+            'SELECT * FROM items where category_id = ? and auction_closed = 0',
             [$category_id]
         );
     }
@@ -106,7 +106,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
     public function getbyCategoryIdWithImage(int $category_id)
     {
         return $this->conn->select(
-            'select i.*, im.filename FROM items as i inner join images as im on i.id = im.item_id WHERE i.category_id = ?',
+            'select i.*, im.filename FROM items as i inner join images as im on i.id = im.item_id WHERE i.category_id = ? and auction_closed = 0',
             [$category_id]
         );
     }
