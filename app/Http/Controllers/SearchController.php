@@ -38,9 +38,27 @@ class SearchController extends Controller
         array_push($this->breadcrumbs, ['name' => $searchQuery, 'link' => '']);
 
         $breadCrumbs = $this->breadcrumbs;
-        $products = $this->itemRepository->getItemsBySearch($searchQuery, 'title', 24);
+        $products = $this->itemRepository->getItemsBySearch($searchQuery, 'title', [
+            'title',
+            'selling_price',
+            '[end]',
+            'id'
+        ], 24);
         $buttons = 2;
 
-        return view('search.resultPage', compact('breadCrumbs', 'products', 'buttons', 'searchQuery'));
+
+        $products->appends([
+            'query' => $request->get('query')
+        ]);
+
+        return view(
+            'search.resultPage',
+            compact(
+                'breadCrumbs',
+                'products',
+                'buttons',
+                'searchQuery'
+            )
+        );
     }
 }

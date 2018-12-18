@@ -21,18 +21,35 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
-    public function getItemsBySearch($query, $field, $amount = 16)
+    public function getItemsBySearch($query, $field, $columns = ['*'], $perPage = 16)
     {
-        return $this->conn->select('
+        $total = $this->conn->select('
             SELECT
-                top ' . $amount . ' i.*,
-                im.filename
-            FROM items i
-                inner join images im on i.id = im.item_id
-            where i.'.$field.' like :query
-            and auction_closed = 0
+                COUNT(*) as count
+            FROM items
+            WHERE items.'.$field.' LIKE :query
+                and auction_closed = 0
         ', [
             'query' => '%'. $query .'%'
+        ])[0]->count;
+
+        $items = $this->conn->select('
+            SELECT
+                ' . implode(',', array_map(function($column) {return 'items.' . $column; }, $columns)) . ',
+                images.filename
+            FROM items
+                INNER JOIN images ON items.id = images.item_id
+            WHERE items.'.$field.' LIKE :query
+                AND auction_closed = 0
+            ORDER BY [end] ASC
+             OFFSET ' . ($perPage * (request()->get('page', 1) - 1)) . ' ROWS
+            FETCH NEXT ' . $perPage . ' ROWS ONLY
+        ', [
+            'query' => '%'. $query .'%'
+        ]);
+
+        return new LengthAwarePaginator($items, $total, $perPage, null, [
+            'path' => request()->url()
         ]);
     }
 
