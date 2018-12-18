@@ -31,3 +31,7 @@ const app = new Vue({
         };
     }
 });
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+});
