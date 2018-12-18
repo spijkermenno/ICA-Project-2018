@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="card-body p-2 position-relative">
-                @include('product.bids_buttons', ['buttons' => 4])
+                @include('product.bids_buttons', ['buttons' => 3])
             </div>
         </div>
     </div>
