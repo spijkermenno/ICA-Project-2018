@@ -2,53 +2,46 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Repositories\DatabaseItemRepository;
 use App\Repositories\DatabaseCategoryRepository;
 
 class SearchController extends Controller
 {
+    /**
+     * @var DatabaseItemRepository
+     */
     private $itemRepository;
 
-    public function __construct(DatabaseCategoryRepository $categoryRepository, DatabaseItemRepository $databaseItemRepository)
+    /**
+     * SearchController constructor.
+     * @param DatabaseCategoryRepository $categoryRepository
+     * @param DatabaseItemRepository $itemRepository
+     */
+    public function __construct(DatabaseCategoryRepository $categoryRepository, DatabaseItemRepository $itemRepository)
     {
         parent::__construct($categoryRepository);
 
-        $crumb = ['name' => 'Zoeken', 'link' => ''];
-        array_push($this->breadcrumbs, $crumb);
-        $this->itemRepository = $databaseItemRepository;
+        $this->itemRepository = $itemRepository;
+
+        array_push($this->breadcrumbs, ['name' => 'Zoeken', 'link' => '']);
     }
 
-    public function simplify()
+    public function __invoke(Request $request)
     {
-        if (isset($_GET['query'])) {
-            $query = str_replace(' ', '', $_GET['query']);
+        $searchQuery = trim($request->get('query'));
 
-            return redirect('/zoek/' . $query);
-        } else {
+        if ($searchQuery == null) {
             return view('search.noResultPage', ['breadcrumbs' => $this->breadcrumbs, 'searchQuery' => '']);
         }
-    }
 
-    public function search($query)
-    {
-        $crumb = ['name' => $query, 'link' => ''];
-        array_push($this->breadcrumbs, $crumb);
+        array_push($this->breadcrumbs, ['name' => $searchQuery, 'link' => '']);
 
-        $items = null;
-        if (is_array($query)) {
-            $items = [];
-            foreach ($query as $item) {
-                $item = str_replace(' ', '', $item);
-                array_push($items, $this->itemRepository->getItemsBySearch($item, 'title', 24));
-            }
-        } else {
-            $query = str_replace(' ', '', $query);
-            $items = $this->itemRepository->getItemsBySearch($query, 'title', 24);
-        }
-        if (count($items)) {
-            return view('search.resultPage', ['breadcrumbs' => $this->breadcrumbs, 'products' => $items, 'buttons' => 2, 'searchQuery' => $query]);
-        }
+        $breadCrumbs = $this->breadcrumbs;
+        $products = $this->itemRepository->getItemsBySearch($searchQuery, 'title', 24);
+        $buttons = 2;
+        $searchQuery = trim($searchQuery);
 
-        return view('search.noResultPage', ['breadcrumbs' => $this->breadcrumbs, 'searchQuery' => $query]);
+        return view('search.resultPage', compact('breadCrumbs', 'products', 'buttons', 'searchQuery'));
     }
 }
