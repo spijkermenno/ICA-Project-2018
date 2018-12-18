@@ -133,9 +133,5 @@
                 scrollTop: $(hash).offset().top-$('.alphabet').height()-20
             },500);
         });
-
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
     </script>
 @endpush

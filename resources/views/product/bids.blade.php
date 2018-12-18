@@ -1,5 +1,9 @@
 <div class="col-lg-3 col-md-4 col-sm-12">
     <div id="biedingen">
+        <h4>
+            <span class="text-primary">Tijd resterend</span>
+            <product-card-timer end="{{ $product->end }}"></product-card-timer>
+        </h4>
         <div class="card">
             <div class="card-header p-0 m-0 bg-primary text-white" id="headingOne">
                 <div class="row  p-1 pt-2 pl-2 position-relative" data-toggle="collapse" data-target="#biedinglijst">
@@ -31,7 +35,7 @@
                 </div>
             </div>
             <div class="card-body p-2 position-relative">
-                @include('product.bids_buttons', ['buttons' => 4])
+                @include('product.bids_buttons', ['buttons' => 3])
             </div>
         </div>
     </div>
