@@ -56,7 +56,7 @@ class BidsController extends Controller
 
         return redirect()->route('product_specific', [
             $data['product'],
-            $product->title
+            seo_url($product->title)
         ])->with('successful_bid', [
             'price' => number_format($bid['price'], 2, ',', '.')
         ]);
