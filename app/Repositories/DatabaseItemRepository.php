@@ -21,13 +21,35 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
+    public function getItemsBySearch($query, $field, $amount = 16)
+    {
+        return $this->conn->select('
+            SELECT
+                top ' . $amount . ' i.*,
+                im.filename
+            FROM items i
+                inner join images im on i.id = im.item_id
+            where i.'.$field.' like :query
+            and auction_closed = 0
+        ', [
+            'query' => '%'. $query .'%'
+        ]);
+    }
+
     /**
      * @return array
      */
     public function getAllBetween(int $from, int $to)
     {
         return $this->conn->select(
-            sprintf('SELECT * FROM items WHERE id BETWEEN %d AND %d', $from, $to)
+            '
+            SELECT
+                *
+            FROM items
+            WHERE id BETWEEN ? AND ?',
+            [
+                $from, $to
+            ]
         );
     }
 

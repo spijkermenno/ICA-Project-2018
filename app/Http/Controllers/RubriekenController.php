@@ -96,6 +96,8 @@ class RubriekenController extends Controller
 
         $paginated->setCollection($items);
 
+        $this->getBreadcrumbs($product_id);
+
         return view('rubrieken.rubriek_deep', [
             'products' => $paginated,
             'sidebar' => [
