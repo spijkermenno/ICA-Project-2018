@@ -22,11 +22,6 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
 
     public function getItemsBySearch($query, $field, $amount = 16)
     {
-// <<<<<<< Updated upstream
-//         return $this->conn->select(
-//             'SELECT top ' . $amount . ' i.*, im.filename FROM items i inner join images im on i.id = im.item_id where i.'.$field." like '%" . $item . "%' and auction_closed = 0"
-//         );
-// =======
         return $this->conn->select('
             SELECT
                 top ' . $amount . ' i.*,
@@ -45,7 +40,8 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
      */
     public function getAllBetween(int $from, int $to)
     {
-        return $this->conn->select('
+        return $this->conn->select(
+            '
             SELECT
                 *
             FROM items
