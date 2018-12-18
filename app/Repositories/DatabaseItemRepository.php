@@ -145,4 +145,20 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
             //return $this->getSoonEndingItems($amount, $rubriek_id);
         }
     }
+
+    /**
+     * @param int $id
+     * @param float $newPrice
+     * @return int
+     */
+    public function update_selling_price(int $id, float $newPrice)
+    {
+        return $this->conn->update('
+            UPDATE
+                items
+            SET
+                selling_price = ?
+            WHERE id = ?
+        ', [$newPrice, $id]);
+    }
 }
