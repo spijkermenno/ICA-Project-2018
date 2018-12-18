@@ -14,7 +14,7 @@ class CreateIsBidAllowedFunction extends Migration
         $this->down();
 
         statement(
-            'CREATE FUNCTION dbo.is_bid_allowed(@bid_price NUMERIC(7, 2), @item_id INT, @bid_id INT) RETURNS BIT
+            'CREATE FUNCTION dbo.is_bid_allowed(@bid_price NUMERIC(7, 2), @item_id BIGINT, @bid_id INT) RETURNS BIT
             BEGIN
             DECLARE @bid_to_beat NUMERIC(7, 2);
             DECLARE @end_date DATETIME;

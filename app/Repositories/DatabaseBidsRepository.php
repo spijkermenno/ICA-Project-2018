@@ -61,7 +61,31 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
             INSERT INTO bids
                 (' . $keys->implode(', ') . ')
             VALUES
-                (' . $keys->map(function ($key) { return ':' . $key; })->implode(', ') . ')
+                (' . $keys->map(function ($key) {
+            return ':' . $key;
+        })->implode(', ') . ')
         ', $data);
+    }
+
+    /**
+     * @param int $amount
+     * @param int $itemId
+     * @return array
+     */
+    public function get_top_bids(int $amount, int $itemId)
+    {
+        return $this->conn->select('
+            select
+                top :amount user_name, price as highest_bid
+            from
+                bids
+            where
+                item_id = :item_id
+            order by
+                highest_bid desc
+        ', [
+            'amount' => $amount,
+            'item_id' => $itemId
+        ]);
     }
 }
