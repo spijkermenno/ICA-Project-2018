@@ -79,7 +79,8 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         ', $ids);
     }
 
-    public function getMultipleByCategoryIds(array $ids, $columns = ['*'], $perPage = 16) {
+    public function getMultipleByCategoryIds(array $ids, $columns = ['*'], $perPage = 16)
+    {
         $total = $this->conn->select('
             SELECT
                 COUNT(*) as count

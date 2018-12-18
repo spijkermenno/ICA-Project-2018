@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\DatabaseItemRepository;
-use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\DatabaseCategoryRepository;
 use App\Repositories\Contracts\CategoryRepository;
 
