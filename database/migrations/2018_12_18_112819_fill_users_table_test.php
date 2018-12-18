@@ -57,6 +57,7 @@ class FillUsersTableTest extends Migration
             'admin' => 0
         ]
     ];
+
     /**
      * Run the migrations.
      *
@@ -70,6 +71,7 @@ class FillUsersTableTest extends Migration
             $this->insertUser($row->name, $row->firstname, $row->lastname, $row->adress_line_1, $row->adress_line_2, $row->postalcode, $row->city, $row->country, $row->birthday, $row->email, $row->password, $row->secret_question_id, $row->secret_question_answer, $row->seller, $row->admin);
         });
     }
+
     public function insertUser($name, $firstname, $lastname, $adress_line_1, $adress_line_2, $postalcode, $city, $country, $birthday, $email, $password, $secret_question_id, $secret_question_answer, $seller, $admin)
     {
         return DB::statement('
@@ -95,6 +97,7 @@ class FillUsersTableTest extends Migration
             'admin' => $admin
         ]);
     }
+
     /**
      * Reverse the migrations.
      *
