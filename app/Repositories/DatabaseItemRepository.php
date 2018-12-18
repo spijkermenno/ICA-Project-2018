@@ -117,7 +117,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
      */
     public function getMostPopularItems(int $amount, $rubriek_id = null)
     {
-        $items = array();
+        $items = [];
         if ($rubriek_id == null) {
             $item_ids = $this->conn->select(
                 sprintf('select top %d b.item_id, count(b.id) as bids from items i inner join bids b on i.id = b.item_id where i.auction_closed = 0 group by b.item_id order by bids desc', $amount)
