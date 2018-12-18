@@ -29,6 +29,7 @@ class SearchController extends Controller
 
     public function __invoke(Request $request)
     {
+        $buttons = 2;
         $searchQuery = trim($request->get('query'));
 
         if ($searchQuery == null) {
@@ -44,10 +45,20 @@ class SearchController extends Controller
             '[end]',
             'id'
         ], 24);
-        $buttons = 2;
+
+        $images = [];
+        if (count($products) > 0) {
+            $images = $this->itemRepository->getMultipleImages(array_pluck($products, 'id'));
+        }
+
+        $images = collect($images)->keyBy('item_id');
+        $products->setCollection($products->getCollection()->map(function ($item) use ($images) {
+            $item->filename = optional($images->get($item->id))->filename;
+            return $item;
+        }));
 
         $products->appends([
-            'query' => $request->get('query')
+            'query' => $searchQuery
         ]);
 
         return view(

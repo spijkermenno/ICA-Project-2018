@@ -35,13 +35,11 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
 
         $items = $this->conn->select('
             SELECT
-                ' . implode(',', array_map(function ($column) {return 'items.' . $column; }, $columns)) . ',
-                images.filename
+                ' . implode(',', array_map(function ($column) {return 'items.' . $column; }, $columns)) . '
             FROM items
-                INNER JOIN images ON items.id = images.item_id
             WHERE items.'.$field.' LIKE :query
                 AND auction_closed = 0
-            ORDER BY [end] ASC
+            ORDER BY items.[end] ASC
              OFFSET ' . ($perPage * (request()->get('page', 1) - 1)) . ' ROWS
             FETCH NEXT ' . $perPage . ' ROWS ONLY
         ', [
