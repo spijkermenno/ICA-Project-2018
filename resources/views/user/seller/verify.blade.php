@@ -5,24 +5,22 @@
     @component('user.seller.components.card')
         @slot('body')
             @component('components.forms.form', [
-                'action' => route('email.verify.check')
+                'action' => route('seller.verify')
             ])
 
-                <div class="row">
-                    <div class="col-md-6">
-
-                        @include('components.forms.basic-input', [
-                            'key' => 'bank',
-                            'name' => 'Bank'
-                        ])
-
-                    </div>
+                <div class="alert alert-primary" role="alert">
+                    Om verkoper te worden moeten we uw gegevens valideren. <br/>
+                    Dit kan doormiddel van een brief die u via de post toegestuurd
+                    krijgt of door uw creditcard nummer in te vullen.
                 </div>
 
-                @include('components.forms.basic-input', [
-                    'key' => 'iban',
-                    'name' => 'IBAN'
+                <hr>
+
+                @include('user.components.profile', [
+                    'user' => auth()->user()
                 ])
+
+                <hr>
 
                 @include('components.forms.radios', [
                     'key' => 'verification_method',
@@ -30,26 +28,10 @@
                     'options' => $verification_methods
                 ])
 
-
-1	Lid ingelogd
-2	Systeem toont inschrijfgegevens
-3	Selecteer identificatiemethode
-4	Selecteer methode van betaling
-5	Vastleggen gegevens
-
-3	Indien identificatiemethode is post: stuur brief met bevestigingscode
-6	Lid start login
-7	Lid kiest voor verkoopaccount activeren
-8	Systeem toont invoermogelijkheid voor bevestigingscode
-9	Lid voert bevestigingscode in
-10	Gegevens worden vastgelegd
-                    </div>
-                </div>
-
                 <div class="form-group row">
-                    <div class="col-lg-6 offset-lg-4">
+                    <div class="col-lg-6">
                         <button type="submit" class="btn btn-primary">
-                            Verifiëren
+                            Versturen
                         </button>
                     </div>
                 </div>

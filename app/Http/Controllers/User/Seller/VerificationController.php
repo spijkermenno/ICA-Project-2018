@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\User\Seller;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,7 +10,7 @@ use App\Repositories\DatabaseCategoryRepository;
 use App\Repositories\Contracts\CategoryRepository;
 use App\Repositories\Contracts\SellerVerificationMethodRepository;
 
-class SellerValidationController extends Controller
+class VerificationController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -59,11 +59,17 @@ class SellerValidationController extends Controller
     public function sendVerification(Request $request)
     {
         $this->validate($request, [
-            'bank' => 'required|string',
-            'iban' => 'required|string|iban',
+            // 'bank' => 'required|string',
+            // 'iban' => 'required|string|iban',
             'verification_method' => 'required',
-            'creditcard' => 'required_if:verification_method,creditcard|string|creditcard',
+            // 'creditcard' => 'required_if:verification_method,creditcard|string|creditcard',
         ]);
+
+        if ($request->get('verification_method') == 'creditcard') {
+            return redirect()->route('seller.verify.creditcard');
+        }
+
+        dd($request);
 
         $seller = $this->sellerRepository->create(
             array_merge(

@@ -12,6 +12,7 @@
             value="{{ ($value ?? old($key)) ?? ($default ?? '') }}"
             {{ ($required ?? true) ? 'required' : '' }}
             {{ ($readonly ?? null) ? 'readonly="readonly"' : '' }}
+            {{ ($disabled ?? null) ? 'disabled="disabled"' : '' }}
         >
 
         @if ($errors->has($key))
