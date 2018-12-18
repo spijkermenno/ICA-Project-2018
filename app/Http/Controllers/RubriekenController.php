@@ -83,7 +83,12 @@ class RubriekenController extends Controller
         $images = [];
 
         $ids = array_pluck($this->categoryRepository->getAllChildrenForParent($product_id), 'id');
-        $paginated = $this->itemRepository->getMultipleByCategoryIds($ids);
+        $paginated = $this->itemRepository->getMultipleByCategoryIds($ids, [
+            'title',
+            'selling_price',
+            '[end]',
+            'id'
+        ]);
         if (count($paginated) > 0) {
             $images = $this->itemRepository->getMultipleImages(array_pluck($paginated, 'id'));
         }
