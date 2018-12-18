@@ -44,3 +44,5 @@ Route::get('/product/toevoegen/', 'AuctionController@index')->name('auction.add'
 Route::get('/zoek', 'SearchController@simplify')->name('redirect');
 Route::get('/zoek/', 'SearchController@simplify')->name('redirect');
 Route::get('/zoek/{query}', 'SearchController@search')->name('search');
+
+Route::post('/bied/toevoegen', 'BidsController@create_bid')->name('bid.create');
