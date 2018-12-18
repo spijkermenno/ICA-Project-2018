@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Repositories\Contracts\ItemRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class DatabaseItemRepository
@@ -74,8 +75,38 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
             WHERE category_id IN (
                 ' . str_replace_last(',', '', str_repeat('?,', count($ids))) .
             ') and auction_closed = 0
-            order by [end] ASC
+            order by end ASC
         ', $ids);
+    }
+
+    public function getMultipleByCategoryIds(array $ids, $columns = ['*'], $perPage = 16)
+    {
+        $total = $this->conn->select('
+            SELECT
+                COUNT(*) as count
+            FROM items
+            WHERE category_id IN (
+                ' . str_replace_last(',', '', str_repeat('?,', count($ids))) .
+            ')
+                and auction_closed = 0
+        ', $ids)[0]->count;
+
+        $items = $this->conn->select('
+            SELECT
+                ' . implode(',', $columns) . '
+            FROM items
+            WHERE category_id IN (
+                ' . str_replace_last(',', '', str_repeat('?,', count($ids))) .
+            ')
+                AND auction_closed = 0
+            ORDER BY [end] ASC
+             OFFSET ' . ($perPage * (request()->get('page', 1) - 1)) . ' ROWS
+            FETCH NEXT ' . $perPage . ' ROWS ONLY
+        ', $ids);
+
+        return new LengthAwarePaginator($items, $total, $perPage, null, [
+            'path' => request()->url()
+        ]);
     }
 
     public function getMultipleImages(array $ids)
