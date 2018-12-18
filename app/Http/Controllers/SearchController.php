@@ -21,9 +21,11 @@ class SearchController extends Controller
     public function simplify()
     {
         if (isset($_GET['query'])) {
-            return redirect('/zoek/' . $_GET['query']);
+            $query = str_replace(' ', '', $_GET['query']);
+
+            return redirect('/zoek/' . $query);
         } else {
-            abort(404);
+            return view('search.noResultPage', ['breadcrumbs' => $this->breadcrumbs, 'searchQuery' => '']);
         }
     }
 
@@ -36,9 +38,11 @@ class SearchController extends Controller
         if (is_array($query)) {
             $items = [];
             foreach ($query as $item) {
+                $item = str_replace(' ', '', $item);
                 array_push($items, $this->itemRepository->getItemsBySearch($item, 'title', 24));
             }
         } else {
+            $query = str_replace(' ', '', $query);
             $items = $this->itemRepository->getItemsBySearch($query, 'title', 24);
         }
         if (count($items)) {
