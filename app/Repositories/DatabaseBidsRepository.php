@@ -62,8 +62,8 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
                 (' . $keys->implode(', ') . ')
             VALUES
                 (' . $keys->map(function ($key) {
-                return ':' . $key;
-            })->implode(', ') . ')
+            return ':' . $key;
+        })->implode(', ') . ')
         ', $data);
     }
 

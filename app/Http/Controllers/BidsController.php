@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\DatabaseBidsRepository;
-use App\Repositories\DatabaseCategoryRepository;
-use App\Repositories\DatabaseItemRepository;
 use Illuminate\Http\Request;
+use App\Repositories\DatabaseBidsRepository;
+use App\Repositories\DatabaseItemRepository;
+use App\Repositories\DatabaseCategoryRepository;
 
 class BidsController extends Controller
 {
@@ -28,8 +28,7 @@ class BidsController extends Controller
         DatabaseCategoryRepository $categoryRepository,
         DatabaseBidsRepository $bidsRepository,
         DatabaseItemRepository $itemRepository
-    )
-    {
+    ) {
         parent::__construct($categoryRepository);
 
         $this->bidsRepository = $bidsRepository;
