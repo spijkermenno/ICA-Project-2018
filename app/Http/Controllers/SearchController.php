@@ -40,7 +40,6 @@ class SearchController extends Controller
         $breadCrumbs = $this->breadcrumbs;
         $products = $this->itemRepository->getItemsBySearch($searchQuery, 'title', 24);
         $buttons = 2;
-        $searchQuery = trim($searchQuery);
 
         return view('search.resultPage', compact('breadCrumbs', 'products', 'buttons', 'searchQuery'));
     }
