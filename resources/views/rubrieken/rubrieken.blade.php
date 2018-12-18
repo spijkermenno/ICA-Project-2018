@@ -11,7 +11,8 @@
                 {{ session()->get('error') }}
             </div>
         @endif
-        <h1>
+        @component('components.title-banner')
+        <h1 class="text-white">
             @if(optional(auth()->user())->admin == 1)
                 @if(isset($self))
                     {{ $self[0]->name }}
@@ -43,6 +44,7 @@
                 Rubrieken
             @endif
         </h1>
+            @endcomponent
         <div class="alphabet sticky-top">
             <ul>
                 @foreach($alphabet as $item)
