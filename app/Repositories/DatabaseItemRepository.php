@@ -36,6 +36,39 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         ]);
     }
 
+    public function create($insert)
+    {
+        return $this->conn->insert(
+            'insert into items (
+                            title,
+                            description,
+                            start_price,
+                            selling_price,
+                            payment_instruction,
+                            category_id,
+                            shipping_cost,
+                            seller)
+                    values (:title,
+                            :description,
+                            :start_price,
+                            :selling_price,
+                            :payment_instruction,
+                            :category_id,
+                            :shipping_cost,
+                            :seller)',
+            [
+                'title' => $insert['title'],
+                'description' => $insert['description'],
+                'start_price' => $insert['start_price'],
+                'selling_price' => $insert['start_price'],
+                'payment_instruction' => $insert['payment_instruction'],
+                'category_id' => $insert['category_id'],
+                'shipping_cost' => $insert['shipping_cost'],
+                'seller' => auth()->user()->name
+            ]
+        );
+    }
+
     /**
      * @return array
      */
@@ -79,8 +112,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         ', $ids);
     }
 
-    public function getMultipleByCategoryIds(array $ids, $columns = ['*'], $perPage = 16)
-    {
+    public function getMultipleByCategoryIds(array $ids, $columns = ['*'], $perPage = 16) {
         $total = $this->conn->select('
             SELECT
                 COUNT(*) as count

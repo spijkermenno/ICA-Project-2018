@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\DatabaseItemRepository;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
 use App\Repositories\DatabaseCategoryRepository;
 use App\Repositories\DatabasePaymentMethodRepository;
 
@@ -10,15 +12,34 @@ class AuctionController extends Controller
 {
     private $user;
     private $paymentMethodRepository;
+    private $databaseItemRepository;
 
-    public function __construct(DatabaseCategoryRepository $categoryRepository, DatabasePaymentMethodRepository $databasePaymentMethodRepository)
+    public function __construct(DatabaseCategoryRepository $categoryRepository, DatabasePaymentMethodRepository $databasePaymentMethodRepository, DatabaseItemRepository $databaseItemRepository)
     {
         parent::__construct($categoryRepository);
         $this->middleware('auth');
 
         $this->user = auth()->user();
         $this->paymentMethodRepository = $databasePaymentMethodRepository;
+        $this->databaseItemRepository = $databaseItemRepository;
         array_push($this->breadcrumbs, ['name' => 'veiling toevoegen', 'link' => '']);
+    }
+
+    public function newProduct(Request $request)
+    {
+        $this->validate($request, [
+            'title'         => 'required|string|min:4|max:255',
+            'category_id'   => 'required|int',
+            'description'   => 'required|string|min:4',
+            'start_price'   => 'required|numeric',
+            'shipping_cost' => 'required|numeric',
+            'payment_method'=> 'required|string',
+            'duration'      => 'required|int',
+        ]);
+
+        if($this->databaseItemRepository->create($request) == true){
+            return redirect()->route('home');
+        }
     }
 
     public function index()

@@ -35,11 +35,13 @@ Route::group(['middleware' => 'admin'], function () {
     Route::post('/rubrieken/uitfaseren/{id}', 'RubriekenController@disable_rubriek')->name('disable_rubriek');
 });
 
+Route::post('/product/toevoegen/checken/', 'AuctionController@newProduct')->name('auction.add.check');
+
+Route::get('/product/toevoegen/', 'AuctionController@index')->name('auction.add');
+
 Route::get('/product/{product}', 'ProductController@product_no_name')->name('product_no_name');
 Route::get('/product/{product}/{name}', 'ProductController@product_specific')->name('product_specific');
 Route::get('/product/', 'ProductController@index')->name('product');
-
-Route::get('/product/toevoegen/', 'AuctionController@index')->name('auction.add');
 
 Route::get('/zoek', 'SearchController')->name('search');
 

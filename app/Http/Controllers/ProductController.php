@@ -50,7 +50,7 @@ class ProductController extends Controller
     public function product_no_name($product)
     {
         $productRepo = app()->make(DatabaseItemRepository::class);
-        $itemObjects = $productRepo->getById($product);
+        $itemObjects = $productRepo->getById(intval($product));
         if (isset($itemObjects[0])) {
             return redirect()->route('product_specific', ['product' => $product, 'name' => str_slug($itemObjects[0]->title)]);
         }
