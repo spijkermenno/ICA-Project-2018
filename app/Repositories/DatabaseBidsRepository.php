@@ -76,7 +76,7 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
     {
         return $this->conn->select('
             select
-                top :amount user_name, price as highest_bid
+                top :amount user_name, date, price as highest_bid
             from
                 bids
             where
