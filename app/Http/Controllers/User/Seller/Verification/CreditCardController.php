@@ -26,12 +26,10 @@ class CreditCardController extends Controller
         $this->sellerRepository = $sellerRepository;
         $this->sellerValidationMethodRepository = $sellerValidationMethodRepository;
 
-        $this->middleware(['not.seller']);
-
         $this->middleware(function ($request, $next) {
             if (
                 !session('seller.verification.verified')
-                    || session('seller.verification.verified') != 'creditcard'
+                    || session('seller.verification.method') != 'creditcard'
             ) {
                 return $next($request);
             }

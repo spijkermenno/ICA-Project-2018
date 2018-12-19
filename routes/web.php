@@ -19,13 +19,22 @@ Route::post('/register-email', 'Auth\EmailController@sendVerificationEmail')->na
 Route::get('/verify-email/{token?}', 'Auth\EmailController@showVerifyForm')->name('email.verify');
 Route::post('/verify-email', 'Auth\EmailController@verifyEmail')->name('email.verify.check');
 
-Route::get('/seller', 'User\Seller\VerificationController@showVerificationForm')->name('seller.verify');
-Route::post('/seller', 'User\Seller\VerificationController@sendVerification')->name('seller.verify');
+Route::middleware([
+    'auth:web',
+    'not.seller'
+])
+    ->prefix('seller')
+    ->namespace('User\Seller')
+    ->group(function () {
+        Route::get('/', 'VerificationController@showVerificationForm')->name('seller.verify');
+        Route::post('/', 'VerificationController@sendVerification')->name('seller.verify');
 
-Route::get('/seller/creditcard', 'User\Seller\Verification\CreditCardController@showVerificationForm')->name('seller.verify.creditcard');
-Route::post('/seller/creditcard', 'User\Seller\Verification\CreditCardController@sendVerification')->name('seller.verify.creditcard');
+        Route::get('/creditcard', 'Verification\CreditCardController@showVerificationForm')->name('seller.verify.creditcard');
+        Route::post('/creditcard', 'Verification\CreditCardController@sendVerification')->name('seller.verify.creditcard');
 
-Route::get('/seller/register', 'User\Seller\RegisterController@showRegisterForm')->name('seller.register');
+        Route::get('/register', 'RegisterController@showRegisterForm')->name('seller.register');
+        Route::post('/register', 'RegisterController@create')->name('seller.register');
+    });
 
 Route::get('/', 'HomeController@index')->name('home');
 

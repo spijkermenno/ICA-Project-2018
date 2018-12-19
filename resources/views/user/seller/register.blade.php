@@ -7,7 +7,7 @@
         @slot('body')
 
             @component('components.forms.form', [
-                'action' => route('email.verify.check')
+                'action' => route('seller.register')
             ])
 
                 @include('components.forms.basic-input-horizontal', [
@@ -16,11 +16,11 @@
                 ])
 
                 @include('components.forms.basic-input-horizontal', [
-                    'key' => 'iban',
+                    'key' => 'number',
                     'name' => 'Rekeningnummer'
                 ])
 
-                @include('components.forms.basic-input-horizontal', [
+                @include('components.forms.submit', [
                     'name' => 'Opslaan'
                 ])
 

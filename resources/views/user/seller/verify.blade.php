@@ -28,7 +28,7 @@
                     'options' => $verification_methods
                 ])
 
-                @include('components.forms.basic-input-horizontal', [
+                @include('components.forms.submit', [
                     'name' => 'Versturen'
                 ])
 

@@ -26,7 +26,7 @@
                     'name' => 'Geldig tot'
                 ])
 
-                @include('components.forms.basic-input-horizontal', [
+                @include('components.forms.submit', [
                     'name' => 'Valideren'
                 ])
 

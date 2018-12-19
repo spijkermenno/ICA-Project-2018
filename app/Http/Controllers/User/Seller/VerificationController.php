@@ -24,8 +24,6 @@ class VerificationController extends Controller
 
         $this->sellerRepository = $sellerRepository;
         $this->sellerValidationMethodRepository = $sellerValidationMethodRepository;
-
-        $this->middleware(['not.seller']);
     }
 
     public function showVerificationForm()
