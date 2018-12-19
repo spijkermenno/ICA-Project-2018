@@ -26,8 +26,7 @@
                 </div>
                 <div class="row pr-1 pt-0 pl-2">
                     <h6 class="col-12 col-md-12 col-lg-12">
-                        @if($bids[0]->date == "")
-                        @else
+                        @if($bids[0]->date != "")
                             {{ \Illuminate\Support\Carbon::parse($bids[0]->date)->diffForHumans() }}
                         @endif
                     </h6>
