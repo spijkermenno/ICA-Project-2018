@@ -36,7 +36,8 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
     public function getAllBetweenId(int $from, int $to)
     {
         return $this->conn->select(
-            'SELECT * FROM bids WHERE id BETWEEN ? AND ?', [$from, $to]
+            'SELECT * FROM bids WHERE id BETWEEN ? AND ?',
+            [$from, $to]
         );
     }
 
