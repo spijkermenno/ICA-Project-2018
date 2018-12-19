@@ -60,9 +60,6 @@ class BidsController extends Controller
         $current_bid = number_format($bid['price'], 2, ',', '.');
         $minimal_to_up = getMinimalTopUp($bid['price']);
 
-        print_r($data['price'] . ' - ' . $minimal_to_up . ' - ' . ($data['price'] + $minimal_to_up) . ' - ' . $product->selling_price);
-        exit;
-
         $response = redirect()->route('product_specific', [
             $data['product'],
             seo_url($product->title)
@@ -70,7 +67,7 @@ class BidsController extends Controller
 
         if($current_date > $start_date && $current_date < $end_date)
         {
-            if(($data['price'] + $minimal_to_up) > $product->selling_price)
+            if(($data['price'] - $minimal_to_up) >= $product->selling_price)
             {
                 $this->bidsRepository->createBid($bid);
                 $this->itemRepository->update_selling_price($data['product'], $data['price']);
@@ -81,7 +78,7 @@ class BidsController extends Controller
             }
 
             return $response->with('error_bid', [
-                'message' => 'Uw bod van €' . $current_bid . ' is te laag om het huidige bod van €' . number_format($product->selling_price, 2, ',', '.') . ' te overbieden'
+                'message' => 'Uw bod van €' . $current_bid . ' is te laag om het huidige bod van €' . number_format($product->selling_price, 2, ',', '.') . ' te overbieden, uw bod moet minimaal €' . number_format(($product->selling_price + $minimal_to_up), 2, ',', '.') . ' zijn'
             ]);
         }
 
