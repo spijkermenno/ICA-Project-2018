@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "afb82b168860c6fd8e152397fb8b127e",
+    "content-hash": "30f9eb7780c69dc1e50449be94263b09",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -467,6 +467,56 @@
             ],
             "description": "Highlight PHP code in terminal",
             "time": "2018-09-29T18:48:56+00:00"
+        },
+        {
+            "name": "laravel-validation-rules/credit-card",
+            "version": "1.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-validation-rules/credit-card.git",
+                "reference": "dd48253c08a1fb7897f42259da3e0d24ce2c6d07"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-validation-rules/credit-card/zipball/dd48253c08a1fb7897f42259da3e0d24ce2c6d07",
+                "reference": "dd48253c08a1fb7897f42259da3e0d24ce2c6d07",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/translation": "^5.5",
+                "illuminate/validation": "^5.5",
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "~2.5",
+                "orchestra/testbench": "^3.5",
+                "php": ">=7.0.0",
+                "phpunit/phpunit": "6.2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LVR\\CreditCard\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Darius Matulionis",
+                    "email": "darius@matulionis.lt"
+                }
+            ],
+            "description": "Validate credit card number, expiration date, cvc",
+            "keywords": [
+                "credit card",
+                "laravel",
+                "validation",
+                "validator"
+            ],
+            "time": "2018-10-29T11:45:17+00:00"
         },
         {
             "name": "laravel/framework",

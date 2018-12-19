@@ -28,13 +28,10 @@
                     'options' => $verification_methods
                 ])
 
-                <div class="form-group row">
-                    <div class="col-lg-6">
-                        <button type="submit" class="btn btn-primary">
-                            Versturen
-                        </button>
-                    </div>
-                </div>
+                @include('components.forms.basic-input-horizontal', [
+                    'name' => 'Versturen'
+                ])
+
             @endcomponent
         @endslot
     @endcomponent

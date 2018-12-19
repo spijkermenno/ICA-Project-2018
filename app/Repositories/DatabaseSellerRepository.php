@@ -14,7 +14,8 @@ class DatabaseSellerRepository extends DatabaseRepository implements SellerRepos
         return new Seller($data);
     }
 
-    public function retrieveById(string $identifier, array $columns = ['*']) {
+    public function retrieveById(string $identifier, array $columns = ['*'])
+    {
         return $this->createModelFromData(
             array_first(
                 $this->conn->select('
@@ -30,7 +31,8 @@ class DatabaseSellerRepository extends DatabaseRepository implements SellerRepos
         );
     }
 
-    public function create(array $data): Seller {
+    public function create(array $data): Seller
+    {
         $keys = collect(array_keys($data));
 
         $this->conn->statement('
@@ -45,7 +47,8 @@ class DatabaseSellerRepository extends DatabaseRepository implements SellerRepos
         );
     }
 
-    public function getIdentifierName() {
+    public function getIdentifierName()
+    {
         return 'user_name';
     }
 }

@@ -4,27 +4,13 @@ namespace App\Http\Controllers\User\Seller\Verification;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Repositories\DatabaseSellerRepository;
+use LVR\CreditCard\CardExpirationDate;
 use App\Repositories\Contracts\SellerRepository;
-use App\Repositories\DatabaseCategoryRepository;
 use App\Repositories\Contracts\CategoryRepository;
 use App\Repositories\Contracts\SellerVerificationMethodRepository;
 
 class CreditCardController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
-    protected $passwordResetRepository;
-
     /**
      * Create a new controller instance.
      *
@@ -41,6 +27,16 @@ class CreditCardController extends Controller
         $this->sellerValidationMethodRepository = $sellerValidationMethodRepository;
 
         $this->middleware(['not.seller']);
+
+        $this->middleware(function ($request, $next) {
+            if (
+                !session('seller.verification.verified')
+                    || session('seller.verification.verified') != 'creditcard'
+            ) {
+                return $next($request);
+            }
+            return redirect()->route('seller.register');
+        });
     }
 
     public function showVerificationForm()
@@ -51,10 +47,18 @@ class CreditCardController extends Controller
     public function sendVerification(Request $request)
     {
         $this->validate($request, [
-            'creditcard' => 'required|string|creditcard',
+            'number' => 'required|string|creditcard',
+            'expiry' => ['required', new CardExpirationDate('m / Y')]
         ]);
 
+        $request->session()->put('seller.verification', [
+            'creditcard' => $request->only(['number', 'expiry']),
+            'method' => 'creditcard',
+            'verified' => true
+        ]);
 
-        return redirect()->route('seller.verification.creditcard');
+        $request->session()->save();
+
+        return redirect()->route('seller.register');
     }
 }

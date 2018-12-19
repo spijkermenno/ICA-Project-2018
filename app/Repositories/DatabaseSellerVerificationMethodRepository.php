@@ -3,8 +3,6 @@
 namespace App\Repositories;
 
 use App\SellerVerificationMethod;
-use App\Repositories\DatabaseRepository;
-use App\Repositories\Contracts\SecretQuestionRepository;
 use App\Repositories\Contracts\SellerVerificationMethodRepository;
 
 class DatabaseSellerVerificationMethodRepository extends DatabaseRepository implements SellerVerificationMethodRepository

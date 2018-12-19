@@ -10,20 +10,18 @@
                 'action' => route('email.verify.check')
             ])
 
-                <div class="row">
-                    <div class="col-md-6">
+                @include('components.forms.basic-input-horizontal', [
+                    'key' => 'bank',
+                    'name' => 'Bank'
+                ])
 
-                        @include('components.forms.basic-input', [
-                            'key' => 'bank',
-                            'name' => 'Bank'
-                        ])
-
-                    </div>
-                </div>
-
-                @include('components.forms.basic-input', [
+                @include('components.forms.basic-input-horizontal', [
                     'key' => 'iban',
-                    'name' => 'IBAN'
+                    'name' => 'Rekeningnummer'
+                ])
+
+                @include('components.forms.basic-input-horizontal', [
+                    'name' => 'Opslaan'
                 ])
 
             @endcomponent

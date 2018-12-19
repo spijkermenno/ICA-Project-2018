@@ -25,6 +25,7 @@ Route::post('/seller', 'User\Seller\VerificationController@sendVerification')->n
 Route::get('/seller/creditcard', 'User\Seller\Verification\CreditCardController@showVerificationForm')->name('seller.verify.creditcard');
 Route::post('/seller/creditcard', 'User\Seller\Verification\CreditCardController@sendVerification')->name('seller.verify.creditcard');
 
+Route::get('/seller/register', 'User\Seller\RegisterController@showRegisterForm')->name('seller.register');
 
 Route::get('/', 'HomeController@index')->name('home');
 
