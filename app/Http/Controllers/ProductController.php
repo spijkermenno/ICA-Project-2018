@@ -82,6 +82,7 @@ class ProductController extends Controller
                 $bids[0] = new Object_();
                 $bids[0]->highest_bid = ($itemObject[0]->selling_price);
                 $bids[0]->user_name = '';
+                $bids[0]->date = '';
             }
 
             return view('product.specific', [
