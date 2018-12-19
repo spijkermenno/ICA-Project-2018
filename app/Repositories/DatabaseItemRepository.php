@@ -207,11 +207,11 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
     {
         if ($rubriek_id == null) {
             $result = $this->conn->select(
-                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id where i.auction_closed = 0 order by [end]', $amount)
+                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], i.start, im.filename from items as i inner join images as im on i.id = im.item_id where i.auction_closed = 0 order by [end]', $amount)
             );
         } else {
             $result = $this->conn->select(
-                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id where i.auction_closed = 0 and i.category_id = %d order by [end]', $amount, $rubriek_id)
+                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], i.start, im.filename from items as i inner join images as im on i.id = im.item_id where i.auction_closed = 0 and i.category_id = %d order by [end]', $amount, $rubriek_id)
             );
         };
 
