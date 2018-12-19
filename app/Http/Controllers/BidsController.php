@@ -57,6 +57,12 @@ class BidsController extends Controller
         $start_date = Carbon::parse($product->start);
         $end_date = Carbon::parse($product->end);
 
+        $current_bid = number_format($bid['price'], 2, ',', '.');
+        $minimal_to_up = getMinimalTopUp($bid['price']);
+
+        print_r($data['price'] . ' - ' . $minimal_to_up . ' - ' . ($data['price'] + $minimal_to_up) . ' - ' . $product->selling_price);
+        exit;
+
         $response = redirect()->route('product_specific', [
             $data['product'],
             seo_url($product->title)
@@ -64,14 +70,23 @@ class BidsController extends Controller
 
         if($current_date > $start_date && $current_date < $end_date)
         {
-            $this->bidsRepository->createBid($bid);
-            $this->itemRepository->update_selling_price($data['product'], $data['price']);
+            if(($data['price'] + $minimal_to_up) > $product->selling_price)
+            {
+                $this->bidsRepository->createBid($bid);
+                $this->itemRepository->update_selling_price($data['product'], $data['price']);
 
-            return $response->with('successful_bid', [
-                'price' => number_format($bid['price'], 2, ',', '.')
+                return $response->with('successful_bid', [
+                    'price' => $current_bid
+                ]);
+            }
+
+            return $response->with('error_bid', [
+                'message' => 'Uw bod van €' . $current_bid . ' is te laag om het huidige bod van €' . number_format($product->selling_price, 2, ',', '.') . ' te overbieden'
             ]);
         }
 
-        return $response->with('error_bid', 1);
+        return $response->with('error_bid', [
+            'message' => 'Het is niet toegestaan op dit product te bieden'
+        ]);
     }
 }

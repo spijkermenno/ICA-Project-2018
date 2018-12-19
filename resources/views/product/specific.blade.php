@@ -11,7 +11,7 @@
     @endif
     @if(session('error_bid'))
         <div class="alert alert-warning alert-dismissible mt-4 mb-4" role="alert">
-            Het is niet toegestaan op dit product te bieden
+            {{ session('error_bid')['message'] }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
