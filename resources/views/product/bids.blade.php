@@ -15,7 +15,11 @@
                         style="min-width: 40px; max-width: 60px; line-height: 15px; max-height: 22px; margin-top: 8px;">€{{$bids[0]->highest_bid}}</div>
                 </div>
                 <div class="row pr-1 pt-0 pl-2">
-                    <h6 class="col-12 col-md-12 col-lg-12">{{ \Illuminate\Support\Carbon::parse($bids[0]->date)->diffForHumans() }}</h6>
+                    <h6 class="col-12 col-md-12 col-lg-12">
+                        @if($bids[0]->date != "")
+                            {{ \Illuminate\Support\Carbon::parse($bids[0]->date)->diffForHumans() }}
+                        @endif
+                    </h6>
                 </div>
             </div>
 
