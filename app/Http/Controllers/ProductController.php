@@ -2,10 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use phpDocumentor\Reflection\Types\Object_;
+use App\Repositories\DatabaseBidsRepository;
 use App\Repositories\DatabaseItemRepository;
+use App\Repositories\DatabaseCategoryRepository;
 
 class ProductController extends Controller
 {
+    /**
+     * @var DatabaseBidsRepository
+     */
+    private $bidsRepository;
+
+    /**
+     * ProductController constructor.
+     * @param DatabaseCategoryRepository $categoryRepository
+     * @param DatabaseBidsRepository $bidsRepository
+     */
+    public function __construct(DatabaseCategoryRepository $categoryRepository, DatabaseBidsRepository $bidsRepository)
+    {
+        parent::__construct($categoryRepository);
+
+        $this->bidsRepository = $bidsRepository;
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -56,109 +76,23 @@ class ProductController extends Controller
             $this->createCategoryBreadcrumbs($itemObject[0]->category_id);
             array_push($this->breadcrumbs, ['name' => strlen($itemObject[0]->title) > 50 ? substr($itemObject[0]->title, 0, 50).'...' : $itemObject[0]->title, 'link' => '']);
 
+            $bids = $this->bidsRepository->get_top_bids(6, $product_id);
+
+            if (count($bids) == 0) {
+                $bids[0] = new Object_();
+                $bids[0]->highest_bid = ($itemObject[0]->selling_price);
+                $bids[0]->user_name = '';
+                $bids[0]->date = '';
+            }
+
             return view('product.specific', [
                 'product' => $itemObject[0],
                 'images' => $itemPictures,
                 'breadcrumbs' => $this->breadcrumbs,
-                'bids' => [ //test boden
-                    [
-                        'user' => 'KeesAntiek',
-                        'amount' => '120.000'
-                    ],
-                    [
-                        'user' => 'AnnieAntiek',
-                        'amount' => '100.000'
-                    ],
-                    [
-                        'user' => 'KeesAntiek',
-                        'amount' => '80.000'
-                    ],
-                    [
-                        'user' => 'AnnieAntiek',
-                        'amount' => '60.000'
-                    ],
-                    [
-                        'user' => 'KeesAntiek',
-                        'amount' => '40.000'
-                    ],
-                    [
-                        'user' => 'AnnieAntiek',
-                        'amount' => '20.000'
-                    ]
-                ]
+                'bids' => $bids
             ]);
         }
 
-        if (intval($product_id) != 0) {
-            return view('product.specific', [
-                // test recources
-                'breadcrumbs' => [
-                    [
-                        'name' => 'EenmaalAndermaal',
-                        'link' => 'home'
-                    ],
-                    [
-                        'name' => 'product',
-                        'link' => 'product'
-                    ],
-                    [
-                        'name' => 'Alfa Romeo 1900C SUPER 1956',
-                        'link' => ''
-                    ]
-                ],
-                'product' => [
-                    'title' => 'Alfa Romeo 1900C SUPER 1956',
-                    'description' => 'De Alfa Romeo 1900 is een wagen van de Italiaanse autobouwer Alfa Romeo en werd geproduceerd tussen 1950 en 1958. Aan het eind van de Tweede Wereldoorlog ontwikkelden de Alfa Romeo ingenieurs de Alfa Romeo Gazella. De auto was kleiner en lichter dan de vooroorlogse Alfa\'s. De Gazella was voorzien van een zelfdragende carrosserie en was uitgerust met een tweeliter motor. Omdat de omstandigheden de productie van deze wagen niet toelieten werd slechts één prototype gebouwd. In 1950 begon het er allemaal beter uit te zien en werd het tijd om de 6C 2500 van een opvolger te voorzien. Op basis van de Gazella verschenen in 1950 de eerste Alfa 1900\'s. De fabriek werd ondertussen opnieuw opgebouwd en de 1900 werd de eerste Alfa Romeo die volledig gebouwd werd op de lopende band. Onafhankelijke carrosseriebouwers zoals Ghia en Touring leverden diverse varianten van de 1900.',
-                    'start_bid' => '15.000', //startbod in euro's
-                    'start_date' => '2018-11-28',
-                    'auction_length' => 7, //Lengte van de veiling.
-                    'payment_type' => 'Bank/Giro',
-                    'payment_time' => 'Binnen 10 dagen', //Betaling binnen hoeveel dagen?
-                    'image' => [
-                        [
-                            'link' => 'https://upload.wikimedia.org/wikipedia/commons/7/7a/Alfa_Romeo_1900C_SUPER_1956.jpg',
-                            'alt' => 'Alfa_Romeo_1900C_SUPER_1956'
-                        ],
-                        [
-                            'link' => 'https://s1.cdn.autoevolution.com/images/gallery/ALFA-ROMEO-1900-Super-Sprint-1720_22.jpg',
-                            'alt' => 'Alfa_Romeo_1900C_SUPER_1956'
-                        ]
-                    ]
-                ],
-                'seller' => [
-                    'username' => 'joostLawerman',
-                    'location' => 'Arnhem, Nederland',
-                    'delivery_method' => 'Verzending via post',
-                    'delivery_cost' => '€5,50 pakketpost binnen Nederland'
-                ],
-                'bids' => [ //test boden
-                    [
-                        'user' => 'KeesAntiek',
-                        'amount' => '120.000'
-                    ],
-                    [
-                        'user' => 'AnnieAntiek',
-                        'amount' => '100.000'
-                    ],
-                    [
-                        'user' => 'KeesAntiek',
-                        'amount' => '80.000'
-                    ],
-                    [
-                        'user' => 'AnnieAntiek',
-                        'amount' => '60.000'
-                    ],
-                    [
-                        'user' => 'KeesAntiek',
-                        'amount' => '40.000'
-                    ],
-                    [
-                        'user' => 'AnnieAntiek',
-                        'amount' => '20.000'
-                    ]
-                ]
-            ]);
-        }
         abort(404, 'Dit product is bij ons niet bekend.');
     }
 }

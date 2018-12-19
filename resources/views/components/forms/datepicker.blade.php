@@ -6,7 +6,7 @@
 
     <div class="col-lg-12">
         <date-picker
-            name="birthday"
+            name="{{ $key }}"
             input-class="form-control"
             format="dd-MM-yyyy"
             value="{{ old($key) }}"
@@ -19,7 +19,7 @@
         ></date-picker>
 
         @if ($errors->has($key))
-            <div class="invalid-feedback">
+            <div class="text-danger mt-2">
                 <strong>{{ $errors->first($key) }}</strong>
             </div>
         @endif

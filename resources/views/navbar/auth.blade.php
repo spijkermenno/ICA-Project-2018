@@ -25,7 +25,7 @@
     </li>
     <li class="nav-item p-2">
         <div class="btn btn-outline-primary d-flex align-content-center align-items-center">
-            <a href="/product/toevoegen/" class="d-flex">
+            <a href="/product/toevoegen/" class="d-flex" style="color: inherit; text-decoration: none">
                 <i class="mr-2 fas fa-gavel" style="font-size: 1.5rem"></i>
                 <p class="m-0">Plaats veiling</p>
             </a>

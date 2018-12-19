@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Repositories\Contracts\ItemRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 /**
  * Class DatabaseItemRepository
@@ -20,13 +21,50 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
+    public function getItemsBySearch($query, $field, $columns = ['*'], $perPage = 16)
+    {
+        $total = $this->conn->select('
+            SELECT
+                COUNT(*) as count
+            FROM items
+            WHERE items.'.$field.' LIKE :query
+                and auction_closed = 0
+        ', [
+            'query' => '%'. $query .'%'
+        ])[0]->count;
+
+        $items = $this->conn->select('
+            SELECT
+                ' . implode(',', array_map(function ($column) {return 'items.' . $column; }, $columns)) . '
+            FROM items
+            WHERE items.'.$field.' LIKE :query
+                AND auction_closed = 0
+            ORDER BY items.[end] ASC
+             OFFSET ' . ($perPage * (request()->get('page', 1) - 1)) . ' ROWS
+            FETCH NEXT ' . $perPage . ' ROWS ONLY
+        ', [
+            'query' => '%'. $query .'%'
+        ]);
+
+        return new LengthAwarePaginator($items, $total, $perPage, null, [
+            'path' => request()->url()
+        ]);
+    }
+
     /**
      * @return array
      */
     public function getAllBetween(int $from, int $to)
     {
         return $this->conn->select(
-            sprintf('SELECT * FROM items WHERE id BETWEEN %d AND %d', $from, $to)
+            '
+            SELECT
+                *
+            FROM items
+            WHERE id BETWEEN ? AND ?',
+            [
+                $from, $to
+            ]
         );
     }
 
@@ -52,8 +90,38 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
             WHERE category_id IN (
                 ' . str_replace_last(',', '', str_repeat('?,', count($ids))) .
             ') and auction_closed = 0
-            order by [end] ASC
+            order by end ASC
         ', $ids);
+    }
+
+    public function getMultipleByCategoryIds(array $ids, $columns = ['*'], $perPage = 16)
+    {
+        $total = $this->conn->select('
+            SELECT
+                COUNT(*) as count
+            FROM items
+            WHERE category_id IN (
+                ' . str_replace_last(',', '', str_repeat('?,', count($ids))) .
+            ')
+                and auction_closed = 0
+        ', $ids)[0]->count;
+
+        $items = $this->conn->select('
+            SELECT
+                ' . implode(',', $columns) . '
+            FROM items
+            WHERE category_id IN (
+                ' . str_replace_last(',', '', str_repeat('?,', count($ids))) .
+            ')
+                AND auction_closed = 0
+            ORDER BY [end] ASC
+             OFFSET ' . ($perPage * (request()->get('page', 1) - 1)) . ' ROWS
+            FETCH NEXT ' . $perPage . ' ROWS ONLY
+        ', $ids);
+
+        return new LengthAwarePaginator($items, $total, $perPage, null, [
+            'path' => request()->url()
+        ]);
     }
 
     public function getMultipleImages(array $ids)
@@ -117,14 +185,22 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
      */
     public function getMostPopularItems(int $amount, $rubriek_id = null)
     {
+        $items = [];
         if ($rubriek_id == null) {
-            return $this->conn->select(
-                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id', $amount)
+            $item_ids = $this->conn->select(
+                sprintf('select top %d b.item_id, count(b.id) as bids from items i inner join bids b on i.id = b.item_id where i.auction_closed = 0 group by b.item_id order by bids desc', $amount)
+            );
+        } else {
+            $item_ids = $this->conn->select(
+                sprintf('select top %d b.item_id, count(b.id) as bids from items i inner join bids b on i.id = b.item_id where i.auction_closed = 0 and i.category_id = %d group by b.item_id order by bids desc', $amount, $rubriek_id)
             );
         }
-        return $this->conn->select(
-            sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id where i.category_id = %d', $amount, $rubriek_id)
-        );
+
+        foreach ($item_ids as $item_id) {
+            array_push($items, $this->getByIdWithImage($item_id->item_id)[0]);
+        }
+
+        return $items;
     }
 
     public function getSoonEndingItems(int $amount, $rubriek_id = null)
@@ -144,5 +220,21 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         } else {
             //return $this->getSoonEndingItems($amount, $rubriek_id);
         }
+    }
+
+    /**
+     * @param int $id
+     * @param float $newPrice
+     * @return int
+     */
+    public function update_selling_price(int $id, float $newPrice)
+    {
+        return $this->conn->update('
+            UPDATE
+                items
+            SET
+                selling_price = ?
+            WHERE id = ?
+        ', [$newPrice, $id]);
     }
 }

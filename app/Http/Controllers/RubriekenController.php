@@ -82,19 +82,28 @@ class RubriekenController extends Controller
         $images = [];
 
         $ids = array_pluck($this->categoryRepository->getAllChildrenForParent($product_id), 'id');
-        $items = $this->itemRepository->getMultipleByIds($ids);
-        if (count($items) > 0) {
-            $images = $this->itemRepository->getMultipleImages(array_pluck($items, 'id'));
+        $paginated = $this->itemRepository->getMultipleByCategoryIds($ids, [
+            'title',
+            'selling_price',
+            '[end]',
+            'id'
+        ]);
+        if (count($paginated) > 0) {
+            $images = $this->itemRepository->getMultipleImages(array_pluck($paginated, 'id'));
         }
 
         $images = collect($images)->keyBy('item_id');
-        $items = collect($items)->map(function ($item) use ($images) {
+        $items = $paginated->getCollection()->map(function ($item) use ($images) {
             $item->filename = optional($images->get($item->id))->filename;
             return $item;
         });
 
+        $paginated->setCollection($items);
+
+        $this->getBreadcrumbs($product_id);
+
         return view('rubrieken.rubriek_deep', [
-            'products' => $items,
+            'products' => $paginated,
             'sidebar' => [
                 'parents' => $this->categoryRepository->getAllParentsById($product_id),
                 'current' => $this->categoryRepository->getById($product_id),
