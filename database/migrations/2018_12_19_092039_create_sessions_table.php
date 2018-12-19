@@ -14,7 +14,7 @@ class CreateSessionsTable extends Migration
         statement('
             CREATE TABLE sessions (
                 id VARCHAR(255) NOT NULL,
-                user_id INT NULL,
+                user_id VARCHAR(60) NULL,
                 ip_address VARCHAR(45) NULL,
                 user_agent VARCHAR(max) NULL,
                 payload VARCHAR(max) NOT NULL,
