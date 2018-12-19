@@ -16,8 +16,8 @@ class CreateItemsTable extends Migration
                 id                  BIGINT IDENTITY NOT NULL, -- App C genereert zelf
                 title               VARCHAR(max)  NOT NULL, -- 60 -> Omdat martkplaats 60 heeft
                 description         VARCHAR(max)  NOT NULL,
-                start_price         NUMERIC(7, 2) NOT NULL, -- Bedragen tot 100mjn
-                selling_price       NUMERIC(7, 2) NULL,
+                start_price         NUMERIC(10, 2) NOT NULL, -- Bedragen tot 100mjn
+                selling_price       NUMERIC(10, 2) NULL,
                 payment_method      VARCHAR(20)   NOT NULL DEFAULT \'Bank/Giro\',
                 payment_instruction VARCHAR(20)   NULL,
                 category_id            INT           NOT NULL,
@@ -31,7 +31,7 @@ class CreateItemsTable extends Migration
                 ELSE 0
                 END
                 ),
-                shipping_cost       NUMERIC(7, 2) NOT NULL,
+                shipping_cost       NUMERIC(10, 2) NOT NULL,
                 seller              VARCHAR(60)   NOT NULL,
                 buyer               VARCHAR(60)   NULL,
                 CONSTRAINT pk_items PRIMARY KEY (id),
