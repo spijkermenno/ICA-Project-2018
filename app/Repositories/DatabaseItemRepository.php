@@ -34,14 +34,16 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
 
         $whereClause = 'WHERE ' . join(' OR ', $whereLIkeStatement);
 
-        $total = $this->conn->select(sprintf('
+        $total = $this->conn->select(
+            sprintf('
                 SELECT
                     COUNT(*) as count
                 FROM items
                     %s
                 AND auction_closed = 0
             ', $whereClause),
-        $queries)[0]->count;
+        $queries
+        )[0]->count;
 
         $items = $this->conn->select(sprintf('
             SELECT
