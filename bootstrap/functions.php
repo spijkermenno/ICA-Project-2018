@@ -56,6 +56,7 @@ function getMinimalTopUp($current_offer)
  * @param int $decimals
  * @return string
  */
-function priceFormat($price, int $decimals = 2) {
+function priceFormat($price, int $decimals = 2)
+{
     return number_format($price, $decimals, ',', '.');
 }
