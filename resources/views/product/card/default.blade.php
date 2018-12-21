@@ -10,7 +10,7 @@
         <h6 class="card-title text-center truncate">{{$product->title}}</h6>
         <hr class="mt-1 mb-3">
         <div class="row mb-2">
-            <span class="col-6 text-center">€{{ number_format($product->selling_price, 2, ',', '.') }}</span>
+            <span class="col-6 text-center">€{{ priceFormat($product->selling_price) }}</span>
             <span class="col-6 text-center">
                 <product-card-timer end="{{$product->end}}"></product-card-timer>
             </span>

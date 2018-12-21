@@ -54,7 +54,7 @@ class BidsController extends Controller
         $start_date = Carbon::parse($product->start);
         $end_date = Carbon::parse($product->end);
         $minimal_to_up = getMinimalTopUp($bid['price']);
-        $current_bid = number_format($bid['price'], 2, ',', '.');
+        $current_bid = priceFormat($bid['price']);
         $response = redirect()->route('product_specific', [
             $data['product'],
             seo_url($product->title)

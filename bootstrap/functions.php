@@ -50,3 +50,12 @@ function getMinimalTopUp($current_offer)
     }
     return 50;
 }
+
+/**
+ * @param $price
+ * @param int $decimals
+ * @return string
+ */
+function priceFormat($price, int $decimals = 2) {
+    return number_format($price, $decimals, ',', '.');
+}
