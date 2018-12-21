@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Repositories\DatabaseBidsRepository;
 use App\Repositories\DatabaseItemRepository;
 use App\Repositories\DatabaseCategoryRepository;
-use Illuminate\Support\Carbon;
 
 class BidsController extends Controller
 {
@@ -40,7 +40,6 @@ class BidsController extends Controller
 
     public function create_bid(Request $request)
     {
-
         $data = $request->validate([
             'price' => 'required',
             'product' => 'required:exists:items,id:integer'
@@ -61,10 +60,8 @@ class BidsController extends Controller
             seo_url($product->title)
         ]);
 
-        if($current_date > $start_date && $current_date < $end_date)
-        {
-            if(($data['price'] - $minimal_to_up) >= $product->selling_price)
-            {
+        if ($current_date > $start_date && $current_date < $end_date) {
+            if (($data['price'] - $minimal_to_up) >= $product->selling_price) {
                 $this->bidsRepository->createBid($bid);
                 $this->itemRepository->update_selling_price($data['product'], $data['price']);
 
