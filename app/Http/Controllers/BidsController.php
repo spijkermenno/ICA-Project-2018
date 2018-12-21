@@ -50,16 +50,12 @@ class BidsController extends Controller
             'price' => $data['price'],
             'user_name' => auth()->user()->name
         ];
-
         $product = $this->itemRepository->getById($data['product'])[0];
-
         $current_date = Carbon::now();
         $start_date = Carbon::parse($product->start);
         $end_date = Carbon::parse($product->end);
-
-        $current_bid = number_format($bid['price'], 2, ',', '.');
         $minimal_to_up = getMinimalTopUp($bid['price']);
-
+        $current_bid = number_format($bid['price'], 2, ',', '.');
         $response = redirect()->route('product_specific', [
             $data['product'],
             seo_url($product->title)
@@ -78,7 +74,7 @@ class BidsController extends Controller
             }
 
             return $response->with('error_bid', [
-                'message' => 'Uw bod van €' . $current_bid . ' is te laag om het huidige bod van €' . number_format($product->selling_price, 2, ',', '.') . ' te overbieden, uw bod moet minimaal €' . number_format(($product->selling_price + $minimal_to_up), 2, ',', '.') . ' zijn'
+                'message' => 'Uw bod van €' . $current_bid . ' is te laag om de huidige prijs van €' . number_format($product->selling_price, 2, ',', '.') . ' te overbieden, uw bod moet minimaal €' . number_format(($product->selling_price + $minimal_to_up), 2, ',', '.') . ' zijn'
             ]);
         }
 
