@@ -71,7 +71,7 @@ class BidsController extends Controller
             }
 
             return $response->with('error_bid', [
-                'message' => 'Uw bod van €' . $current_bid . ' is te laag om de huidige prijs van €' . number_format($product->selling_price, 2, ',', '.') . ' te overbieden, uw bod moet minimaal €' . number_format(($product->selling_price + $minimal_to_up), 2, ',', '.') . ' zijn'
+                'message' => 'Uw bod van €' . $current_bid . ' is te laag om de huidige prijs van €' . priceFormat($product->selling_price) . ' te overbieden, uw bod moet minimaal €' . priceFormat(($product->selling_price + $minimal_to_up)) . ' zijn'
             ]);
         }
 
