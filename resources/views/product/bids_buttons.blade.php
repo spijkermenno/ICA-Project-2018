@@ -15,7 +15,7 @@
                 {{ csrf_field() }}
                 <input type="hidden" name="product" value="{{ $product->id }}">
                 <input type="hidden" name="price" value="{{ $product->selling_price + $price }}">
-                <button class="btn btn-primary text-white w-100" type="submit" data-toggle="tooltip" data-placement="bottom" title="€{{ $total }}">
+                <button class="btn btn-primary text-white w-100" type="submit" data-toggle="tooltip" data-placement="bottom" title="€{{ priceFormat($total) }}">
                     +
                     €{{ $price }}
                 </button>
