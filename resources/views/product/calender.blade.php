@@ -23,14 +23,17 @@
                 $date = str_replace(' ', '<br>', $calendar->format('d M Y'));;
                 $classes = [];
 
+                // Dag waarop je kan bieden
                 if ($calendar >= $start && $end >= $calendar) {
-                    $classes[] = 'bg-gray';
+                    $classes[] = 'bg-primary text-white';
                 }
+                // Verleden
                 if ($calendar < $now && !$calendar->isSameDay($now)) {
                     $classes[] = 'cal-hidden';
                 }
+                // Huidige dag
                 if ($calendar->isSameDay($now)) {
-                    $classes[] = 'bg-primary text-white';
+                    $classes[] = 'border-dark text-dark font-weight-bold';
                 }
             @endphp
 

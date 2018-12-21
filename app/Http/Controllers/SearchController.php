@@ -46,6 +46,7 @@ class SearchController extends Controller
             'title',
             'selling_price',
             '[end]',
+            'start',
             'id'
         ], 24);
 

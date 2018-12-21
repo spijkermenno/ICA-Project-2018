@@ -23,13 +23,14 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
 
     public function getItemsBySearch(array $queries, $field, $columns = ['*'], $perPage = 16)
     {
-        $queries = array_map(function ($query) {
+        array_unshift($queries, join(' ', $queries));
+        $queryValues = array_map(function ($query) {
             return "%${query}%";
         }, $queries);
 
         $whereLIkeStatement = [];
-        for ($i = 0; $i < count($queries); $i++) {
-            $whereLIkeStatement[] = "items.${field} LIKE ?";
+        for ($i = 0; $i < count($queryValues); $i++) {
+            $whereLIkeStatement[] = "items.${field} LIKE ? AND auction_closed = 0";
         }
 
         $whereClause = 'WHERE ' . join(' OR ', $whereLIkeStatement);
@@ -42,7 +43,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
                     %s
                 AND auction_closed = 0
             ', $whereClause),
-        $queries
+        $queryValues
         )[0]->count;
 
         $items = $this->conn->select(sprintf('
@@ -50,11 +51,10 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
                 ' . implode(',', array_map(function ($column) {return 'items.' . $column; }, $columns)) . '
             FROM items
                 %s
-                AND auction_closed = 0
             ORDER BY items.[end] ASC
              OFFSET ' . ($perPage * (request()->get('page', 1) - 1)) . ' ROWS
             FETCH NEXT ' . $perPage . ' ROWS ONLY
-        ', $whereClause), $queries);
+        ', $whereClause), $queryValues);
 
         return new LengthAwarePaginator($items, $total, $perPage, null, [
             'path' => request()->url()
@@ -217,11 +217,11 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
     {
         if ($rubriek_id == null) {
             $result = $this->conn->select(
-                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id where i.auction_closed = 0 order by [end]', $amount)
+                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], i.start, im.filename from items as i inner join images as im on i.id = im.item_id where i.auction_closed = 0 order by [end]', $amount)
             );
         } else {
             $result = $this->conn->select(
-                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id where i.auction_closed = 0 and i.category_id = %d order by [end]', $amount, $rubriek_id)
+                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], i.start, im.filename from items as i inner join images as im on i.id = im.item_id where i.auction_closed = 0 and i.category_id = %d order by [end]', $amount, $rubriek_id)
             );
         };
 
