@@ -39,7 +39,10 @@ class SearchController extends Controller
         array_push($this->breadcrumbs, ['name' => $searchQuery, 'link' => '']);
 
         $breadCrumbs = $this->breadcrumbs;
-        $products = $this->itemRepository->getItemsBySearch($searchQuery, 'title', [
+
+        $searchQueries = explode(' ', $searchQuery);
+
+        $products = $this->itemRepository->getItemsBySearch($searchQueries, 'title', [
             'title',
             'selling_price',
             '[end]',

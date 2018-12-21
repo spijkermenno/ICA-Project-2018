@@ -21,30 +21,40 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
-    public function getItemsBySearch($query, $field, $columns = ['*'], $perPage = 16)
+    public function getItemsBySearch(array $queries, $field, $columns = ['*'], $perPage = 16)
     {
-        $total = $this->conn->select('
-            SELECT
-                COUNT(*) as count
-            FROM items
-            WHERE items.'.$field.' LIKE :query
-                and auction_closed = 0
-        ', [
-            'query' => '%'. $query .'%'
-        ])[0]->count;
+        $queries = array_map(function ($query) {
+            return "%${query}%";
+        }, $queries);
 
-        $items = $this->conn->select('
+        $whereLIkeStatement = [];
+        for ($i = 0; $i < count($queries); $i++) {
+            $whereLIkeStatement[] = "items.${field} LIKE ?";
+        }
+
+        $whereClause = 'WHERE ' . join(' OR ', $whereLIkeStatement);
+
+        $total = $this->conn->select(
+            sprintf('
+                SELECT
+                    COUNT(*) as count
+                FROM items
+                    %s
+                AND auction_closed = 0
+            ', $whereClause),
+        $queries
+        )[0]->count;
+
+        $items = $this->conn->select(sprintf('
             SELECT
                 ' . implode(',', array_map(function ($column) {return 'items.' . $column; }, $columns)) . '
             FROM items
-            WHERE items.'.$field.' LIKE :query
+                %s
                 AND auction_closed = 0
             ORDER BY items.[end] ASC
              OFFSET ' . ($perPage * (request()->get('page', 1) - 1)) . ' ROWS
             FETCH NEXT ' . $perPage . ' ROWS ONLY
-        ', [
-            'query' => '%'. $query .'%'
-        ]);
+        ', $whereClause), $queries);
 
         return new LengthAwarePaginator($items, $total, $perPage, null, [
             'path' => request()->url()
