@@ -135,6 +135,34 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         ', $ids);
     }
 
+    public function attachImagesToItems($items)
+    {
+        if (count($items) < 1) {
+            return $items;
+        }
+
+        $images = $this->getMultipleImages(array_pluck($items, 'id'));
+
+        $images = collect($images)->keyBy('item_id');
+
+        $collection = collect($items);
+        if ($items instanceof LengthAwarePaginator) {
+            $collection = $items->getCollection();
+        }
+
+        $collection->map(function ($item) use ($images) {
+            $item->filename = optional($images->get($item->id))->filename;
+            return $item;
+        });
+
+        if ($items instanceof LengthAwarePaginator) {
+            $items->setCollection($collection);
+            $collection = $items;
+        }
+
+        return $collection;
+    }
+
     public function getDescriptionById(int $id)
     {
         // TODO: Implement getById() method.
