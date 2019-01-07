@@ -6,5 +6,5 @@ interface SellerRepository
 {
     public function retrieveById(string $identifier, array $columns);
 
-    public function create();
+    public function create(array $data);
 }
