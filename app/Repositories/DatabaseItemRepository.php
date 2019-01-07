@@ -23,7 +23,6 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
 
     public function getItemsBySearch(array $queries, $field, $columns = ['*'], $perPage = 16)
     {
-
         array_unshift($queries, join(' ', $queries));
         $queryValues = array_map(function ($query) {
             return "%${query}%";
