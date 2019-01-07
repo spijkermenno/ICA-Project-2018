@@ -21,30 +21,40 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
-    public function getItemsBySearch($query, $field, $columns = ['*'], $perPage = 16)
+    public function getItemsBySearch(array $queries, $field, $columns = ['*'], $perPage = 16)
     {
-        $total = $this->conn->select('
-            SELECT
-                COUNT(*) as count
-            FROM items
-            WHERE items.'.$field.' LIKE :query
-                and auction_closed = 0
-        ', [
-            'query' => '%'. $query .'%'
-        ])[0]->count;
+        array_unshift($queries, join(' ', $queries));
+        $queryValues = array_map(function ($query) {
+            return "%${query}%";
+        }, $queries);
 
-        $items = $this->conn->select('
+        $whereLIkeStatement = [];
+        for ($i = 0; $i < count($queryValues); $i++) {
+            $whereLIkeStatement[] = "items.${field} LIKE ? AND auction_closed = 0";
+        }
+
+        $whereClause = 'WHERE ' . join(' OR ', $whereLIkeStatement);
+
+        $total = $this->conn->select(
+            sprintf('
+                SELECT
+                    COUNT(*) as count
+                FROM items
+                    %s
+                AND auction_closed = 0
+            ', $whereClause),
+        $queryValues
+        )[0]->count;
+
+        $items = $this->conn->select(sprintf('
             SELECT
                 ' . implode(',', array_map(function ($column) {return 'items.' . $column; }, $columns)) . '
             FROM items
-            WHERE items.'.$field.' LIKE :query
-                AND auction_closed = 0
+                %s
             ORDER BY items.[end] ASC
              OFFSET ' . ($perPage * (request()->get('page', 1) - 1)) . ' ROWS
             FETCH NEXT ' . $perPage . ' ROWS ONLY
-        ', [
-            'query' => '%'. $query .'%'
-        ]);
+        ', $whereClause), $queryValues);
 
         return new LengthAwarePaginator($items, $total, $perPage, null, [
             'path' => request()->url()
@@ -207,11 +217,11 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
     {
         if ($rubriek_id == null) {
             $result = $this->conn->select(
-                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id where i.auction_closed = 0 order by [end]', $amount)
+                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], i.start, im.filename from items as i inner join images as im on i.id = im.item_id where i.auction_closed = 0 order by [end]', $amount)
             );
         } else {
             $result = $this->conn->select(
-                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id where i.auction_closed = 0 and i.category_id = %d order by [end]', $amount, $rubriek_id)
+                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], i.start, im.filename from items as i inner join images as im on i.id = im.item_id where i.auction_closed = 0 and i.category_id = %d order by [end]', $amount, $rubriek_id)
             );
         };
 

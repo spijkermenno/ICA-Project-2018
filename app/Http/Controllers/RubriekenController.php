@@ -86,6 +86,7 @@ class RubriekenController extends Controller
             'title',
             'selling_price',
             '[end]',
+            'start',
             'id'
         ]);
         if (count($paginated) > 0) {
@@ -228,7 +229,8 @@ class RubriekenController extends Controller
         }
 
         if ($order_number != $rubriek[0]->order_number) {
-            $this->categoryRepository->updateOrderNumber($id, $rubriek[0]->order_number, $order_number);
+//            $this->categoryRepository->updateOrderNumber($id, $rubriek[0]->order_number, $order_number);
+            $this->categoryRepository->changeOrderNumber($id, $order_number);
         }
 
         if ($name != $rubriek[0]->name && $order_number != $rubriek[0]->order_number) {

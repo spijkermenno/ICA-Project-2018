@@ -20,7 +20,7 @@
                     @if($product->start_price != $bids[0]->highest_bid)
                         <div class="col-4 col-md-4 col-lg-4 badge badge-secondary"
                             style="min-width: 40px; max-width: 60px; line-height: 15px; max-height: 22px; margin-top: 8px;">
-                                €{{$bids[0]->highest_bid}}
+                                €{{ priceFormat($bids[0]->highest_bid) }}
                         </div>
                     @endif
                 </div>
@@ -40,7 +40,7 @@
                             <div class="row pt-2 pl-2">
                                 <div class="col-8 col-md-8 col-lg-8">{{$bid->user_name}}</div>
                                 <div class="col-4 col-md-4 col-lg-4 badge badge-secondary"
-                                    style="min-width: 40px; max-width: 60px; line-height: 15px">€{{$bid->highest_bid}}</div>
+                                    style="min-width: 40px; max-width: 60px; line-height: 15px">€{{ priceFormat($bid->highest_bid) }}</div>
                             </div>
                             <div class="row pr-1 pt-0 pl-2 border-bottom">
                                 <h6 class="col-12 col-md-12 col-lg-12">{{ \Illuminate\Support\Carbon::parse($bid->date)->diffForHumans() }}</h6>
@@ -53,7 +53,7 @@
                 <div class="row p-1 pl-2">
                     <h5 class="col-9 col-md-8 col-lg-8 font-weight-bold">Start bod</h5>
                     <h5 class="col-3 col-md-4 col-lg-4 badge badge-secondary"
-                        style="min-width: 40px; max-width: 60px; line-height: 15px">€{{$product->start_price}}</h5>
+                        style="min-width: 40px; max-width: 60px; line-height: 15px">€{{ priceFormat($product->start_price) }}</h5>
                 </div>
             </div>
             <div class="card-body p-2 position-relative">
