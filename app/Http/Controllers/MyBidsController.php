@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use phpDocumentor\Reflection\Types\Object_;
 use App\Repositories\DatabaseBidsRepository;
-use App\Repositories\DatabaseItemRepository;
 use App\Repositories\DatabaseCategoryRepository;
 
 class MyBidsController extends Controller
 {
-     /**
-     * @var DatabaseBidsRepository
-     */
+    /**
+    * @var DatabaseBidsRepository
+    */
     private $bidsRepository;
 
     /**
@@ -26,7 +24,7 @@ class MyBidsController extends Controller
         $this->bidsRepository = $bidsRepository;
     }
 
-    public function getAllByUser(string $user){
-        
+    public function getAllByUser(string $user)
+    {
     }
 }

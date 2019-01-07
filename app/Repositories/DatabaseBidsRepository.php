@@ -22,7 +22,8 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
     public function getAllByUser(string $user)
     {
         return $this->conn->select(
-            'SELECT * FROM bids WHERE user_name = :user',['user'=> $user]
+            'SELECT * FROM bids WHERE user_name = :user',
+            ['user'=> $user]
         );
     }
 
