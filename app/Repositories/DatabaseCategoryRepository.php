@@ -57,16 +57,16 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
     public function getAllChildrenForParent($id)
     {
         return $this->conn->select('WITH parent AS (
-    SELECT *
-    FROM categories WHERE id = ?
-    UNION ALL
-        SELECT categories.*
-        FROM categories
-            JOIN parent  ON categories.parent = parent.id
-)
-SELECT id FROM parent
-ORDER BY parent ASC
-OPTION(MAXRECURSION 64)', [$id]);
+                SELECT *
+                FROM categories WHERE id = ?
+                UNION ALL
+                    SELECT categories.*
+                    FROM categories
+                        JOIN parent  ON categories.parent = parent.id
+            )
+            SELECT id FROM parent
+            ORDER BY parent ASC
+            OPTION(MAXRECURSION 64)', [$id]);
     }
 
     public function getAllParentsById($id)
@@ -127,9 +127,6 @@ OPTION(MAXRECURSION 64)', [$id]);
         $id = $this->getHighestId();
         $id++;
 
-        $order_number = $this->getHighestOrderNumber();
-        $order_number++;
-
         $this->conn->insert('
             INSERT INTO categories
                 (id, name, parent, order_number)
@@ -139,7 +136,7 @@ OPTION(MAXRECURSION 64)', [$id]);
             'id' => $id,
             'name' => $name,
             'parent' => $parent,
-            'order_number' => $order_number
+            'order_number' => 9998
         ]);
     }
 
@@ -264,7 +261,7 @@ OPTION(MAXRECURSION 64)', [$id]);
         }
     }
 
-    private function changeOrderNumber($id, $new_order_number)
+    public function changeOrderNumber($id, $new_order_number)
     {
         $updated = $this->conn->update('
                     UPDATE categories
