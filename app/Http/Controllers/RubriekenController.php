@@ -182,7 +182,7 @@ class RubriekenController extends Controller
     public function add_rubriek($parent_id, Request $request)
     {
         $request->validate([
-            'name' => 'required|max:255|min:2'
+            'name' => 'required|max:45|min:2'
         ]);
 
         $name = $request->post('name');
@@ -215,7 +215,7 @@ class RubriekenController extends Controller
     public function update_rubriek($id, Request $request)
     {
         $request->validate([
-            'name' => 'required|max:255|min:2',
+            'name' => 'required|max:45|min:2',
             'order_number' => 'required|integer|max:9min:1'
         ]);
 
