@@ -28,6 +28,8 @@ class ConvertItems extends DataConverter
      */
     public function handle()
     {
+        // $this->tableIdentities();
+
         $this->convertInChunks(
             database_path('csv/items.csv'),
             100,
@@ -51,7 +53,7 @@ class ConvertItems extends DataConverter
                 return [
                     'id' => $item->id,
                     'title' => $item->title,
-                    'description' => $item->description,
+                    'description' => base64_encode($item->description),
 
                     'start_price' => 0.0,
                     'selling_price' => $item->selling_price,
@@ -80,4 +82,61 @@ class ConvertItems extends DataConverter
             }
         );
     }
+
+    // protected function tableIdentities()
+    // {
+    //     collect([
+    //         '
+    //             ALTER TABLE Items
+    //             ADD old_id BIGINT NULL
+    //         ',
+    //         '
+    //             UPDATE Items
+    //                 SET Items.old_id = (
+    //                     SELECT ID
+    //                     FROM Items as old_items
+    //                     WHERE Items.id = old_items.id
+    //                 )
+    //         ',
+    //         '
+    //             ALTER TABLE Items
+    //                 DROP CONSTRAINT PK_items
+    //         ',
+    //         '
+    //             ALTER TABLE Items
+    //                 DROP COLUMN ID
+    //         ',
+    //         '
+    //             ALTER TABLE Items
+    //                 ADD ID BIGINT IDENTITY NOT NULL
+    //         ',
+    //         '
+    //             ALTER TABLE Illustraties
+    //                 DROP CONSTRAINT ItemsVoorPlaatje
+    //         ',
+    //         '
+    //             UPDATE Illustraties
+    //                 SET Illustraties.ItemID = (
+    //                     SELECT ID
+    //                     from items
+    //                     WHERE items.old_id = Illustraties.ItemID
+    //                 )
+    //         ',
+    //         '
+    //             ALTER TABLE Items
+    //                 DROP COLUMN old_id
+    //         ',
+    //         '
+    //             ALTER TABLE Items
+    //                 ADD CONSTRAINT PK_Items PRIMARY KEY (ID)
+    //         ',
+    //         '
+    //             ALTER TABLE Illustraties
+    //                 ADD CONSTRAINT ItemsVoorPlaatje FOREIGN KEY (ItemID) REFERENCES Items(ID)
+    //         '
+    //     ])->map(function ($statement) {
+    //         $this->conn()
+    //             ->statement($statement);
+    //     });
+    // }
 }
