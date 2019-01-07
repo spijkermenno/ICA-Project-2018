@@ -38,6 +38,12 @@ class AuctionController extends Controller
         ]);
 
         if($this->databaseItemRepository->create($request) == true){
+            $id = $this->databaseItemRepository->getLastId();
+            $errors = $this->databaseItemRepository->saveImages($id->id);
+            if (count($errors) > 0) {
+                dump($errors);
+                exit;
+            }
             return redirect()->route('home');
         }
     }

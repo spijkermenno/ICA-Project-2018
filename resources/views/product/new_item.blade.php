@@ -5,7 +5,7 @@
         Nieuwe veiling maken
     @endcomponent
 
-    <form class="w-100 bg-dark px-2 py-5 mb-5 mt-0 mx-auto auction-form-wrapper rounded-bottom" method="post" action="/product/toevoegen/checken/">
+    <form class="w-100 bg-dark px-2 py-5 mb-5 mt-0 mx-auto auction-form-wrapper rounded-bottom" method="post" action="/product/toevoegen/checken/" enctype="multipart/form-data">
         <div class="w-75 mx-auto">
             @include('components.forms.rubrieken_select')
             <div class="row">
@@ -17,7 +17,7 @@
 
                 <div class="form-group col-lg-5">
                     <label for="title">Kies een afbeelding</label>
-                    <input type="file" name="files" class=" p-1 rounded bg-white form-control-file {{ $errors->has("files") ? " is-invalid" : "" }}" id="file" multiple accept="image/*" max="5" />
+                    <input type="file" name="files[]" class=" p-1 rounded bg-white form-control-file {{ $errors->has("files") ? " is-invalid" : "" }}" id="file" multiple accept="image/*" max="5" />
                     @include('components.forms.error', ['key' => 'files'])
                 </div>
             </div>

@@ -27,28 +27,74 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
             SELECT
                 COUNT(*) as count
             FROM items
-            WHERE items.'.$field.' LIKE :query
+            WHERE items.' . $field . ' LIKE :query
                 and auction_closed = 0
         ', [
-            'query' => '%'. $query .'%'
+            'query' => '%' . $query . '%'
         ])[0]->count;
 
         $items = $this->conn->select('
             SELECT
-                ' . implode(',', array_map(function ($column) {return 'items.' . $column; }, $columns)) . '
+                ' . implode(',', array_map(function ($column) {
+                return 'items.' . $column;
+            }, $columns)) . '
             FROM items
-            WHERE items.'.$field.' LIKE :query
+            WHERE items.' . $field . ' LIKE :query
                 AND auction_closed = 0
             ORDER BY items.[end] ASC
              OFFSET ' . ($perPage * (request()->get('page', 1) - 1)) . ' ROWS
             FETCH NEXT ' . $perPage . ' ROWS ONLY
         ', [
-            'query' => '%'. $query .'%'
+            'query' => '%' . $query . '%'
         ]);
 
         return new LengthAwarePaginator($items, $total, $perPage, null, [
             'path' => request()->url()
         ]);
+    }
+
+    public function saveImages($item_id)
+    {
+        $errors = array();
+        $filenames = array();
+
+        foreach ($_FILES['files']['name'] as $key => $value) {
+
+            $file_name = $_FILES['files']['name'][$key];
+            $temp = explode('.', $file_name);
+            $extention = end($temp);
+            $new_file_name = $item_id . "_" . $key . '.' . $extention;
+            $file_target = 'images' . '/' . $new_file_name;
+
+            $file_tmp = $_FILES['files']['tmp_name'][$key];
+
+            if (move_uploaded_file($file_tmp, $file_target)) {
+                array_push($filenames, '/'.$file_target);
+            } else {
+                array_push($errors, $file_name);
+            }
+        }
+
+        // when the file saving returned errors all the files are deleted.
+        if (count($errors) > 0) {
+            foreach ($filenames as $filename) {
+                unlink('images/' . $filename);
+            }
+        } else {
+            $this->createImageRecords($filenames, $item_id);
+        }
+        return $errors;
+    }
+
+    public function createImageRecords($filenames, $item_id)
+    {
+        foreach ($filenames as $filename) {
+            $this->conn->insert('insert into images (filename, item_id) values (:filename, :item_id)', ['filename' => $filename, 'item_id' => $item_id]);
+        }
+    }
+
+    public function getLastId () {
+        return $this->conn->select('SELECT * FROM items WHERE id = (SELECT MAX(id) FROM items)')[0];
     }
 
     public function create($insert)
@@ -63,6 +109,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
                             category_id,
                             shipping_cost,
                             seller)
+                            OUTPUT INSERTED.ID
                     values (:title,
                             :description,
                             :start_price,
@@ -127,7 +174,8 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         ', $ids);
     }
 
-    public function getMultipleByCategoryIds(array $ids, $columns = ['*'], $perPage = 16) {
+    public function getMultipleByCategoryIds(array $ids, $columns = ['*'], $perPage = 16)
+    {
         $total = $this->conn->select('
             SELECT
                 COUNT(*) as count
@@ -228,8 +276,17 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
             );
         }
 
-        foreach ($item_ids as $item_id) {
-            array_push($items, $this->getByIdWithImage($item_id->item_id)[0]);
+        if (count($item_ids) > 0) {
+            foreach ($item_ids as $item_id) {
+                $image = $this->getByIdWithImage($item_id->item_id);
+                if ($image) {
+                    array_push($items, $image[0]);
+                } else {
+                    $item = $this->getById($item_id->item_id);
+                    $item[0]->filename = 'http://skyedazzle.com/wp-content/themes/panama/assets/img/empty/1100x700.png';
+                    array_push($items, $item[0]);
+                }
+            }
         }
 
         return $items;
