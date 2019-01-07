@@ -36,7 +36,8 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
     public function getAllBetweenId(int $from, int $to)
     {
         return $this->conn->select(
-            sprintf('SELECT * FROM bids WHERE id BETWEEN %d AND %d', $from, $to)
+            'SELECT * FROM bids WHERE id BETWEEN ? AND ?',
+            [$from, $to]
         );
     }
 
@@ -72,11 +73,11 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
      * @param int $itemId
      * @return array
      */
-    public function get_top_bids(int $amount, int $itemId)
+    public function getTopBids(int $amount, int $itemId)
     {
         return $this->conn->select('
             select
-                top :amount user_name, price as highest_bid
+                top '.$amount.' user_name, date, price as highest_bid
             from
                 bids
             where
@@ -84,7 +85,6 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
             order by
                 highest_bid desc
         ', [
-            'amount' => $amount,
             'item_id' => $itemId
         ]);
     }

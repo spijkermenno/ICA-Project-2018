@@ -21,9 +21,9 @@ class FillItemsTable extends Migration
             $item = [
                 'id' => (int) intval($item[0]),
                 'title' => $item[1],
-                'description' => $item[2],
+                'description' => base64_decode($item[2]),
 
-                'start_price' => intval($item[3]) <= 1 ? 1.1 : intval($item[3]),
+                'start_price' => floatval($item[3]) <= 1 ? 1.1 : floatval($item[3]),
                 'selling_price' => floatval($item[4]),
 
                 'payment_method' => $item[5],
@@ -34,10 +34,11 @@ class FillItemsTable extends Migration
 
                 'shipping_cost' => floatval($item[9]),
                 'seller' => $item[10],
-                'category_id' => $item[11]
+                'category_id' => intval($item[11])
             ];
 
             statement('
+                SET IDENTITY_INSERT dbo.items ON;
                 INSERT INTO items
                     (' . implode(',', array_keys($item)) . ')
                 VALUES

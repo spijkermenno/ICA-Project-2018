@@ -9,6 +9,14 @@
             </button>
         </div>
     @endif
+    @if(session('error_bid'))
+        <div class="alert alert-warning alert-dismissible mt-4 mb-4" role="alert">
+            {{ session('error_bid')['message'] }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
 
     <div class="row" id="wrapper">
         <div class="col-lg-3 col-md-6 col-sm-12">
