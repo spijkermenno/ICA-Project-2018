@@ -47,7 +47,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function product_no_name($product)
+    public function productNoName($product)
     {
         $productRepo = app()->make(DatabaseItemRepository::class);
         $itemObjects = $productRepo->getById($product);
@@ -66,7 +66,7 @@ class ProductController extends Controller
         array_push($this->breadcrumbs, ['name' => $parent->name, 'link' => '/rubriek/'.$parent->id . '/']);
     }
 
-    public function product_specific($product_id)
+    public function productSpecific($product_id)
     {
         $productRepo = app()->make(DatabaseItemRepository::class);
         $itemObject = $productRepo->getById($product_id);
@@ -76,7 +76,7 @@ class ProductController extends Controller
             $this->createCategoryBreadcrumbs($itemObject[0]->category_id);
             array_push($this->breadcrumbs, ['name' => strlen($itemObject[0]->title) > 50 ? substr($itemObject[0]->title, 0, 50).'...' : $itemObject[0]->title, 'link' => '']);
 
-            $bids = $this->bidsRepository->get_top_bids(6, $product_id);
+            $bids = $this->bidsRepository->getTopBids(6, $product_id);
 
             if (count($bids) == 0) {
                 $bids[0] = new Object_();
