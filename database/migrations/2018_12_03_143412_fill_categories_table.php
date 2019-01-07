@@ -11,8 +11,7 @@ class FillCategoriesTable extends Migration
      */
     public function up()
     {
-        $resource = fopen(database_path('csv/categories.csv'), 'r');
-        $i = 0;
+        $resource = fopen(database_path('csv/categories_sprint3.csv'), 'r');
 
         while (($category = fgetcsv($resource, 0, ';', '\'')) !== false) {
             statement('
@@ -23,12 +22,11 @@ class FillCategoriesTable extends Migration
             ', [
                 'id' => intval($category[0]) !== 0 ? intval($category[0]) : 1,
                 'name' => stripslashes($category[1]),
-                'order_number' => $i
+                'order_number' => intval($category[3])
             ]);
-            $i++;
         }
 
-        $resource = fopen(database_path('csv/categories.csv'), 'r');
+        $resource = fopen(database_path('csv/categories_sprint3.csv'), 'r');
 
         while (($category = fgetcsv($resource, 0, ';', '\'')) !== false) {
             statement('

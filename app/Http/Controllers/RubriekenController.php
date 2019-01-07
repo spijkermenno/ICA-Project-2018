@@ -86,6 +86,7 @@ class RubriekenController extends Controller
             'title',
             'selling_price',
             '[end]',
+            'start',
             'id'
         ]);
         if (count($paginated) > 0) {
@@ -181,7 +182,7 @@ class RubriekenController extends Controller
     public function add_rubriek($parent_id, Request $request)
     {
         $request->validate([
-            'name' => 'required|max:255|min:2'
+            'name' => 'required|max:45|min:2'
         ]);
 
         $name = $request->post('name');
@@ -214,7 +215,7 @@ class RubriekenController extends Controller
     public function update_rubriek($id, Request $request)
     {
         $request->validate([
-            'name' => 'required|max:255|min:2',
+            'name' => 'required|max:45|min:2',
             'order_number' => 'required|integer|max:9min:1'
         ]);
 
@@ -228,7 +229,8 @@ class RubriekenController extends Controller
         }
 
         if ($order_number != $rubriek[0]->order_number) {
-            $this->categoryRepository->updateOrderNumber($id, $rubriek[0]->order_number, $order_number);
+//            $this->categoryRepository->updateOrderNumber($id, $rubriek[0]->order_number, $order_number);
+            $this->categoryRepository->changeOrderNumber($id, $order_number);
         }
 
         if ($name != $rubriek[0]->name && $order_number != $rubriek[0]->order_number) {

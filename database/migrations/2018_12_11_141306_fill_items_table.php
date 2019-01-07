@@ -21,7 +21,7 @@ class FillItemsTable extends Migration
             $item = [
                 'id' => (int) intval($item[0]),
                 'title' => $item[1],
-                'description' => $item[2],
+                'description' => base64_decode($item[2]),
 
                 'start_price' => floatval($item[3]) <= 1 ? 1.1 : floatval($item[3]),
                 'selling_price' => floatval($item[4]),
