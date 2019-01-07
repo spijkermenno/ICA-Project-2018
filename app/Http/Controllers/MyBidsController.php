@@ -28,6 +28,4 @@ class MyBidsController extends Controller
     {
         return view('my_bids_view', ['bids' => $this->bidsRepository->getAllByUser($user)]);
     }
-
-    
 }
