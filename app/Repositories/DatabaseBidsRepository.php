@@ -84,7 +84,7 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
      * @param int $itemId
      * @return array
      */
-    public function get_top_bids(int $amount, int $itemId)
+    public function getTopBids(int $amount, int $itemId)
     {
         return $this->conn->select('
             select
