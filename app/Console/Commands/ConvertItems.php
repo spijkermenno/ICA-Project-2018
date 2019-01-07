@@ -39,6 +39,7 @@ class ConvertItems extends DataConverter
                     SELECT
                         ID as id,
                         Titel as title,
+                        Valuta as currency,
                         Beschrijving as description,
                         Verkoper as seller,
                         Prijs as selling_price,
@@ -55,8 +56,14 @@ class ConvertItems extends DataConverter
                     'title' => $item->title,
                     'description' => base64_encode($item->description),
 
-                    'start_price' => 0.0,
-                    'selling_price' => $item->selling_price,
+                    'start_price' => $this->convertToEUR(
+                        $item->currency,
+                        $item->selling_price
+                    ),
+                    'selling_price' => $this->convertToEUR(
+                        $item->currency,
+                        $item->selling_price
+                    ),
 
                     'payment_method' => $this->faker->randomElement([
                         'Bank/Giro',

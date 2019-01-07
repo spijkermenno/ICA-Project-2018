@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Closure;
+use Swap\Swap;
 use Faker\Factory as Faker;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -12,17 +13,24 @@ abstract class DataConverter extends Command
 {
     protected $hasher;
 
+    protected $faker;
+
+    protected $swap;
+
     /**
      * Create a new command instance.
      *
      * @return void
      */
     public function __construct(
-        HasherContract $hasher
+        HasherContract $hasher,
+        Swap $swap
     ) {
         parent::__construct();
 
         $this->faker = Faker::create();
+
+        $this->swap = $swap;
 
         $this->hasher = $hasher;
     }
@@ -30,6 +38,14 @@ abstract class DataConverter extends Command
     public function conn()
     {
         return DB::connection('tmp_sqlsrv');
+    }
+
+    protected function convertToEUR($from, $amount)
+    {
+        if ($from == 'EUR') {
+            return $amount;
+        }
+        return $amount / $this->swap->latest('EUR/' . $from)->getValue();
     }
 
     protected function convert($data, $file, Closure $callback, $progress = true)
