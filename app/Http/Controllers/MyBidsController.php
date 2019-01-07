@@ -27,6 +27,6 @@ class MyBidsController extends Controller
     }
 
     public function getAllByUser(string $user){
-
+        
     }
 }
