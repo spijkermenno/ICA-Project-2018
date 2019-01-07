@@ -24,8 +24,13 @@ class MyBidsController extends Controller
         $this->bidsRepository = $bidsRepository;
     }
 
+    /**
+     * Invoke boi
+     * @param string $user
+     */
     public function __invoke(string $user)
     {
+        /*@TODO NAME IS SUBJECT TO CHANGE*/
         return view('my_bids_view', ['bids' => $this->bidsRepository->getAllByUser($user)]);
     }
 }
