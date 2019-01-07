@@ -44,7 +44,7 @@ class AuctionController extends Controller
                 dump($errors);
                 exit;
             }
-            return redirect()->route('home');
+            return redirect()->route('product_no_name', ['product' => $id->id]);
         }
     }
 
