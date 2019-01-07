@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Seller;
 use App\Repositories\Contracts\SellerRepository;
 
 class DatabaseSellerRepository extends DatabaseRepository implements SellerRepository

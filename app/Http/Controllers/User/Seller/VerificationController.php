@@ -53,14 +53,5 @@ class VerificationController extends Controller
         }
 
         dd($request);
-
-        $seller = $this->sellerRepository->create(
-            array_merge(
-                [
-                    $sellerRepository->getIdentifierName() => auth()->user()->offsetGet($this->sellerRepository->getIdentifierName())
-                ],
-                $request->only('bank', 'iban', 'creditcard')
-            )
-        );
     }
 }

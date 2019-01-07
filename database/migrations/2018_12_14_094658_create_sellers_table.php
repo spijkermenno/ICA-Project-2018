@@ -21,7 +21,7 @@ class CreateSellersTable extends Migration
                 iban CHAR(34) NOT NULL, -- max IBAN lengte is 34 characters
 
                 -- Verificatie als deze Null is wordt de post methode gebruikt.
-                creditcard BIGINT NULL, -- max credit card lengte is 16 nummers
+                creditcard CHAR(19) NULL, -- max credit card lengte is 19 nummers -> Deze is van CHAR om problemen met PHP bit versies te voorkomen.
 
                 CONSTRAINT pk_sellers PRIMARY KEY (user_name),
 

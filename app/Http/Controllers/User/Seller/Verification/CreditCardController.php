@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User\Seller\Verification;
 
 use Illuminate\Http\Request;
+use LVR\CreditCard\CardNumber;
 use App\Http\Controllers\Controller;
 use LVR\CreditCard\CardExpirationDate;
 use App\Repositories\Contracts\SellerRepository;
@@ -45,8 +46,15 @@ class CreditCardController extends Controller
     public function sendVerification(Request $request)
     {
         $this->validate($request, [
-            'number' => 'required|string|creditcard',
-            'expiry' => ['required', new CardExpirationDate('m / Y')]
+            'number' => [
+                'required',
+                'string',
+                new CardNumber()
+            ],
+            'expiry' => [
+                'required',
+                new CardExpirationDate('m / Y')
+            ]
         ]);
 
         $request->session()->put('seller.verification', [

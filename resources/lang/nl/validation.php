@@ -144,10 +144,14 @@ return [
     */
 
     'credit_card' => [
+        'card_invalid' => 'het opgegeven type kaart bestaat niet',
+        'card_length_invalid' => 'het opgegeven getal is niet van de juiste lengte',
+        'card_checksum_invalid' => 'het opgegeven getal is foutief',
         'card_expiration_date_invalid' => 'de opgegeven datum is niet geldig'
     ],
 
     'attributes' => [
+        'account_number' => 'Rekeningnummer',
         'number' => 'nummer',
         'secret_question_answer' => 'geheime vraag antwoord',
         'address'               => 'adres',

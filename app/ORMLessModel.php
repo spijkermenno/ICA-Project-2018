@@ -3,8 +3,9 @@
 namespace App;
 
 use ArrayAccess;
+use Illuminate\Contracts\Support\Jsonable;
 
-abstract class ORMLessModel implements ArrayAccess
+abstract class ORMLessModel implements ArrayAccess, Jsonable
 {
     protected $data;
 
@@ -48,5 +49,10 @@ abstract class ORMLessModel implements ArrayAccess
     public function __set($offset, $value)
     {
         $this->offsetSet($offset, $value);
+    }
+
+    public function toJson($options = 0)
+    {
+        return json_encode($this->data, $options);
     }
 }

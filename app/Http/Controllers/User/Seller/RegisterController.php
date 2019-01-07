@@ -37,6 +37,36 @@ class RegisterController extends Controller
 
     public function create(Request $request)
     {
-        return array_merge($request->all(), session('seller.verification', []));
+        $this->validate($request, [
+            'bank' => 'required|string',
+            'account_number' => [
+                'required',
+                'string',
+                'iban'
+            ]
+        ]);
+
+        $seller = $this->sellerRepository->create(
+            collect(
+                session('seller.verification.' . session('seller.verification.method'), [])
+            )
+                ->pipe(function ($collection) {
+                    if ($collection->has('number')) {
+                        return collect([
+                            'creditcard' => str_replace(' ', '', $collection->get('number'))
+                        ]);
+                    }
+                    return collect([]);
+                })
+                ->merge([
+                    $this->sellerRepository->getIdentifierName() => auth()->user()->getAuthIdentifier(),
+                    'bank' => $request->input('bank'),
+                    'iban' => $request->input('account_number'),
+                    'verification_method' => session('seller.verification.method')
+                ])
+                ->toArray()
+        );
+
+        return $seller;
     }
 }

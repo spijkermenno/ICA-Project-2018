@@ -16,7 +16,7 @@
                 ])
 
                 @include('components.forms.basic-input-horizontal', [
-                    'key' => 'number',
+                    'key' => 'account_number',
                     'name' => 'Rekeningnummer'
                 ])
 
