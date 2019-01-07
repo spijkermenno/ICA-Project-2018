@@ -13,7 +13,7 @@ class MyBidsController extends Controller
     private $bidsRepository;
 
     /**
-     * ProductController constructor.
+     * MyBidsController constructor.
      * @param DatabaseCategoryRepository $categoryRepository
      * @param DatabaseBidsRepository $bidsRepository
      */
