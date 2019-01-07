@@ -24,7 +24,10 @@ class MyBidsController extends Controller
         $this->bidsRepository = $bidsRepository;
     }
 
-    public function getAllByUser(string $user)
+    public function __invoke(string $user)
     {
+        return view('my_bids_view', ['bids' => $this->bidsRepository->getAllByUser($user)]);
     }
+
+    
 }
