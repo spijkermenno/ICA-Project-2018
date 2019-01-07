@@ -36,8 +36,8 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         $items = $this->conn->select('
             SELECT
                 ' . implode(',', array_map(function ($column) {
-                return 'items.' . $column;
-            }, $columns)) . '
+            return 'items.' . $column;
+        }, $columns)) . '
             FROM items
             WHERE items.' . $field . ' LIKE :query
                 AND auction_closed = 0
@@ -55,15 +55,14 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
 
     public function saveImages($item_id)
     {
-        $errors = array();
-        $filenames = array();
+        $errors = [];
+        $filenames = [];
 
         foreach ($_FILES['files']['name'] as $key => $value) {
-
             $file_name = $_FILES['files']['name'][$key];
             $temp = explode('.', $file_name);
             $extention = end($temp);
-            $new_file_name = $item_id . "_" . $key . '.' . $extention;
+            $new_file_name = $item_id . '_' . $key . '.' . $extention;
             $file_target = 'images' . '/' . $new_file_name;
 
             $file_tmp = $_FILES['files']['tmp_name'][$key];
@@ -93,7 +92,8 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         }
     }
 
-    public function getLastId () {
+    public function getLastId()
+    {
         return $this->conn->select('SELECT * FROM items WHERE id = (SELECT MAX(id) FROM items)')[0];
     }
 

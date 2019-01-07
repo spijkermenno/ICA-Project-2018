@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\DatabaseItemRepository;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use App\Repositories\DatabaseItemRepository;
 use App\Repositories\DatabaseCategoryRepository;
 use App\Repositories\DatabasePaymentMethodRepository;
 
@@ -37,7 +37,7 @@ class AuctionController extends Controller
             'duration'      => 'required|int',
         ]);
 
-        if($this->databaseItemRepository->create($request) == true){
+        if ($this->databaseItemRepository->create($request) == true) {
             $id = $this->databaseItemRepository->getLastId();
             $errors = $this->databaseItemRepository->saveImages($id->id);
             if (count($errors) > 0) {
