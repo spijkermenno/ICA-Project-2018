@@ -332,17 +332,13 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
-    public function getSoonEndingItems(int $amount)
+    public function getSoonEndingItems(int $amount, $columns = ['items.title', 'items.id', 'items.selling_price', 'items.[end]', 'items.start'])
     {
         return $this->attachImagesToItems(
                 $this->conn->select(
                 '
                 SELECT TOP ' . $amount . '
-                    items.title,
-                    items.id,
-                    items.selling_price,
-                    items.[end],
-                    items.start
+                    ' . implode(',', $columns) . '
                 FROM items
                 WHERE items.auction_closed = 0
                 ORDER BY [end]'
