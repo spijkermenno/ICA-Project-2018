@@ -27,10 +27,10 @@ class MyBidsController extends Controller
 
     /**
      * Invoke boi
-     * @param string $user
      */
-    public function __invoke(string $user)
+    public function __invoke()
     {
-        return view('my_bids_view', ['bids' => $this->bidsRepository->getAllByUser($user)]);
+        array_push($this->breadcrumbs, ['name' => 'Mijn biedingen', 'link' => '']);
+        return view('my_bids_view', ['bids' => $this->bidsRepository->getAllByUser(auth()->user()->getAuthIdentifier())]);
     }
 }
