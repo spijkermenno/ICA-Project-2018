@@ -60,6 +60,8 @@ class MailController extends Controller
 
         $request->session()->save();
 
+        $this->postalValidationsRepository->removeByUser(auth()->user());
+
         return redirect()->route('seller.register');
     }
 }
