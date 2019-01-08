@@ -14,6 +14,12 @@
                 </a>
             @endif
 
+            @if (auth()->user()->admin)
+                <a href="{{ route('admin.verifications.seller.letter') }}" class="dropdown-item bg-dark text-white">
+                    Brieven
+                </a>
+            @endif
+
             <a href="{{ route('logout') }}" class="dropdown-item bg-dark text-white"
                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                 Uitloggen

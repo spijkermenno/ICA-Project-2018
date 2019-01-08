@@ -4,21 +4,11 @@ namespace App\Repositories;
 
 use App\User;
 use App\PostalValidation;
-use Illuminate\Database\ConnectionInterface;
-use Illuminate\Contracts\Hashing\Hasher as HasherContract;
+use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contracts\PostalValidationsRepository;
 
 class DatabasePostalValidationsRepository extends DatabaseRepository implements PostalValidationsRepository
 {
-    public function __construct(
-        ConnectionInterface $conn,
-        HasherContract $hasher
-    ) {
-        parent::__construct($conn);
-
-        $this->hasher = $hasher;
-    }
-
     protected function createModelFromData($data)
     {
         if (empty($data)) {
@@ -29,9 +19,37 @@ class DatabasePostalValidationsRepository extends DatabaseRepository implements 
 
     public function validateCredentials(PostalValidation $validation, array $credentials): bool
     {
-        return $this->hasher->check(
-            $credentials['token'] ?? '',
-            $validation->token
+        return trim($credentials['token'])
+            == trim($validation->token);
+    }
+
+    public function getPaginated($perPage = 1, $columns = ['*'])
+    {
+        $total = $this->conn->select('
+            SELECT
+                COUNT(*) as count
+            FROM postal_validations
+        ')[0]->count;
+
+        $items = $this->conn->select('
+            SELECT
+                ' . implode(',', $columns) . '
+            FROM postal_validations
+            ORDER BY created_at DESC
+            OFFSET ' . ($perPage * (request()->get('page', 1) - 1)) . ' ROWS
+            FETCH NEXT ' . $perPage . ' ROWS ONLY
+        ');
+
+        return new LengthAwarePaginator(
+            collect($items)->map(function ($item) {
+                return $this->createModelFromData($item);
+            }),
+            $total,
+            $perPage,
+            null,
+            [
+                'path' => request()->url()
+            ]
         );
     }
 
@@ -64,10 +82,21 @@ class DatabasePostalValidationsRepository extends DatabaseRepository implements 
                 (:user_name, :token)
         ', [
             $this->getIdentifierName() => $user->getAuthIdentifier(),
-            'token' => $this->hasher->make($token)
+            'token' => $token
         ]);
 
         return $token;
+    }
+
+    public function markSentByUser(User $user)
+    {
+        return $this->conn->update('
+            UPDATE postal_validations
+            SET sent = 1
+            WHERE user_name = :user_name
+        ', [
+            $this->getIdentifierName() => $user->getAuthIdentifier()
+        ]);
     }
 
     public function removeByUser(User $user)
