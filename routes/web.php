@@ -47,3 +47,5 @@ Route::get('/product/', 'ProductController@index')->name('product');
 Route::get('/zoek', 'SearchController')->name('search');
 
 Route::post('/bied/toevoegen', 'BidsController@create_bid')->name('bid.create');
+
+Route::get('/account/veilingen', 'AuctionController@myAuctions')->name('account.auctions');
