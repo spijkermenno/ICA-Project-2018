@@ -31,13 +31,6 @@ class MyBidsController extends Controller
      */
     public function __invoke(string $user)
     {
-        $lel;
-        /*@TODO NAME IS SUBJECT TO CHANGE*/
-        foreach ($this->bidsRepository->getAllByUser($user) as $ff) {
-            if (!isset($ff)) {
-                return view('my_bids_view', ['result' => false]);
-            }
-        }
         return view('my_bids_view', ['bids' => $this->bidsRepository->getAllByUser($user)]);
     }
 }
