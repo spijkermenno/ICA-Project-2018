@@ -21,13 +21,6 @@ class RegisterController extends Controller
         parent::__construct($categoryRepository);
 
         $this->sellerRepository = $sellerRepository;
-
-        $this->middleware(function ($request, $next) {
-            if (session('seller.verification.verified')) {
-                return $next($request);
-            }
-            return redirect()->route('seller.verify');
-        });
     }
 
     public function showRegisterForm()

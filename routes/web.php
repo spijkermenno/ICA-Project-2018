@@ -29,11 +29,26 @@ Route::middleware([
         Route::get('/', 'VerificationController@showVerificationForm')->name('seller.verify');
         Route::post('/', 'VerificationController@sendVerification')->name('seller.verify');
 
-        Route::get('/creditcard', 'Verification\CreditCardController@showVerificationForm')->name('seller.verify.creditcard');
-        Route::post('/creditcard', 'Verification\CreditCardController@sendVerification')->name('seller.verify.creditcard');
+        Route::namespace('Verification')
+            ->group(function () {
+                Route::middleware('not.verified.seller:creditcard')
+                    ->group(function () {
+                        Route::get('/creditcard', 'CreditCardController@showVerificationForm')->name('seller.verify.creditcard');
+                        Route::post('/creditcard', 'CreditCardController@sendVerification')->name('seller.verify.creditcard');
+                    });
 
-        Route::get('/register', 'RegisterController@showRegisterForm')->name('seller.register');
-        Route::post('/register', 'RegisterController@create')->name('seller.register');
+                Route::middleware('not.verified.seller:post')
+                    ->group(function () {
+                        Route::get('/mail', 'MailController@showVerificationForm')->name('seller.verify.creditcard');
+                        Route::post('/mail', 'MailController@sendVerification')->name('seller.verify.creditcard');
+                    });
+            });
+
+        Route::middleware('verified.seller')
+            ->group(function () {
+                Route::get('/register', 'RegisterController@showRegisterForm')->name('seller.register');
+                Route::post('/register', 'RegisterController@create')->name('seller.register');
+            });
     });
 
 Route::get('/', 'HomeController@index')->name('home');
