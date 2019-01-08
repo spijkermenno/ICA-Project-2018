@@ -33,7 +33,7 @@ class SearchController extends Controller
         $searchQuery = trim($request->get('query'));
         array_push($this->breadcrumbs, [
             'name' => $searchQuery,
-            'link' => route('search', ['query' => $searchQuery])
+            'link' => null
         ]);
 
         if ($searchQuery == null) {
