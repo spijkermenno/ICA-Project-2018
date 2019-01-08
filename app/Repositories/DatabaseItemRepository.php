@@ -23,13 +23,14 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
 
     public function getItemsBySearch(array $queries, $field, $columns = ['*'], $perPage = 16)
     {
-        $queries = array_map(function ($query) {
+        array_unshift($queries, join(' ', $queries));
+        $queryValues = array_map(function ($query) {
             return "%${query}%";
         }, $queries);
 
         $whereLIkeStatement = [];
-        for ($i = 0; $i < count($queries); $i++) {
-            $whereLIkeStatement[] = "items.${field} LIKE ?";
+        for ($i = 0; $i < count($queryValues); $i++) {
+            $whereLIkeStatement[] = "items.${field} LIKE ? AND auction_closed = 0";
         }
 
         $whereClause = 'WHERE ' . join(' OR ', $whereLIkeStatement);
@@ -42,23 +43,103 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
                     %s
                 AND auction_closed = 0
             ', $whereClause),
-        $queries
+        $queryValues
         )[0]->count;
 
         $items = $this->conn->select(sprintf('
             SELECT
-                ' . implode(',', array_map(function ($column) {return 'items.' . $column; }, $columns)) . '
+                ' . implode(',', array_map(function ($column) {
+            return 'items.' . $column;
+        }, $columns)) . '
             FROM items
+
                 %s
-                AND auction_closed = 0
             ORDER BY items.[end] ASC
              OFFSET ' . ($perPage * (request()->get('page', 1) - 1)) . ' ROWS
             FETCH NEXT ' . $perPage . ' ROWS ONLY
-        ', $whereClause), $queries);
+        ', $whereClause), $queryValues);
 
         return new LengthAwarePaginator($items, $total, $perPage, null, [
             'path' => request()->url()
         ]);
+    }
+
+    public function saveImages($item_id)
+    {
+        $errors = [];
+        $filenames = [];
+
+        foreach ($_FILES['files']['name'] as $key => $value) {
+            $file_name = $_FILES['files']['name'][$key];
+            $temp = explode('.', $file_name);
+            $extention = end($temp);
+            $new_file_name = $item_id . '_' . $key . '.' . $extention;
+            $file_target = 'images' . '/' . $new_file_name;
+
+            $file_tmp = $_FILES['files']['tmp_name'][$key];
+
+            if (move_uploaded_file($file_tmp, $file_target)) {
+                array_push($filenames, '/'.$file_target);
+            } else {
+                array_push($errors, $file_name);
+            }
+        }
+
+        // when the file saving returned errors all the files are deleted.
+        if (count($errors) > 0) {
+            foreach ($filenames as $filename) {
+                unlink('images/' . $filename);
+            }
+        } else {
+            $this->createImageRecords($filenames, $item_id);
+        }
+        return $errors;
+    }
+
+    public function createImageRecords($filenames, $item_id)
+    {
+        foreach ($filenames as $filename) {
+            $this->conn->insert('insert into images (filename, item_id) values (:filename, :item_id)', ['filename' => $filename, 'item_id' => $item_id]);
+        }
+    }
+
+    public function getLastId()
+    {
+        return $this->conn->select('SELECT * FROM items WHERE id = (SELECT MAX(id) FROM items)')[0];
+    }
+
+    public function create($insert)
+    {
+        return $this->conn->insert(
+            'insert into items (
+                            title,
+                            description,
+                            start_price,
+                            selling_price,
+                            payment_instruction,
+                            category_id,
+                            shipping_cost,
+                            seller)
+                            OUTPUT INSERTED.ID
+                    values (:title,
+                            :description,
+                            :start_price,
+                            :selling_price,
+                            :payment_instruction,
+                            :category_id,
+                            :shipping_cost,
+                            :seller)',
+            [
+                'title' => $insert['title'],
+                'description' => $insert['description'],
+                'start_price' => $insert['start_price'],
+                'selling_price' => $insert['start_price'],
+                'payment_instruction' => $insert['payment_instruction'],
+                'category_id' => $insert['category_id'],
+                'shipping_cost' => $insert['shipping_cost'],
+                'seller' => auth()->user()->name
+            ]
+        );
     }
 
     /**
@@ -206,8 +287,17 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
             );
         }
 
-        foreach ($item_ids as $item_id) {
-            array_push($items, $this->getByIdWithImage($item_id->item_id)[0]);
+        if (count($item_ids) > 0) {
+            foreach ($item_ids as $item_id) {
+                $image = $this->getByIdWithImage($item_id->item_id);
+                if ($image) {
+                    array_push($items, $image[0]);
+                } else {
+                    $item = $this->getById($item_id->item_id);
+                    $item[0]->filename = 'http://skyedazzle.com/wp-content/themes/panama/assets/img/empty/1100x700.png';
+                    array_push($items, $item[0]);
+                }
+            }
         }
 
         return $items;
@@ -217,11 +307,11 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
     {
         if ($rubriek_id == null) {
             $result = $this->conn->select(
-                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id where i.auction_closed = 0 order by [end]', $amount)
+                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], i.start, im.filename from items as i inner join images as im on i.id = im.item_id where i.auction_closed = 0 order by [end]', $amount)
             );
         } else {
             $result = $this->conn->select(
-                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], im.filename from items as i inner join images as im on i.id = im.item_id where i.auction_closed = 0 and i.category_id = %d order by [end]', $amount, $rubriek_id)
+                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], i.start, im.filename from items as i inner join images as im on i.id = im.item_id where i.auction_closed = 0 and i.category_id = %d order by [end]', $amount, $rubriek_id)
             );
         };
 

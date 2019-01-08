@@ -2,5 +2,5 @@
     <h5 class="pb-1">{{$product->seller}}</h5>
     {{--<h5 class="pb-1">{{$seller['location']}}</h5>--}}
     <h5 class="pb-1">Verzendkosten</h5>
-    <h5 class="pb-1">€ {{$product->shipping_cost}}</h5>
+    <h5 class="pb-1">€ {{ priceFormat($product->shipping_cost) }}</h5>
 </div>
