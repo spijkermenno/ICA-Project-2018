@@ -36,8 +36,8 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         $whereClause = 'WHERE ' . join(' OR ', $whereLIkeStatement);
 
         $total = $this->conn->select(
-            sprintf('
-                SELECT
+            sprintf(
+                'SELECT
                     COUNT(*) as count
                 FROM items
                     %s
