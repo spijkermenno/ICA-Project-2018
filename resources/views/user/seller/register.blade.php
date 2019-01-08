@@ -4,6 +4,9 @@
 @section('content')
 
     @component('user.seller.components.card')
+
+        @slot('registration', true)
+
         @slot('body')
 
             @component('components.forms.form', [

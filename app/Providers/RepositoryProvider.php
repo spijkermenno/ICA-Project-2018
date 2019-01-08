@@ -18,6 +18,8 @@ use App\Repositories\DatabasePasswordResetRepository;
 use App\Repositories\DatabaseSecretQuestionRepository;
 use App\Repositories\Contracts\PasswordResetRepository;
 use App\Repositories\Contracts\SecretQuestionRepository;
+use App\Repositories\DatabasePostalValidationsRepository;
+use App\Repositories\Contracts\PostalValidationsRepository;
 use App\Repositories\DatabaseSellerVerificationMethodRepository;
 use App\Repositories\Contracts\SellerVerificationMethodRepository;
 
@@ -33,6 +35,7 @@ class RepositoryProvider extends ServiceProvider
         BidsRepository::class => DatabaseBidsRepository::class,
         SellerRepository::class => DatabaseSellerRepository::class,
         SellerVerificationMethodRepository::class => DatabaseSellerVerificationMethodRepository::class,
+        PostalValidationsRepository::class => DatabasePostalValidationsRepository::class
     ];
 
     public function register()

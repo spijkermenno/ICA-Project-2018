@@ -4,6 +4,9 @@
 @section('content')
 
     @component('user.seller.components.card')
+
+        @slot('method', 'creditcard')
+
         @slot('body')
             @component('components.forms.form', [
                 'id' => 'seller-credit-card-form',

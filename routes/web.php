@@ -26,8 +26,10 @@ Route::middleware([
     ->prefix('seller')
     ->namespace('User\Seller')
     ->group(function () {
-        Route::get('/', 'VerificationController@showVerificationForm')->name('seller.verify');
-        Route::post('/', 'VerificationController@sendVerification')->name('seller.verify');
+        Route::middleware('not.verified.seller')->group(function () {
+            Route::get('/', 'VerificationController@showVerificationForm')->name('seller.verify');
+            Route::post('/', 'VerificationController@sendVerification')->name('seller.verify');
+        });
 
         Route::namespace('Verification')
             ->group(function () {
@@ -37,10 +39,10 @@ Route::middleware([
                         Route::post('/creditcard', 'CreditCardController@sendVerification')->name('seller.verify.creditcard');
                     });
 
-                Route::middleware('not.verified.seller:post')
+                Route::middleware('not.verified.seller:mail')
                     ->group(function () {
-                        Route::get('/mail', 'MailController@showVerificationForm')->name('seller.verify.creditcard');
-                        Route::post('/mail', 'MailController@sendVerification')->name('seller.verify.creditcard');
+                        Route::get('/mail', 'MailController@showVerificationForm')->name('seller.verify.mail');
+                        Route::post('/mail', 'MailController@sendVerification')->name('seller.verify.mail');
                     });
             });
 

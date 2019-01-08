@@ -60,6 +60,6 @@ class RegisterController extends Controller
                 ->toArray()
         );
 
-        return $seller;
+        return redirect()->route('home');
     }
 }

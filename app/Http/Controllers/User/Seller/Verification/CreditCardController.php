@@ -4,8 +4,8 @@ namespace App\Http\Controllers\User\Seller\Verification;
 
 use Illuminate\Http\Request;
 use LVR\CreditCard\CardNumber;
+use App\Rules\CardExpirationDate;
 use App\Http\Controllers\Controller;
-use LVR\CreditCard\CardExpirationDate;
 use App\Repositories\Contracts\SellerRepository;
 use App\Repositories\Contracts\CategoryRepository;
 use App\Repositories\Contracts\SellerVerificationMethodRepository;

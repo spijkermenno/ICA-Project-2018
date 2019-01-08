@@ -5,7 +5,13 @@
                 <div class="card-header py-0 pt-2">
                     <ul class="nav nav-tabs border-0">
                         <li class="nav-item">
-                            <a class="nav-link active" href="{{ route('seller.verify') }}">Verkoper worden</a>
+                            <a class="nav-link {{ !isset($method) && !($registration ?? false) ? 'active' : (($registration ?? false) ? 'disabled' : '') }}" href="{{ route('seller.verify') }}">Methode</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ isset($method) ? 'active' : 'disabled' }}" href="{{ isset($method) ? route('seller.verify.' . $method) : '' }}">Activatie</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ ($registration ?? false) ? 'active' : (session('seller.verification.verified') ? '' : 'disabled') }}" href="{{ ($registration ?? false) || session('seller.verification.verified') ? route('seller.register') : '' }}">Registratie</a>
                         </li>
                     </ul>
                 </div>

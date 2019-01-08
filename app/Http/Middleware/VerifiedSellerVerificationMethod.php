@@ -13,7 +13,7 @@ class VerifiedSellerVerificationMethod
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, string $method)
+    public function handle($request, Closure $next, string $method = '')
     {
         if (
             !session('seller.verification.verified')
