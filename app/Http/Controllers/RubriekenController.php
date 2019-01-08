@@ -205,7 +205,7 @@ class RubriekenController extends Controller
     {
         $request->validate([
             'name' => 'required|max:45|min:2',
-            'order_number' => 'required|integer|max:9min:1'
+            'order_number' => 'required|integer|max:2147483647|min:1'
         ]);
 
         $name = $request->post('name');

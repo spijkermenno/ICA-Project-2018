@@ -25,6 +25,10 @@
                 Uitloggen
             </a>
 
+            <a href="{{ route('account.auctions') }}" class="dropdown-item bg-dark text-white">
+                Mijn veilingen
+            </a>
+
             <form id="logout-form" action="{{ route('logout') }}" method="POST"
                   style="display: none;">
                 {{ csrf_field() }}
