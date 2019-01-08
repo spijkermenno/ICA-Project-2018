@@ -8,7 +8,7 @@ interface BidsRepository
 
     public function getById(int $id);
 
-    public function getAllByUser(string $user);
+    public function getAllByUser(string $user, int $amountMonths);
 
     public function getMostPopularItems(int $amount);
 
