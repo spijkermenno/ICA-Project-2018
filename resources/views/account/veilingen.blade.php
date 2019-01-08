@@ -25,7 +25,7 @@
             @foreach($openVeilingen as $openVeiling)
                 <div class="row">
                     <div class="col-md-1 border">
-                        <img style="width: 100%;" class="p-1" src="{{ $openVeiling->image }}" />
+                        <a href="{{route('product_no_name', ['product' => $openVeiling->id])}}"><img style="width: 100%;" class="p-1" src="{{ $openVeiling->image }}" /></a>
                     </div>
                     <div class="col-md-5 border">
                         <a href="{{route('product_no_name', ['product' => $openVeiling->id])}}">{{ $openVeiling->title }}</a>
@@ -67,7 +67,7 @@
             @foreach($geslotenVeilingen as $geslotenVeiling)
                 <div class="row">
                     <div class="col-md-1 border">
-                        <img style="width: 100%;" class="p-1" src="{{ $geslotenVeiling->image }}" />
+                        <a href="{{route('product_no_name', ['product' => $geslotenVeiling->id])}}"><img style="width: 100%;" class="p-1" src="{{ $geslotenVeiling->image }}" /></a>
                     </div>
                     <div class="col-md-5 border">
                         <a href="{{route('product_no_name', ['product' => $geslotenVeiling->id])}}">{{ $geslotenVeiling->title }}</a>
