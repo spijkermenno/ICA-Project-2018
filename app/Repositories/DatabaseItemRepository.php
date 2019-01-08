@@ -28,12 +28,12 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
             return "%${query}%";
         }, $queries);
 
-        $whereLIkeStatement = [];
+        $whereLikeStatement = [];
         for ($i = 0; $i < count($queryValues); $i++) {
-            $whereLIkeStatement[] = "items.${field} LIKE ? AND auction_closed = 0";
+            $whereLikeStatement[] = "items.${field} LIKE ? AND auction_closed = 0";
         }
 
-        $whereClause = 'WHERE ' . join(' OR ', $whereLIkeStatement);
+        $whereClause = 'WHERE ' . join(' OR ', $whereLikeStatement);
 
         $total = $this->conn->select(
             sprintf('
@@ -52,7 +52,6 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
             return 'items.' . $column;
         }, $columns)) . '
             FROM items
-
                 %s
             ORDER BY items.[end] ASC
              OFFSET ' . ($perPage * (request()->get('page', 1) - 1)) . ' ROWS
@@ -210,15 +209,23 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
             FETCH NEXT ' . $perPage . ' ROWS ONLY
         ', $ids);
 
-        return new LengthAwarePaginator($items, $total, $perPage, null, [
-            'path' => request()->url()
-        ]);
+        return new LengthAwarePaginator(
+            $this->attachImagesToItems($items),
+            $total,
+            $perPage,
+            null,
+            [
+                'path' => request()->url()
+            ]
+        );
     }
 
     public function getMultipleImages(array $ids)
     {
         return $this->conn->select('
-            SELECT max (filename) as filename, item_id
+            SELECT
+                MIN(filename) as filename,
+                item_id
             FROM images
             WHERE item_id IN (
                 ' . str_replace_last(',', '', str_repeat('?,', count($ids))) .
@@ -274,7 +281,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
-    public function getAllImages(int $product_id)
+    public function getImagesForItemId(int $product_id)
     {
         return $this->conn->select(
             'SELECT filename FROM images where item_id = ?',
@@ -302,52 +309,45 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
      * @param int $amout
      * @return mixed|null
      */
-    public function getMostPopularItems(int $amount, $rubriek_id = null)
+    public function getMostPopularItems(int $amount, $columns = ['*'])
     {
-        $items = [];
-        if ($rubriek_id == null) {
-            $item_ids = $this->conn->select(
-                sprintf('select top %d b.item_id, count(b.id) as bids from items i inner join bids b on i.id = b.item_id where i.auction_closed = 0 group by b.item_id order by bids desc', $amount)
-            );
-        } else {
-            $item_ids = $this->conn->select(
-                sprintf('select top %d b.item_id, count(b.id) as bids from items i inner join bids b on i.id = b.item_id where i.auction_closed = 0 and i.category_id = %d group by b.item_id order by bids desc', $amount, $rubriek_id)
-            );
-        }
-
-        if (count($item_ids) > 0) {
-            foreach ($item_ids as $item_id) {
-                $image = $this->getByIdWithImage($item_id->item_id);
-                if ($image) {
-                    array_push($items, $image[0]);
-                } else {
-                    $item = $this->getById($item_id->item_id);
-                    $item[0]->filename = 'http://skyedazzle.com/wp-content/themes/panama/assets/img/empty/1100x700.png';
-                    array_push($items, $item[0]);
-                }
-            }
-        }
-
-        return $items;
+        return $this->attachImagesToItems(
+            $this->conn->select(
+                '
+                SELECT
+                    ' . implode(',', $columns) . '
+                FROM items
+                WHERE items.id IN (
+                    SELECT TOP ' . $amount . '
+                        items.id
+                    FROM items
+                    LEFT JOIN bids ON items.id = bids.item_id
+                    WHERE items.auction_closed = 0
+                    GROUP BY items.id
+                    HAVING COUNT(bids.id) > 0
+                    ORDER BY COUNT(bids.id) desc, MAX(bids.date) desc
+                )
+                '
+            )
+        );
     }
 
-    public function getSoonEndingItems(int $amount, $rubriek_id = null)
+    public function getSoonEndingItems(int $amount)
     {
-        if ($rubriek_id == null) {
-            $result = $this->conn->select(
-                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], i.start, im.filename from items as i inner join images as im on i.id = im.item_id where i.auction_closed = 0 order by [end]', $amount)
-            );
-        } else {
-            $result = $this->conn->select(
-                sprintf('select top %d i.title, i.id, i.selling_price, i.[end], i.start, im.filename from items as i inner join images as im on i.id = im.item_id where i.auction_closed = 0 and i.category_id = %d order by [end]', $amount, $rubriek_id)
-            );
-        };
-
-        if (count($result) > 0) {
-            return $result;
-        } else {
-            //return $this->getSoonEndingItems($amount, $rubriek_id);
-        }
+        return $this->attachImagesToItems(
+                $this->conn->select(
+                '
+                SELECT TOP ' . $amount . '
+                    items.title,
+                    items.id,
+                    items.selling_price,
+                    items.[end],
+                    items.start
+                FROM items
+                WHERE items.auction_closed = 0
+                ORDER BY [end]'
+            )
+        );
     }
 
     /**
@@ -355,7 +355,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
      * @param float $newPrice
      * @return int
      */
-    public function update_selling_price(int $id, float $newPrice)
+    public function updateSellingPrice(int $id, float $newPrice)
     {
         return $this->conn->update('
             UPDATE

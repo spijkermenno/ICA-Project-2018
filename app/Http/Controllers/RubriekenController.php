@@ -89,17 +89,6 @@ class RubriekenController extends Controller
             'start',
             'id'
         ]);
-        if (count($paginated) > 0) {
-            $images = $this->itemRepository->getMultipleImages(array_pluck($paginated, 'id'));
-        }
-
-        $images = collect($images)->keyBy('item_id');
-        $items = $paginated->getCollection()->map(function ($item) use ($images) {
-            $item->filename = optional($images->get($item->id))->filename;
-            return $item;
-        });
-
-        $paginated->setCollection($items);
 
         $this->getBreadcrumbs($product_id);
 

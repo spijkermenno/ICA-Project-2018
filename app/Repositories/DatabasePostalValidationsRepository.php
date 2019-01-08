@@ -4,21 +4,10 @@ namespace App\Repositories;
 
 use App\User;
 use App\PostalValidation;
-use Illuminate\Database\ConnectionInterface;
-use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use App\Repositories\Contracts\PostalValidationsRepository;
 
 class DatabasePostalValidationsRepository extends DatabaseRepository implements PostalValidationsRepository
 {
-    public function __construct(
-        ConnectionInterface $conn,
-        HasherContract $hasher
-    ) {
-        parent::__construct($conn);
-
-        $this->hasher = $hasher;
-    }
-
     protected function createModelFromData($data)
     {
         if (empty($data)) {
@@ -29,10 +18,8 @@ class DatabasePostalValidationsRepository extends DatabaseRepository implements 
 
     public function validateCredentials(PostalValidation $validation, array $credentials): bool
     {
-        return $this->hasher->check(
-            $credentials['token'] ?? '',
-            $validation->token
-        );
+        return trim($credentials['token'])
+            == trim($validation->token);
     }
 
     public function getByUser(User $user)
@@ -64,7 +51,7 @@ class DatabasePostalValidationsRepository extends DatabaseRepository implements 
                 (:user_name, :token)
         ', [
             $this->getIdentifierName() => $user->getAuthIdentifier(),
-            'token' => $this->hasher->make($token)
+            'token' => $token
         ]);
 
         return $token;
