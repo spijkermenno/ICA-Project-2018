@@ -31,8 +31,10 @@ class SearchController extends Controller
     {
         $buttons = 2;
         $searchQuery = trim($request->get('query'));
-        array_push($this->breadcrumbs, ['name' => $searchQuery, 'link' => route('search', ['query' => $searchQuery])]);
-        $breadCrumbs = $this->breadcrumbs;
+        array_push($this->breadcrumbs, [
+            'name' => $searchQuery,
+            'link' => route('search', ['query' => $searchQuery])
+        ]);
 
         if ($searchQuery == null) {
             return view('search.result_page', [
@@ -70,7 +72,7 @@ class SearchController extends Controller
         return view(
             'search.result_page',
             [
-                'breadcrumbs' => $breadCrumbs,
+                'breadcrumbs' => $this->breadcrumbs,
                 'products' => $products,
                 'buttons' => $buttons,
                 'searchQuery' => $searchQuery
