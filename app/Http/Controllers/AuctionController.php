@@ -30,15 +30,15 @@ class AuctionController extends Controller
     public function newProduct(Request $request)
     {
         $this->validate($request, [
-            'title'         => 'required|string|min:4|max:255',
-            'category_id'   => 'required|int',
-            'description'   => 'required|string|min:4',
-            'country'       => 'required',
-            'city'      => 'required|string|min:4',
-            'start_price'   => 'required|numeric',
+            'title' => 'required|string|min:4|max:255',
+            'category_id' => 'required|int',
+            'description' => 'required|string|min:4',
+            'country' => 'required',
+            'city' => 'required|string|min:4',
+            'start_price' => 'required|numeric',
             'shipping_cost' => 'required|numeric',
-            'payment_method'=> 'required|string',
-            'duration'      => 'required|int',
+            'payment_method' => 'required|string',
+            'duration' => 'required|int',
         ]);
 
         if ($this->databaseItemRepository->create($request) == true) {
@@ -56,11 +56,18 @@ class AuctionController extends Controller
         $auction_rubrieken = $this->categoryRepository->getAllByParentId(-1);
         $payment_methods = $this->paymentMethodRepository->getAll();
         array_push($this->breadcrumbs, ['name' => 'veiling toevoegen', 'link' => '']);
+        if (isset($_GET['error'])) {
+            $error = $_GET['error'];
+        } else {
+            $error = '';
+        }
+
 
         return view('product.new_item', [
             'breadcrumbs' => $this->breadcrumbs,
             'auction_rubrieken' => $auction_rubrieken,
             'payment_methods' => $payment_methods,
+            'error' => $error,
             'auctionDurations' => [
                 [
                     'value' => 1,

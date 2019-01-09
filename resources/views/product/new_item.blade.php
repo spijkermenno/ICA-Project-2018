@@ -5,18 +5,16 @@
         Nieuwe veiling maken
     @endcomponent
 
-    @if(isset($error) && count($error) > 0)
-        <div class="alert alert-warning alert-dismissible mt-4 mb-4" role="alert">
-            De volgende fout is opgetreden:
+    @if(isset($error) && $error != '' && count($error) > 0)
+        <div class="alert alert-warning alert-dismissible mt-3" role="alert">
             @if(is_array($error))
-                De volgende afbeelding(en) geven een foutmelding.
-                <ul>
-                    @foreach($error as $erro)
-                        {{$erro->filename}}
-                    @endforeach
-                </ul>
-            @else
-                {{ $error }}
+                @foreach($error as $erro)
+                    @if(isset($erro->filename))
+                        <h5>{{$erro->filename}}</h5>
+                    @else
+                        <h5>{{ $erro }}</h5>
+                    @endif
+                @endforeach
             @endif
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -87,7 +85,7 @@
                 <div class="form-group col-lg-6">
                     <label for="description">in welk land is het object</label>
                     <select class="form-control {{ $errors->has("country") ? " is-invalid" : "" }}"
-                    name="country">
+                            name="country">
                         <option value="AF">Afghanistan</option>
                         <option value="AX">Åland Islands</option>
                         <option value="AL">Albania</option>
@@ -352,8 +350,9 @@
             <div class="row">
                 <div class="form-group col-lg-12">
                     <label for="payment_method">Vul de eventuele verzendinstructies in</label>
-                    <input type="text" class="form-control {{ $errors->has("shipping_instruction") ? " is-invalid" : "" }}"
-                            name="shipping_instruction" >
+                    <input type="text"
+                           class="form-control {{ $errors->has("shipping_instruction") ? " is-invalid" : "" }}"
+                           name="shipping_instruction">
                     @include('components.forms.error', ['key' => 'shipping_instruction'])
                 </div>
             </div>
