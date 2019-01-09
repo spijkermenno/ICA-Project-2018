@@ -43,7 +43,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
                     %s
                 AND auction_closed = 0
             ', $whereClause),
-        $queryValues
+            $queryValues
         )[0]->count;
 
         $items = $this->conn->select(sprintf('

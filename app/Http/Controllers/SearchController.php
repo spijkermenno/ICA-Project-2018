@@ -31,14 +31,18 @@ class SearchController extends Controller
     {
         $buttons = 2;
         $searchQuery = trim($request->get('query'));
+        array_push($this->breadcrumbs, [
+            'name' => $searchQuery,
+            'link' => null
+        ]);
 
         if ($searchQuery == null) {
-            return view('search.noResultPage', ['breadcrumbs' => $this->breadcrumbs, 'searchQuery' => '']);
+            return view('search.result_page', [
+                'breadcrumbs' => $this->breadcrumbs,
+                'searchQuery' => '',
+                'products' => []
+            ]);
         }
-
-        array_push($this->breadcrumbs, ['name' => $searchQuery, 'link' => '']);
-
-        $breadCrumbs = $this->breadcrumbs;
 
         $searchQueries = explode(' ', $searchQuery);
 
@@ -66,13 +70,13 @@ class SearchController extends Controller
         ]);
 
         return view(
-            'search.resultPage',
-            compact(
-                'breadCrumbs',
-                'products',
-                'buttons',
-                'searchQuery'
-            )
+            'search.result_page',
+            [
+                'breadcrumbs' => $this->breadcrumbs,
+                'products' => $products,
+                'buttons' => $buttons,
+                'searchQuery' => $searchQuery
+            ]
         );
     }
 }
