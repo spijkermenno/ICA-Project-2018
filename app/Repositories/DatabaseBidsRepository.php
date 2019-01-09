@@ -23,7 +23,6 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
     public function getAllByUser(string $user, int $amountMonths = 3)
     {
         return $this->conn->select(
-
             'SELECT
             item_id, MAX(price) AS highest_bid, user_name, items.auction_closed
      FROM
@@ -34,7 +33,7 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
             user_name = :user AND datediff(month, [end], current_timestamp) <= :months
      group by item_id, user_name, items.auction_closed
             ',
-            ['user' => $user, 
+            ['user' => $user,
             'months' => $amountMonths]
         );
     }

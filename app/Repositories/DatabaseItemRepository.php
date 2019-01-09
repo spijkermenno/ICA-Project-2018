@@ -42,7 +42,9 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
                 FROM items
                     %s
                 AND auction_closed = 0
-            ', $whereClause),
+            ',
+                $whereClause
+            ),
             $queryValues
         )[0]->count;
 
