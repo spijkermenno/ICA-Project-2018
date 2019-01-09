@@ -62,7 +62,6 @@ class AuctionController extends Controller
             $error = '';
         }
 
-
         return view('product.new_item', [
             'breadcrumbs' => $this->breadcrumbs,
             'auction_rubrieken' => $auction_rubrieken,
