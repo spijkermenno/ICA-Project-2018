@@ -24,7 +24,7 @@
                 $classes = [];
 
                 // Dag waarop je kan bieden
-                if ($calendar >= $start && $end >= $calendar) {
+                if (($calendar >= $start && $end >= $calendar) || $calendar->isSameDay($start)) {
                     $classes[] = 'bg-primary text-white';
                 }
                 // Verleden
