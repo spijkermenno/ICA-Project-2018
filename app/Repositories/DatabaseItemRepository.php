@@ -49,8 +49,8 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         $items = $this->conn->select(sprintf('
             SELECT
                 ' . implode(',', array_map(function ($column) {
-                return 'items.' . $column;
-            }, $columns)) . '
+            return 'items.' . $column;
+        }, $columns)) . '
             FROM items
 
                 %s
