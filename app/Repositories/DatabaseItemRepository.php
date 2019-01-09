@@ -69,7 +69,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         $errors = [];
         $filenames = [];
 
-        if (count($_FILES) <= 5) {
+        if (count($_FILES['files']['name']) <= 5) {
             foreach ($_FILES['files']['name'] as $key => $value) {
                 $file_name = $_FILES['files']['name'][$key];
                 $temp = explode('.', $file_name);
@@ -95,7 +95,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
                 $this->createImageRecords($filenames, $item_id);
             }
         } else {
-            $errors = 'Te veel afbeeldingen geupload.';
+            $errors[1] = 'Te veel afbeeldingen geupload.';
         }
         return $errors;
     }
@@ -120,6 +120,9 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
                             description,
                             start_price,
                             selling_price,
+                            country,
+                            city,
+                            shipping_instruction,
                             payment_instruction,
                             category_id,
                             shipping_cost,
@@ -129,6 +132,9 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
                             :description,
                             :start_price,
                             :selling_price,
+                            :country,
+                            :city,
+                            :shipping_instruction,
                             :payment_instruction,
                             :category_id,
                             :shipping_cost,
@@ -138,6 +144,9 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
                 'description' => $insert['description'],
                 'start_price' => $insert['start_price'],
                 'selling_price' => $insert['start_price'],
+                'country' => $insert['country'],
+                'city' => $insert['city'],
+                'shipping_instruction' => $insert['shipping_instruction'],
                 'payment_instruction' => $insert['payment_instruction'],
                 'category_id' => $insert['category_id'],
                 'shipping_cost' => $insert['shipping_cost'],

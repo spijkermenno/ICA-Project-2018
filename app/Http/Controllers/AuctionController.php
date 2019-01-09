@@ -31,6 +31,8 @@ class AuctionController extends Controller
             'title'         => 'required|string|min:4|max:255',
             'category_id'   => 'required|int',
             'description'   => 'required|string|min:4',
+            'country'       => 'required',
+            'city'      => 'required|string|min:4',
             'start_price'   => 'required|numeric',
             'shipping_cost' => 'required|numeric',
             'payment_method'=> 'required|string',
@@ -41,7 +43,7 @@ class AuctionController extends Controller
             $id = $this->databaseItemRepository->getLastId();
             $errors = $this->databaseItemRepository->saveImages($id->id);
             if (count($errors) > 0) {
-                return redirect()->route('auction.add', ['errors' => $errors]);
+                return redirect()->route('auction.add', ['error' => $errors]);
             }
             return redirect()->route('product_no_name', ['product' => $id->id]);
         }
