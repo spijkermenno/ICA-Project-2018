@@ -27,8 +27,8 @@ Route::get('/rubrieken/', 'RubriekenController@index')->name('rubrieken');
 Route::get('/rubriek/{product_id}', 'RubriekenController@rubriek_no_name')->name('rubriek_without_name');
 Route::get('/rubriek/{product_id}/{product_name}', 'RubriekenController@rubriek')->name('rubriek_with_name');
 
-Route::get('/product/{product}', 'ProductController@product_no_name')->name('product_no_name');
-Route::get('/product/{product}/{name}', 'ProductController@product_specific')->name('product_specific');
+Route::get('/product/{product}', 'ProductController@productNoName')->name('product_no_name');
+Route::get('/product/{product}/{name}', 'ProductController@productSpecific')->name('product_specific');
 Route::get('/product/', 'ProductController@index')->name('product');
 
 Route::get('/zoek', 'SearchController')->name('search');
