@@ -5,6 +5,15 @@
         Nieuwe veiling maken
     @endcomponent
 
+    @if(isset($errors))
+        <div class="alert alert-warning alert-dismissible mt-4 mb-4" role="alert">
+            De volgende fout is opgetreden:
+            {{ $errors }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
     <form class="w-100 bg-dark px-2 py-5 mb-5 mt-0 mx-auto auction-form-wrapper rounded-bottom" method="post" action="/product/toevoegen/checken/" enctype="multipart/form-data">
         <div class="w-75 mx-auto">
             @include('components.forms.rubrieken_select')

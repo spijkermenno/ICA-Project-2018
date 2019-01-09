@@ -49,8 +49,8 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         $items = $this->conn->select(sprintf('
             SELECT
                 ' . implode(',', array_map(function ($column) {
-            return 'items.' . $column;
-        }, $columns)) . '
+                return 'items.' . $column;
+            }, $columns)) . '
             FROM items
 
                 %s
@@ -69,29 +69,33 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         $errors = [];
         $filenames = [];
 
-        foreach ($_FILES['files']['name'] as $key => $value) {
-            $file_name = $_FILES['files']['name'][$key];
-            $temp = explode('.', $file_name);
-            $extention = end($temp);
-            $new_file_name = $item_id . '_' . $key . '.' . $extention;
-            $file_target = 'images' . '/' . $new_file_name;
+        if (count($_FILES) <= 5) {
+            foreach ($_FILES['files']['name'] as $key => $value) {
+                $file_name = $_FILES['files']['name'][$key];
+                $temp = explode('.', $file_name);
+                $extention = end($temp);
+                $new_file_name = $item_id . '_' . $key . '.' . $extention;
+                $file_target = 'images' . '/' . $new_file_name;
 
-            $file_tmp = $_FILES['files']['tmp_name'][$key];
+                $file_tmp = $_FILES['files']['tmp_name'][$key];
 
-            if (move_uploaded_file($file_tmp, $file_target)) {
-                array_push($filenames, '/'.$file_target);
-            } else {
-                array_push($errors, $file_name);
+                if (move_uploaded_file($file_tmp, $file_target)) {
+                    array_push($filenames, '/' . $file_target);
+                } else {
+                    array_push($errors, $file_name);
+                }
             }
-        }
 
-        // when the file saving returned errors all the files are deleted.
-        if (count($errors) > 0) {
-            foreach ($filenames as $filename) {
-                unlink('images/' . $filename);
+            // when the file saving returned errors all the files are deleted.
+            if (count($errors) > 0) {
+                foreach ($filenames as $filename) {
+                    unlink('images/' . $filename);
+                }
+            } else {
+                $this->createImageRecords($filenames, $item_id);
             }
         } else {
-            $this->createImageRecords($filenames, $item_id);
+            $errors = 'Te veel afbeeldingen geupload.';
         }
         return $errors;
     }
@@ -241,7 +245,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         // TODO: Implement getById() method.
 
         return $this->conn->select(
-            'SELECT i.*, im.filename FROM items as i inner join images as im on i.id = im.item_id WHERE i.id = ?',
+            'SELECT top 1 i.*, im.filename FROM items as i inner join images as im on i.id = im.item_id WHERE i.id = ?',
             [$id]
         );
     }
@@ -268,6 +272,15 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
             'select i.*, im.filename FROM items as i inner join images as im on i.id = im.item_id WHERE i.category_id = ? and auction_closed = 0',
             [$category_id]
         );
+    }
+
+    public function getBySellerName($username, $closed, $amountMonths = null)
+    {
+        if ($amountMonths == null) {
+            return $this->conn->select('select * from items where seller = :username and auction_closed = :closed', ['username' => $username, 'closed' => $closed]);
+        } else {
+            return $this->conn->select('select * from items where seller = :username and auction_closed = :closed and datediff(month, [end], current_timestamp) <= :months ', ['username' => $username, 'closed' => $closed, 'months' => $amountMonths]);
+        }
     }
 
     /**

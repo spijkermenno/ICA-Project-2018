@@ -41,8 +41,7 @@ class AuctionController extends Controller
             $id = $this->databaseItemRepository->getLastId();
             $errors = $this->databaseItemRepository->saveImages($id->id);
             if (count($errors) > 0) {
-                dump($errors);
-                exit;
+                return redirect()->route('auction.add', ['errors' => $errors]);
             }
             return redirect()->route('product_no_name', ['product' => $id->id]);
         }

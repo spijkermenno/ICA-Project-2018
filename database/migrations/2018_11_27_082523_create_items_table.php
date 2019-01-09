@@ -20,6 +20,9 @@ class CreateItemsTable extends Migration
                 selling_price       NUMERIC(10, 2) NULL,
                 payment_method      VARCHAR(20)   NOT NULL DEFAULT \'Bank/Giro\',
                 payment_instruction VARCHAR(20)   NULL,
+                city                VARCHAR(100) NOT NULL, -- Langste stad naam is 85 characters
+                country             VARCHAR(40) NOT NULL, -- Lanste naam van een land is "Democratische Republiek Congo"
+                shipping_instruction VARCHAR(20) NULL,
                 category_id            INT           NOT NULL,
                 duration            TINYINT       NOT NULL DEFAULT 7,
                 "start"             DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
