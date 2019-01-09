@@ -60,7 +60,6 @@ class BidsController extends Controller
             seo_url($product->title)
         ]);
 
-
         if ($current_date > $start_date && $current_date < $end_date && $bid['user_name'] != $product->seller) {
             if (($data['price'] - $minimal_to_up) >= $product->selling_price) {
                 $this->bidsRepository->createBid($bid);
