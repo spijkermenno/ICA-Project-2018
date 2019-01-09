@@ -105,8 +105,17 @@ class AuctionController extends Controller
         $closedAuctions = $this->databaseItemRepository->getBySellerName(auth()->user()->getAuthIdentifier(), 1, 3);
 
         foreach ($openAuctions as $openAuction) {
-            $openAuction->highestBid = $this->databaseBidsRepository->getTopBids(1, $openAuction->id);
-            $openAuction->image = $this->databaseItemRepository->getAllImages($openAuction->id)[0]->filename;
+            $temp = $this->databaseBidsRepository->getTopBids(1, $openAuction->id);
+            if (count($temp) > 0) {
+                $openAuction->highestBid = $temp[0];
+            } else {
+                $openAuction->highestBid = null;
+            }
+
+            $temp2 = $this->databaseItemRepository->getAllImages($openAuction->id);
+            if (count($temp2) > 0) {
+                $openAuction->image = $temp2[0]->filename;
+            }
         }
 
         foreach ($closedAuctions as $closedAuction) {
@@ -116,7 +125,13 @@ class AuctionController extends Controller
             } else {
                 $closedAuction->highestBid = null;
             }
-            $closedAuction->image = $this->databaseItemRepository->getAllImages($closedAuction->id)[0]->filename;
+
+            $temp2 = $this->databaseItemRepository->getAllImages($closedAuction->id);
+            if (count($temp2) > 0 && isset($temp2[0]->filename)) {
+                $closedAuction->image = $temp2[0]->filename;
+            } else {
+                $closedAuction->image = '';
+            }
         }
 
         return view('account.veilingen', [
