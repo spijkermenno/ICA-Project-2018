@@ -23,7 +23,7 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
     public function getAllByUser(string $user, int $amountMonths = 3)
     {
         return $this->conn->select(
-            'SELECT * FROM bids full outer join items i on bids.item_id = i.id WHERE bids.user_name = :user AND and datediff(month, [end], current_timestamp) <= :months',
+            'SELECT * FROM bids full outer join items i on bids.item_id = i.id WHERE bids.user_name = :user AND datediff(month, [end], current_timestamp) <= :months',
             ['user' => $user, 
             'months' => $amountMonths]
         );
