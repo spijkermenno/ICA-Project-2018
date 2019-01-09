@@ -34,7 +34,10 @@ class FillItemsTable extends Migration
 
                 'shipping_cost' => floatval($item[9]),
                 'seller' => $item[10],
-                'category_id' => intval($item[11])
+                'category_id' => intval($item[11]),
+
+                'country' => $item[12],
+                'city' => $item[13]
             ];
 
             statement('
