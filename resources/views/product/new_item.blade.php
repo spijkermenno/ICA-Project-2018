@@ -27,26 +27,28 @@
             @include('components.forms.rubrieken_select')
             <div class="row">
                 <div class="form-group col-lg-7">
-                    <label for="title">Vul een titel in</label>
+                    <label for="title">Vul een titel in*</label>
                     <input type="text" class="form-control {{ $errors->has("title") ? " is-invalid" : "" }}" id="title"
-                           name="title" placeholder="">
+                           name="title" placeholder="" required
+                           value="{{old('title')}}">
                     @include('components.forms.error', ['key' => 'title'])
                 </div>
 
                 <div class="form-group col-lg-5">
-                    <label for="title">Kies een afbeelding</label>
+                    <label for="title">Kies een afbeelding(en)*</label><br/>
                     <input type="file" name="files[]"
-                           class=" p-1 rounded bg-white form-control-file {{ $errors->has("files") ? " is-invalid" : "" }}"
-                           id="file" required multiple accept="image/*" max="5"/>
+                    class=" p-1 rounded bg-white form-control-file {{ $errors->has("files") ? " is-invalid" : "" }}"
+                    id="file" required multiple accept="image/*" max="5"/>
+                    @if(old('title') != '') <p class="text-danger">Let op! Afbeeldingen dienen opnieuw geupload te worden</p> @endif
                     @include('components.forms.error', ['key' => 'files'])
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group col-12">
-                    <label for="description">Vul een beschrijving in</label>
+                    <label for="description">Vul een beschrijving in*</label>
                     <textarea class="form-control {{ $errors->has("description") ? " is-invalid" : "" }}"
-                              name="description" id="description" rows="3"></textarea>
+                              name="description" id="description" rows="3" required> {{old('description')}}</textarea>
                     @include('components.forms.error', ['key' => 'description'])
                 </div>
 
@@ -54,10 +56,10 @@
 
             <div class="row">
                 <div class="form-group col-lg-4">
-                    <label for="description">Vul een start prijs in</label>
-                    <input type="number" min="0" step="0.01"
+                    <label for="description">Vul een start prijs in*</label>
+                    <input type="number" min="1" step="0.01"
                            class="form-control {{ $errors->has("start_price") ? " is-invalid" : "" }}" id="price"
-                           name="start_price" placeholder="">
+                           name="start_price" placeholder="" required value="{{old('start_price')}}">
                     @include('components.forms.error', ['key' => 'start_price'])
                 </div>
 
@@ -65,12 +67,12 @@
                     <label for="description">Vul de verzendkosten in</label>
                     <input type="number" min="0" step="0.01"
                            class="form-control {{ $errors->has("shipping_cost") ? " is-invalid" : "" }}" id="price"
-                           name="shipping_cost" placeholder="">
+                           name="shipping_cost" placeholder="" value="{{old('shipping_cost')}}">
                     @include('components.forms.error', ['key' => 'shipping_cost'])
                 </div>
 
                 <div class="form-group col-lg-4">
-                    <label for="payment_method">kies een betaal methode</label>
+                    <label for="payment_method">kies een betaal methode*</label>
                     <select class="form-control {{ $errors->has("payment_method") ? " is-invalid" : "" }}"
                             name="payment_method">
                         @foreach($payment_methods as $method)
@@ -83,7 +85,7 @@
 
             <div class="row">
                 <div class="form-group col-lg-6">
-                    <label for="description">in welk land is het object</label>
+                    <label for="description">in welk land is het object*</label>
                     <select class="form-control {{ $errors->has("country") ? " is-invalid" : "" }}"
                             name="country">
                         <option value="AF">Afghanistan</option>
@@ -340,10 +342,10 @@
                 </div>
 
                 <div class="form-group col-lg-6">
-                    <label for="description">In welke plaats is het object</label>
+                    <label for="description">In welke plaats is het object*</label>
                     <input type="text"
                            class="form-control {{ $errors->has("city") ? " is-invalid" : "" }}" id="price"
-                           name="city" placeholder="">
+                           name="city" placeholder="" value="{{old('city')}}">
                     @include('components.forms.error', ['key' => 'city'])
                 </div>
             </div>
@@ -352,7 +354,7 @@
                     <label for="payment_method">Vul de eventuele verzendinstructies in</label>
                     <input type="text"
                            class="form-control {{ $errors->has("shipping_instruction") ? " is-invalid" : "" }}"
-                           name="shipping_instruction">
+                           name="shipping_instruction" value="{{old('shipping_instruction')}}">
                     @include('components.forms.error', ['key' => 'shipping_instruction'])
                 </div>
             </div>
@@ -362,19 +364,19 @@
                     <label for="title">Vul in wanneer de betaling moet worden gedaan</label>
                     <input type="text"
                            class="form-control {{ $errors->has("payment_instruction") ? " is-invalid" : "" }}"
-                           name="payment_instruction" id="paymentInstruction" placeholder="">
+                           name="payment_instruction" id="paymentInstruction" placeholder="" value="{{old('payment_instruction')}}">
                     @include('components.forms.error', ['key' => 'payment_instruction'])
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-group col-lg-6">
-                    <label for="description">Vul de veiling looptijd in</label>
+                    <label for="description">Vul de veiling looptijd in*</label>
                     <select class="form-control {{ $errors->has("duration") ? " is-invalid" : "" }}" name="duration"
                             id="duration">
                         @foreach($auctionDurations as $duration)
                             <option
-                                value="{{$duration['value']}}" {{$duration['default']}}>{{$duration['text']}}</option>
+                                value="{{$duration['value']}}" {{$duration['default']}} @if(old('duration') == $duration['text']) selected @endif>{{$duration['text']}}</option>
                         @endforeach
                     </select>
                     @include('components.forms.error', ['key' => 'duration'])
