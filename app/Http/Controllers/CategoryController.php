@@ -20,7 +20,7 @@ class CategoryController extends Controller
     public function __construct(DatabaseCategoryRepository $categoryRepository, DatabaseItemRepository $databaseItemRepository)
     {
         parent::__construct($categoryRepository);
-        $crumb = ['name' => 'Rubrieken', 'link' => '/rubrieken'];
+        $crumb = ['name' => 'Rubrieken', 'link' => route('rubrieken')];
         array_push($this->breadcrumbs, $crumb);
         $this->itemRepository = $databaseItemRepository;
     }
@@ -41,11 +41,11 @@ class CategoryController extends Controller
         $crumb = [];
         if ($is_admin) {
             foreach ($parents as $parent) {
-                array_push($this->breadcrumbs, ['name' => $parent->name, 'link' => '/rubrieken/bekijken/' . $parent->id]);
+                array_push($this->breadcrumbs, ['name' => $parent->name, 'link' => route('view_rubriek', ['id' => $parent->id])]);
             }
         } else {
             foreach ($parents as $parent) {
-                array_push($this->breadcrumbs, ['name' => $parent->name, 'link' => '/rubriek/' . $parent->id]);
+                array_push($this->breadcrumbs, ['name' => $parent->name, 'link' => route('rubriek_without_name', ['category_id' => $parent->id])]);
             }
         }
 
@@ -132,7 +132,7 @@ class CategoryController extends Controller
     public function view_rubriek($id)
     {
         if ($id == -1) {
-            return redirect()->to('/rubrieken/');
+            return redirect()->route('rubrieken');
         }
 
         $self = $this->categoryRepository->getById($id);
@@ -156,7 +156,7 @@ class CategoryController extends Controller
         $parent = $this->categoryRepository->getById($parent_id);
 
         if (empty($parent)) {
-            return redirect()->to('/rubrieken/')->with('error', 'Deze rubriek bestaat niet of kan niet aangepast worden');
+            return redirect()->route('rubrieken')->with('error', 'Deze rubriek bestaat niet of kan niet aangepast worden');
         }
 
         $this->getBreadcrumbs($parent_id, true);
@@ -178,7 +178,7 @@ class CategoryController extends Controller
 
         $this->categoryRepository->create($name, $parent_id);
 
-        return redirect()->to('/rubrieken/bekijken/' . $parent_id)->with('success', 'Rubriek succesvol toegevoegd');
+        return redirect()->route('view_rubriek', ['id' => $parent_id])->with('success', 'Rubriek succesvol toegevoegd');
     }
 
     public function edit_rubriek($id)
@@ -186,7 +186,7 @@ class CategoryController extends Controller
         $rubriek = $this->categoryRepository->getById($id);
 
         if (empty($rubriek) || $id == -1) {
-            return redirect()->to('/rubrieken/')->with('error', 'Deze rubriek bestaat niet of kan niet aangepast worden');
+            return redirect()->route('rubrieken')->with('error', 'Deze rubriek bestaat niet of kan niet aangepast worden');
         }
 
         $this->getBreadcrumbs($id, true);
@@ -232,7 +232,7 @@ class CategoryController extends Controller
             $message = 'Er zijn geen wijzigingen aangebracht';
         }
 
-        return redirect()->to('/rubrieken/bekijken/' . $id)->with('success', $message);
+        return redirect()->route('view_rubriek', ['id' => $id])->with('success', $message);
     }
 
     public function show_disable_rubriek($id)
@@ -240,7 +240,7 @@ class CategoryController extends Controller
         $self = $this->categoryRepository->getById($id);
 
         if (empty($self) || $id == -1) {
-            return redirect()->to('/rubrieken/')->with('error', 'Deze rubriek bestaat niet of kan niet aangepast worden');
+            return redirect()->route('rubrieken')->with('error', 'Deze rubriek bestaat niet of kan niet aangepast worden');
         }
 
         $this->getBreadcrumbs($id, true);
@@ -258,7 +258,7 @@ class CategoryController extends Controller
 
         $this->categoryRepository->disable($id);
 
-        return redirect()->to('/rubrieken/bekijken/' . $self[0]->parent)->with('success', 'Rubriek en subrubrieken succesvol uitgefaseerd');
+        return redirect()->route('view_rubriek', ['id' => $self[0]->parent])->with('success', 'Rubriek en subrubrieken succesvol uitgefaseerd');
     }
 
     /**

@@ -35,6 +35,6 @@ class Controller extends BaseController
     {
         $this->categoryRepository = $categoryRepository;
         View::share('rubrieken', $this->categoryRepository->getAllByParentIdOrdered(-1));
-        // View::share('viewName', Route::getFacadeRoot()->current()->uri());
+        View::share('viewName', Route::getFacadeRoot()->current()->uri());
     }
 }
