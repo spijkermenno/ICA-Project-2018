@@ -7,7 +7,7 @@ use App\Repositories\DatabaseItemRepository;
 use App\Repositories\DatabaseCategoryRepository;
 use App\Repositories\Contracts\CategoryRepository;
 
-class RubriekenController extends Controller
+class CategoryController extends Controller
 {
     private $itemRepository;
 

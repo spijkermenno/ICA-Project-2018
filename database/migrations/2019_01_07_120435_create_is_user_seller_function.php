@@ -38,6 +38,8 @@ class CreateIsUserSellerFunction extends Migration
      */
     public function down()
     {
-        //
+        statement('
+            DROP FUNCTION dbo.is_user_seller
+        ');
     }
 }

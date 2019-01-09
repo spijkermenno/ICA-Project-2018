@@ -23,19 +23,19 @@ Route::post('/verify-email', 'Auth\EmailController@verifyEmail')->name('email.ve
 // Application
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/rubrieken/', 'RubriekenController@index')->name('rubrieken');
-Route::get('/rubriek/{product_id}', 'RubriekenController@rubriek_no_name')->name('rubriek_without_name');
-Route::get('/rubriek/{product_id}/{product_name}', 'RubriekenController@rubriek')->name('rubriek_with_name');
+Route::get('/categories', 'CategoryController@index')->name('rubrieken');
+Route::get('/categories/{category_id}', 'CategoryController@rubriek_no_name')->name('rubriek_without_name');
+Route::get('/categories/{category_id}/{category_name}', 'CategoryController@rubriek')->name('rubriek_with_name');
 
-Route::get('/product/{product}', 'ProductController@productNoName')->name('product_no_name');
-Route::get('/product/{product}/{name}', 'ProductController@productSpecific')->name('product_specific');
-Route::get('/product/', 'ProductController@index')->name('product');
+Route::get('/products/{product}', 'ProductController@productNoName')->name('product_no_name');
+Route::get('/products/{product}/{name}', 'ProductController@productSpecific')->name('product_specific');
+Route::get('/products', 'ProductController@index')->name('product');
 
-Route::get('/zoek', 'SearchController')->name('search');
+Route::get('/search', 'SearchController')->name('search');
 
-Route::post('/bied/toevoegen', 'BidsController@create_bid')->name('bid.create');
+Route::post('/bids/add', 'BidsController@create_bid')->name('bid.create');
 
-Route::get('/account/veilingen', 'AuctionController@myAuctions')->name('account.auctions');
+Route::get('/account/auctions', 'AuctionController@myAuctions')->name('account.auctions');
 
 // Login protection
 Route::middleware('auth:web')
@@ -75,23 +75,26 @@ Route::middleware('auth:web')
             });
 
         Route::middleware('seller')
+            ->prefix('seller')
             ->group(function () {
-                Route::post('/product/toevoegen/checken/', 'AuctionController@newProduct')->name('auction.add.check');
+                Route::get('/products/create', 'AuctionController@index')->name('auction.add');
 
-                Route::get('/product/toevoegen/', 'AuctionController@index')->name('auction.add');
+                Route::post('/products/create', 'AuctionController@newProduct')->name('auction.add.check');
             });
 
         Route::middleware('admin')
+            ->prefix('admin')
             ->group(function () {
-                Route::get('/rubrieken/bekijken/{id}', 'RubriekenController@view_rubriek')->name('view_rubriek');
-                Route::get('/rubrieken/toevoegen/{parent_id}', 'RubriekenController@new_rubriek')->name('new_rubriek');
-                Route::post('/rubrieken/toevoegen/{parent_id}', 'RubriekenController@add_rubriek')->name('add_rubriek');
-                Route::get('/rubrieken/bewerken/{id}', 'RubriekenController@edit_rubriek')->name('edit_rubriek');
-                Route::post('/rubrieken/bewerken/{id}', 'RubriekenController@update_rubriek')->name('update_rubriek');
-                Route::get('/rubrieken/uitfaseren/{id}', 'RubriekenController@show_disable_rubriek')->name('show_disable_rubriek');
-                Route::post('/rubrieken/uitfaseren/{id}', 'RubriekenController@disable_rubriek')->name('disable_rubriek');
-            });
+                Route::get('/verifications/sellers', 'User\Admin\Verifications\Seller\MailController@showVerificationLetter')->name('admin.verifications.seller.letter');
+                Route::post('/verifications/sellers/sent', 'User\Admin\Verifications\Seller\MailController@markLetterSent')->name('admin.verifications.seller.letter.sent');
 
-        Route::get('/admin/verifications/sellers', 'User\Admin\Verifications\Seller\MailController@showVerificationLetter')->name('admin.verifications.seller.letter');
-        Route::post('/admin/verifications/sellers/sent', 'User\Admin\Verifications\Seller\MailController@markLetterSent')->name('admin.verifications.seller.letter.sent');
+                Route::get('/categories/add/{parent_id}', 'CategoryController@new_rubriek')->name('new_rubriek');
+                Route::post('/categories/add/{parent_id}', 'CategoryController@add_rubriek')->name('add_rubriek');
+                Route::get('/categories/edit/{id}', 'CategoryController@edit_rubriek')->name('edit_rubriek');
+                Route::post('/categories/edit/{id}', 'CategoryController@update_rubriek')->name('update_rubriek');
+                Route::get('/categories/remove/{id}', 'CategoryController@show_disable_rubriek')->name('show_disable_rubriek');
+                Route::post('/categories/remove/{id}', 'CategoryController@disable_rubriek')->name('disable_rubriek');
+
+                Route::get('/categories/{id}', 'CategoryController@view_rubriek')->name('view_rubriek');
+            });
     });
