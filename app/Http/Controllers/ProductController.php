@@ -63,7 +63,7 @@ class ProductController extends Controller
         if ($parent->parent != '-1') {
             $this->createCategoryBreadcrumbs($parent->parent);
         }
-        array_push($this->breadcrumbs, ['name' => $parent->name, 'link' => '/rubriek/'.$parent->id . '/']);
+        array_push($this->breadcrumbs, ['name' => $parent->name, 'link' => route('rubriek_without_name', $parent->id) ]);
     }
 
     public function productSpecific($product_id)
