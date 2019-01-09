@@ -7,9 +7,7 @@ use App\Repositories\DatabaseCategoryRepository;
 
 class MyBidsController extends Controller
 {
-    /**
-    * @var DatabaseBidsRepository
-    */
+    private $user;
     private $bidsRepository;
     private $itemRepository;
 
@@ -21,6 +19,9 @@ class MyBidsController extends Controller
     public function __construct(DatabaseCategoryRepository $categoryRepository, DatabaseBidsRepository $bidsRepository, \App\Repositories\DatabaseItemRepository $itemRepository)
     {
         parent::__construct($categoryRepository);
+        $this->middleware('auth');
+
+        $this->user = auth()->user();
         $this->itemRepository = $itemRepository;
         $this->bidsRepository = $bidsRepository;
     }
@@ -31,6 +32,8 @@ class MyBidsController extends Controller
     public function __invoke()
     {
         array_push($this->breadcrumbs, ['name' => 'Mijn biedingen', 'link' => '']);
+        $bids = $this->bidsRepository->getAllByUser(auth()->user()->getAuthIdentifier());
+        
         return view('my_bids_view', ['bids' => $this->bidsRepository->getAllByUser(auth()->user()->getAuthIdentifier())]);
     }
 }
