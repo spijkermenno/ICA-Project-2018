@@ -111,7 +111,12 @@ class AuctionController extends Controller
         }
 
         foreach ($closedAuctions as $closedAuction) {
-            $closedAuction->highestBid = $this->databaseBidsRepository->getTopBids(1, $closedAuction->id);
+            $temp = $this->databaseBidsRepository->getTopBids(1, $closedAuction->id);
+            if (count($temp) > 0) {
+                $closedAuction->highestBid = $temp[0];
+            } else {
+                $closedAuction->highestBid = null;
+            }
             $closedAuction->image = $this->databaseItemRepository->getAllImages($closedAuction->id)[0]->filename;
         }
 
