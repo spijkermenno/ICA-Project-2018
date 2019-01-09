@@ -39,7 +39,7 @@
                     <label for="title">Kies een afbeelding</label>
                     <input type="file" name="files[]"
                            class=" p-1 rounded bg-white form-control-file {{ $errors->has("files") ? " is-invalid" : "" }}"
-                           id="file" multiple accept="image/*" max="5"/>
+                           id="file" required multiple accept="image/*" max="5"/>
                     @include('components.forms.error', ['key' => 'files'])
                 </div>
             </div>
