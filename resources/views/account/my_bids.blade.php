@@ -5,7 +5,7 @@
         Mijn biedingen
     @endcomponent
 
-    @if($overbodenVeilingen)
+    @if($losingBids)
         <div class="p-2 mt-3 mb-0 b border-0 rounded-0">
             <h2>Lopende veilingen</h2>
             <div class="row">
@@ -22,22 +22,22 @@
                     Resterende tijd
                 </div>
             </div>
-            @foreach($overbodenVeilingen as $overbodenVeiling)
+            @foreach($losingBids as $losingBid)
                 <div class="row">
                     <div class="col-md-1 border">
-                        <a href="{{route('product_no_name', ['product' => $overbodenVeiling->id])}}"><img style="width: 100%;" class="p-1" src="{{ $overbodenVeiling->image }}" /></a>
+                        <a href="{{route('product_no_name', ['product' => $losingBid->id])}}"><img style="width: 100%;" class="p-1" src="{{ $overbodenVeiling->image }}" /></a>
                     </div>
                     <div class="col-md-5 border">
-                        <a href="{{route('product_no_name', ['product' => $overbodenVeiling->id])}}">{{ $overbodenVeiling->title }}</a>
+                        <a href="{{route('product_no_name', ['product' => $losingBid->id])}}">{{ $overbodenVeiling->title }}</a>
                     </div>
                     <div class="col-md-3 border">
-                        @if(!$overbodenVeiling->highestBid)
+                        @if(!$losingBid->highestBid)
                             Er zijn geen biedingen
                         @else
-                            €{{ $overbodenVeiling->selling_price }}
+                            €{{ $losingBid->selling_price }}
                         @endif                    </div>
                     <div class="col-md-3 border">
-                        <product-card-timer end="{{ $overbodenVeiling->end }}"></product-card-timer>
+                        <product-card-timer end="{{ $losingBid->end }}"></product-card-timer>
                     </div>
                 </div>
             @endforeach

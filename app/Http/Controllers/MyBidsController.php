@@ -33,7 +33,27 @@ class MyBidsController extends Controller
     {
         array_push($this->breadcrumbs, ['name' => 'Mijn biedingen', 'link' => '']);
         $bids = $this->bidsRepository->getAllByUser(auth()->user()->getAuthIdentifier());
-        
-        return view('my_bids_view', ['bids' => $this->bidsRepository->getAllByUser(auth()->user()->getAuthIdentifier())]);
+        $losingBids = [];
+        $winningBids = [];
+        $lostBids = [];
+        $wonBids = [];
+        foreach($bids as $bid){
+            $bid->image = $this->databaseItemRepository->getAllImages($bid->item_id)[0]->filename;
+            if($bid->auction_closed = 1){
+                if($bid->user_bid == $bid->highest_bid){
+                    array_push($wonBids,$bid);
+                }
+                array_push($lostBids,$bid);
+            } else{
+                if($bid->user_bid == $bid->highest_bid){
+                    array_push($winningBids,$bid);
+                }
+                array_push($losingBids,$bid);
+            }
+
+        }
+        return view('my_bids_view', 
+            compact('losingBids', 'winningBids', 'wonBids', 'lostBids')
+        );
     }
 }
