@@ -12,11 +12,24 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
             SELECT id, name, parent, order_number, inactive 
             FROM categories 
             WHERE inactive = 0
-            ORDER BY name ASC
+            ORDER BY order_number ASC
         ');
     }
 
     public function getAllByParentId($id)
+    {
+        return $this->conn->select(
+            '
+                SELECT id, name, parent, order_number, inactive 
+                FROM categories 
+                WHERE parent = ?
+                AND inactive = 0
+                ORDER BY order_number ASC',
+            [$id]
+        );
+    }
+
+    public function getAllByParentIdByName($id)
     {
         return $this->conn->select(
             '
@@ -38,7 +51,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
                 ' . str_replace_last(',', '', str_repeat('?,', count($ids))) .
             ')
             AND inactive = 0
-            ORDER BY order_number ASC, name ASC
+            ORDER BY order_number ASC
         ', $ids);
     }
 
@@ -97,14 +110,14 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
             FROM categories
             WHERE parent = ?
             AND inactive = 0
-            ORDER BY order_number ASC, name ASC',
+            ORDER BY order_number ASC',
             [$id]
         );
     }
 
     public function getLevelWithChildren($parent_id)
     {
-        $parents = $this->getAllByParentId($parent_id);
+        $parents = $this->getAllByParentIdByName($parent_id);
         if (count($parents)) {
             return collect($parents)
                 ->pipe(function ($parents) {
@@ -284,7 +297,7 @@ class DatabaseCategoryRepository extends DatabaseRepository implements CategoryR
         $result = $this->conn->select('
                 select *
                 from categories
-                where (select COUNT(*) from categories as cat where cat.parent = categories.id) < 1 order by name asc');
+                where (select COUNT(*) from categories as cat where cat.parent = categories.id) < 1 order by order_number');
 
         return $result;
     }
