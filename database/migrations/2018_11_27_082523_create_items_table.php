@@ -11,8 +11,8 @@ class CreateItemsTable extends Migration
      */
     public function up()
     {
-        statement('
-            CREATE TABLE items (
+        statement(
+            'CREATE TABLE items (
                 id                  BIGINT IDENTITY NOT NULL, -- App C genereert zelf
                 title               VARCHAR(max)  NOT NULL, -- 60 -> Omdat martkplaats 60 heeft
                 description         VARCHAR(max)  NOT NULL,
@@ -43,7 +43,8 @@ class CreateItemsTable extends Migration
                 CONSTRAINT chk_start_price CHECK (start_price > 1.00),
                 CONSTRAINT chk_duration CHECK (duration IN (1, 3, 5, 7, 10))
             )
-        ');
+        '
+        );
     }
 
     /**

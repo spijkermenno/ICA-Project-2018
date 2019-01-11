@@ -36,13 +36,15 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         $whereClause = 'WHERE ' . join(' OR ', $whereLikeStatement);
 
         $total = $this->conn->select(
-            sprintf('
-                SELECT
+            sprintf(
+                'SELECT
                     COUNT(*) as count
                 FROM items
                     %s
                 AND auction_closed = 0
-            ', $whereClause),
+            ',
+                $whereClause
+            ),
             $queryValues
         )[0]->count;
 
@@ -369,5 +371,21 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
                 selling_price = ?
             WHERE id = ?
         ', [$newPrice, $id]);
+    }
+
+    /**
+     * @param int $id
+     * @param float $newPrice
+     * @return int
+     */
+    public function updateBuyer(int $id, string $newBuyer)
+    {
+        return $this->conn->update('
+            UPDATE
+                items
+            SET
+                buyer = ?
+            WHERE id = ?
+        ', [$newBuyer, $id]);
     }
 }

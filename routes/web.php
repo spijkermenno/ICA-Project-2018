@@ -98,3 +98,5 @@ Route::middleware('auth:web')
                 Route::get('/categories/{id}', 'CategoryController@view_rubriek')->name('view_rubriek');
             });
     });
+
+Route::get('/account/biedingen', 'MyBidsController')->name('account.my_bids');

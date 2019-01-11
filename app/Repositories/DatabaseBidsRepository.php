@@ -17,6 +17,32 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
     }
 
     /**
+     * @param string $user Name of the user
+     * @param int $amountMonths How far back the query should look
+     * @return array
+     */
+    public function getAllByUser(string $user, int $amountMonths = 3)
+    {
+        return $this->conn->select(
+            'SELECT
+             bids.item_id as id, MAX(bids.price) as user_bid,
+    MAX(item_bids.price) as highest_bid, bids.user_name, items.auction_closed
+    , items.auction_closed, items.[end], items.title, items.seller
+     FROM
+          bids
+          LEFT JOIN
+       items on items.id = item_id
+LEFT JOIN bids as item_bids on item_bids.item_id = bids.item_id
+     where
+            bids.user_name = :user AND datediff(month, [end], current_timestamp) <= :months
+     group by bids.item_id, bids.user_name, items.auction_closed, items.title, [end], auction_closed, seller
+            ',
+            ['user' => $user,
+            'months' => $amountMonths]
+        );
+    }
+
+    /**
      * @param int $id
      * @return mixed|null
      */
