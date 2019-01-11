@@ -173,7 +173,7 @@
                         €{{ $lostBid->highest_bid }}
                       </div>
                 <div class="col-md-2 border">
-                    {{ $lostBid->end }}
+                    {{ \Illuminate\Support\Carbon::parse($lostBid->end)->format('d-m-Y')  }}
                 </div>
             </div>
         @endforeach

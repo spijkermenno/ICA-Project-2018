@@ -43,7 +43,8 @@ class CreateItemsTable extends Migration
                 CONSTRAINT chk_start_price CHECK (start_price > 1.00),
                 CONSTRAINT chk_duration CHECK (duration IN (1, 3, 5, 7, 10))
             )
-        ');
+        '
+        );
     }
 
     /**
