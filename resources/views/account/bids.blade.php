@@ -156,24 +156,24 @@
                 Datum
             </div>
         </div>
-        @foreach($losingBids as $losingBid)
+        @foreach($lostBids as $lostBid)
             <div class="row">
                 <div class="col-md-1 border">
-                    <a href="{{route('product_no_name', ['product' => $losingBid->id])}}"><img style="width: 100%;" class="p-1" src="{{ $losingBid->image }}" /></a>
+                    <a href="{{route('product_no_name', ['product' => $lostBid->id])}}"><img style="width: 100%;" class="p-1" src="{{ $lostBid->image }}" /></a>
                 </div>
                 <div class="col-md-5 border">
-                    <a href="{{route('product_no_name', ['product' => $losingBid->id])}}">{{ $losingBid->title }}</a>
+                    <a href="{{route('product_no_name', ['product' => $lostBid->id])}}">{{ $lostBid->title }}</a>
                 </div>
                 <div class="col-md-2 border">
                     
-                        €{{ $losingBid->user_bid }}
+                        €{{ $lostBid->user_bid }}
                       </div>
                       <div class="col-md-2 border">
                     
-                        €{{ $losingBid->highest_bid }}
+                        €{{ $lostBid->highest_bid }}
                       </div>
                 <div class="col-md-2 border">
-                    {{ $losingBid->end }}
+                    {{ $lostBid->end }}
                 </div>
             </div>
         @endforeach
