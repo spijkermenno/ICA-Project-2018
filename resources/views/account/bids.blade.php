@@ -125,7 +125,7 @@
                       </div>
                       <div class="col-md-2 border">
                     
-                        €{{ $wonBid->highest_bid }}
+                        €{{ $wonBid->seller }}
                       </div>
                 <div class="col-md-2 border">
                   {{ \Illuminate\Support\Carbon::parse($wonBid->end)->format('d-m-Y')  }}

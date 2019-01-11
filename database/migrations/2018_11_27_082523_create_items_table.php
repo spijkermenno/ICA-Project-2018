@@ -11,8 +11,8 @@ class CreateItemsTable extends Migration
      */
     public function up()
     {
-        statement('
-            CREATE TABLE items (
+        statement(
+            'CREATE TABLE items (
                 id                  BIGINT IDENTITY NOT NULL, -- App C genereert zelf
                 title               VARCHAR(max)  NOT NULL, -- 60 -> Omdat martkplaats 60 heeft
                 description         VARCHAR(max)  NOT NULL,
@@ -33,7 +33,7 @@ class CreateItemsTable extends Migration
                 ),
                 shipping_cost       NUMERIC(10, 2) NOT NULL,
                 seller              VARCHAR(60)   NOT NULL,
-                buyer               VARCHAR(60)   NULL,
+                buyer               VARCHAR(60)   NULL AS(SELECT TOP 1 user_name FROM bids WHERE item_id = id ORDER BY price DESC),
                 CONSTRAINT pk_items PRIMARY KEY (id),
                 CONSTRAINT fk_items_payment_method FOREIGN KEY (payment_method) REFERENCES payment_methods (name),
                 CONSTRAINT fk_items_seller FOREIGN KEY (seller) REFERENCES users (name),

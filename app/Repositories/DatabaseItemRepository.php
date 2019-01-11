@@ -372,4 +372,20 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
             WHERE id = ?
         ', [$newPrice, $id]);
     }
+
+    /**
+     * @param int $id
+     * @param float $newPrice
+     * @return int
+     */
+    public function updateBuyer(int $id, string $newBuyer)
+    {
+        return $this->conn->update('
+            UPDATE
+                items
+            SET
+                buyer = ?
+            WHERE id = ?
+        ', [$newBuyer, $id]);
+    }
 }

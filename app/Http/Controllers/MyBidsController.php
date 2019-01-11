@@ -41,7 +41,7 @@ class MyBidsController extends Controller
         $wonBids = [];
 
         foreach ($bids as $bid) {
-            $bid->image = $this->itemRepository->getAllImages($bid->id)[0]->filename;
+            $bid->image = $this->itemRepository->getImagesForItemId($bid->id)[0]->filename;
             if ($bid->auction_closed == 1) {
                 if ($bid->user_bid == $bid->highest_bid) {
                     array_push($wonBids, $bid);
