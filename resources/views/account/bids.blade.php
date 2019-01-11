@@ -128,7 +128,7 @@
                         €{{ $wonBid->highest_bid }}
                       </div>
                 <div class="col-md-2 border">
-                  {{ \Illuminate\Support\Carbon::parse($wonBid->end)->toDateString()  }}
+                  {{ \Illuminate\Support\Carbon::parse($wonBid->end)->format('d-m-Y')  }}
                 </div>
             </div>
         @endforeach
