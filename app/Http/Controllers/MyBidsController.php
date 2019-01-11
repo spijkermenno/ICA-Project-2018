@@ -40,27 +40,25 @@ class MyBidsController extends Controller
         $lostBids = [];
         $wonBids = [];
 
-        foreach($bids as $bid){
+        foreach ($bids as $bid) {
             $bid->image = $this->itemRepository->getAllImages($bid->id)[0]->filename;
-            if($bid->auction_closed == 1){
-                if($bid->user_bid == $bid->highest_bid){
-                    array_push($wonBids,$bid);
-                }
-                else{
+            if ($bid->auction_closed == 1) {
+                if ($bid->user_bid == $bid->highest_bid) {
+                    array_push($wonBids, $bid);
+                } else {
                     array_push($lostBids, $bid);
                 }
-            } else{
-                if($bid->user_bid == $bid->highest_bid){
-                    array_push($winningBids,$bid);
-                }
-                else{
+            } else {
+                if ($bid->user_bid == $bid->highest_bid) {
+                    array_push($winningBids, $bid);
+                } else {
                     array_push($losingBids, $bid);
                 }
             }
-
         }
-        
-        return view('account.bids', 
+
+        return view(
+            'account.bids',
             compact('losingBids', 'winningBids', 'wonBids', 'lostBids')
         );
     }
