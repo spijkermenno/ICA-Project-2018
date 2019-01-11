@@ -108,7 +108,6 @@ class EmailController extends Controller
         $request->session()->save();
 
         return redirect()
-            ->route('register')
-            ->with('email', $request->get('email'));
+            ->route('register');
     }
 }
