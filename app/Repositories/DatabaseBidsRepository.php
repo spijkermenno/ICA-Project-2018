@@ -25,8 +25,9 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
     {
         return $this->conn->select(
             'SELECT
-             bids.item_id, MAX(bids.price) as user_bid,
+             bids.item_id as id, MAX(bids.price) as user_bid,
     MAX(item_bids.price) as highest_bid, bids.user_name, items.auction_closed
+    , items.auction_closed, items.[end], items.title, items.seller
      FROM
           bids
           LEFT JOIN
@@ -34,7 +35,7 @@ class DatabaseBidsRepository extends DatabaseRepository implements BidsRepositor
 LEFT JOIN bids as item_bids on item_bids.item_id = bids.item_id
      where
             bids.user_name = :user AND datediff(month, [end], current_timestamp) <= :months
-     group by bids.item_id, bids.user_name, items.auction_closed
+     group by bids.item_id, bids.user_name, items.auction_closed, items.title, [end], auction_closed, seller
             ',
             ['user' => $user,
             'months' => $amountMonths]

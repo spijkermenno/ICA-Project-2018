@@ -32,27 +32,35 @@ class MyBidsController extends Controller
     public function __invoke()
     {
         array_push($this->breadcrumbs, ['name' => 'Mijn biedingen', 'link' => '']);
+
         $bids = $this->bidsRepository->getAllByUser(auth()->user()->getAuthIdentifier());
+        // dd($bids);
         $losingBids = [];
         $winningBids = [];
         $lostBids = [];
         $wonBids = [];
+
         foreach($bids as $bid){
-            $bid->image = $this->databaseItemRepository->getAllImages($bid->item_id)[0]->filename;
-            if($bid->auction_closed = 1){
+            $bid->image = $this->itemRepository->getAllImages($bid->id)[0]->filename;
+            if($bid->auction_closed == 1){
                 if($bid->user_bid == $bid->highest_bid){
                     array_push($wonBids,$bid);
                 }
-                array_push($lostBids,$bid);
+                else{
+                    array_push($lostBids, $bid);
+                }
             } else{
                 if($bid->user_bid == $bid->highest_bid){
                     array_push($winningBids,$bid);
                 }
-                array_push($losingBids,$bid);
+                else{
+                    array_push($losingBids, $bid);
+                }
             }
 
         }
-        return view('my_bids_view', 
+        
+        return view('account.bids', 
             compact('losingBids', 'winningBids', 'wonBids', 'lostBids')
         );
     }
