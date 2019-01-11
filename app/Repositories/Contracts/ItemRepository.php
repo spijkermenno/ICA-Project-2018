@@ -11,4 +11,6 @@ interface ItemRepository
     public function getAllBetween(int $from, int $to);
 
     public function getSoonEndingItems(int $amount);
+
+    public function updateBuyer(int $id, string $newBuyer);
 }
