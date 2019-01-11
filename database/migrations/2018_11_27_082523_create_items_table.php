@@ -33,7 +33,7 @@ class CreateItemsTable extends Migration
                 ),
                 shipping_cost       NUMERIC(10, 2) NOT NULL,
                 seller              VARCHAR(60)   NOT NULL,
-                buyer               VARCHAR(60)   NULL AS(SELECT TOP 1 user_name FROM bids WHERE item_id = id ORDER BY price DESC),
+                buyer               VARCHAR(60)   NULL,
                 CONSTRAINT pk_items PRIMARY KEY (id),
                 CONSTRAINT fk_items_payment_method FOREIGN KEY (payment_method) REFERENCES payment_methods (name),
                 CONSTRAINT fk_items_seller FOREIGN KEY (seller) REFERENCES users (name),
