@@ -5,7 +5,7 @@
         Nieuwe veiling maken
     @endcomponent
 
-    <form class="w-100 bg-dark px-2 py-5 mb-5 mt-0 mx-auto auction-form-wrapper rounded-bottom" method="post" action="/product/toevoegen/checken/" enctype="multipart/form-data">
+    <form class="w-100 bg-dark px-2 py-5 mb-5 mt-0 mx-auto auction-form-wrapper rounded-bottom" method="post" action="{{ route('auction.add.check') }}" enctype="multipart/form-data">
         <div class="w-75 mx-auto">
             @include('components.forms.rubrieken_select')
             <div class="row">

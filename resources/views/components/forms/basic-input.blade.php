@@ -10,8 +10,10 @@
             class="form-control {{ $errors->has($key) ? ' is-invalid' : '' }}"
             name="{{ $key }}"
             value="{{ ($value ?? old($key)) ?? ($default ?? '') }}"
+            {{ ($id ?? null) ? 'id=' . $id : '' }}
             {{ ($required ?? true) ? 'required' : '' }}
             {{ ($readonly ?? null) ? 'readonly="readonly"' : '' }}
+            {{ ($disabled ?? null) ? 'disabled="disabled"' : '' }}
         >
 
         @if ($errors->has($key))

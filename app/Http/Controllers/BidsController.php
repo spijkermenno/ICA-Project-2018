@@ -63,7 +63,7 @@ class BidsController extends Controller
         if ($current_date > $start_date && $current_date < $end_date && $bid['user_name'] != $product->seller) {
             if (($data['price'] - $minimal_to_up) >= $product->selling_price) {
                 $this->bidsRepository->createBid($bid);
-                $this->itemRepository->update_selling_price($data['product'], $data['price']);
+                $this->itemRepository->updateSellingPrice($data['product'], $data['price']);
 
                 return $response->with('successful_bid', [
                     'price' => $current_bid

@@ -63,7 +63,7 @@ class ProductController extends Controller
         if ($parent->parent != '-1') {
             $this->createCategoryBreadcrumbs($parent->parent);
         }
-        array_push($this->breadcrumbs, ['name' => $parent->name, 'link' => '/rubriek/'.$parent->id . '/']);
+        array_push($this->breadcrumbs, ['name' => $parent->name, 'link' => route('rubriek_without_name', $parent->id)]);
     }
 
     public function productSpecific($product_id)
@@ -72,7 +72,7 @@ class ProductController extends Controller
         $itemObject = $productRepo->getById($product_id);
 
         if (isset($itemObject[0])) {
-            $itemPictures = $productRepo->getAllImages($product_id);
+            $itemPictures = $productRepo->getImagesForItemId($product_id);
             $this->createCategoryBreadcrumbs($itemObject[0]->category_id);
             array_push($this->breadcrumbs, ['name' => strlen($itemObject[0]->title) > 50 ? substr($itemObject[0]->title, 0, 50).'...' : $itemObject[0]->title, 'link' => '']);
 
