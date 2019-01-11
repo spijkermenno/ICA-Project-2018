@@ -3,7 +3,7 @@
         <div class=""
              style="height: 200px; background-image: url('{{$product->filename}}'); background-size: contain; background-position: center; background-repeat: no-repeat"></div>
     </div>
-    <a href="/product/{{$product->id}}/" class="btn btn-dark goto text-white">
+    <a href="{{ route('product_no_name', ['product' => $product->id]) }}" class="btn btn-dark goto text-white">
         <i class="fas fa-search"></i>
     </a>
     <div class="card-body">

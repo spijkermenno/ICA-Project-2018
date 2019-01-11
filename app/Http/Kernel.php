@@ -57,6 +57,10 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'not.verified.seller' => \App\Http\Middleware\VerifiedSellerVerificationMethod::class,
+        'verified.seller' => \App\Http\Middleware\VerifiedSellerVerification::class,
+        'not.seller' => \App\Http\Middleware\NotSeller::class,
+        'seller' => \App\Http\Middleware\Seller::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'admin' => \App\Http\Middleware\Admin::class

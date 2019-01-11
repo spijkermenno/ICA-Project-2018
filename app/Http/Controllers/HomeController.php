@@ -32,8 +32,20 @@ class HomeController extends Controller
     public function index()
     {
         return view('home', [
-            'popular_products' => $this->itemRepository->getMostPopularItems(3),
-            'fast_ending_products' => $this->itemRepository->getSoonEndingItems(12)
+            'popular_products' => $this->itemRepository->getMostPopularItems(3, [
+                'title',
+                'selling_price',
+                '[end]',
+                'start',
+                'id'
+            ]),
+            'fast_ending_products' => $this->itemRepository->getSoonEndingItems(12, [
+                'title',
+                'selling_price',
+                '[end]',
+                'start',
+                'id'
+            ])
         ]);
     }
 }
