@@ -92,7 +92,7 @@
 
     @if($wonBids)
     <div class="p-2 mt-3 mb-0 b border-0 rounded-0">
-        <h2>Gewonnen bids</h2>
+        <h2>Gewonnen veilingen</h2>
         <div class="row">
             <div class="col-md-1 border font-weight-bold">
 
@@ -137,7 +137,7 @@
 
     @if($lostBids)
     <div class="p-2 mt-3 mb-0 b border-0 rounded-0">
-        <h2>Overboden lopende veilingen</h2>
+        <h2>Verloren veilingen</h2>
         <div class="row">
             <div class="col-md-1 border font-weight-bold">
 
