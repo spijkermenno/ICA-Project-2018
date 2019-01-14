@@ -24,10 +24,16 @@
             <a href="{{ route('account.my_bids') }}" class="dropdown-item bg-dark text-white">
                 Mijn biedingen
             </a>
+
+            <a href="{{ route('account.auctions') }}" class="dropdown-item bg-dark text-white">
+                Mijn veilingen
+            </a>
+
             <a href="{{ route('logout') }}" class="dropdown-item bg-dark text-white"
                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                 Uitloggen
             </a>
+
             <form id="logout-form" action="{{ route('logout') }}" method="POST"
                   style="display: none;">
                 {{ csrf_field() }}

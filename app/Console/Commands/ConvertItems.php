@@ -43,7 +43,8 @@ class ConvertItems extends DataConverter
                         Beschrijving as description,
                         Verkoper as seller,
                         Prijs as selling_price,
-                        Categorie as category
+                        Categorie as category,
+                        Locatie as country
                     FROM Items
                     ORDER BY ID
                     OFFSET ' . $offset . ' ROWS
@@ -84,7 +85,9 @@ class ConvertItems extends DataConverter
 
                     'shipping_cost' => $this->faker->randomNumber(2),
                     'seller' => $item->seller,
-                    'category' => $item->category
+                    'category' => $item->category,
+                    'country' => $item->country,
+                    'city' => $this->faker->city()
                 ];
             }
         );

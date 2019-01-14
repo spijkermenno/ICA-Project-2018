@@ -18,8 +18,8 @@ class CategoryGetChildrenController extends Controller
 
         if (count($children)) {
             $result = '<div class="form-group mt-2" id="' . $id . '">
-                <label for="categories">Kies een subrubriek voor ' . $parentName . '</label>
-               <select class="form-control" onchange="retrieveNewSubrubriek(this.options[this.selectedIndex].value); this.disabled = true;" id="categories">
+                <label for="categories">Kies een subrubriek voor ' . $parentName . '*</label>
+               <select class="form-control" onchange="retrieveNewSubrubriek(this.options[this.selectedIndex].value); this.disabled = true;" id="categories" required>
                                    <option selected disabled>Rubriek</option>
 ';
 
