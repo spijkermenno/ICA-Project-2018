@@ -55,7 +55,7 @@ class AuctionController extends Controller
     {
         $auction_rubrieken = $this->categoryRepository->getAllByParentId(-1);
         $payment_methods = $this->paymentMethodRepository->getAll();
-        array_push($this->breadcrumbs, ['name' => 'veiling toevoegen', 'link' => '']);
+        array_push($this->breadcrumbs, ['name' => 'Veiling toevoegen', 'link' => '']);
         if (isset($_GET['error'])) {
             $error = $_GET['error'];
         } else {
