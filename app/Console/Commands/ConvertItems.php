@@ -78,10 +78,10 @@ class ConvertItems extends DataConverter
                     'duration' => $this->faker->randomElement([
                         1, 3, 5, 7, 10
                     ]),
-                    'start' => $this->faker->dateTimeBetween(
+                    'start' => Carbon::instance($this->faker->dateTimeBetween(
                         Carbon::today(),
                         Carbon::today()->addWeeks(2)
-                    )->format('Y-m-d'),
+                    ))->toDateTimeString(),
 
                     'shipping_cost' => $this->faker->randomNumber(2),
                     'seller' => $item->seller,
