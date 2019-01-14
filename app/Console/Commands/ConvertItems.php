@@ -80,7 +80,7 @@ class ConvertItems extends DataConverter
                     ]),
                     'start' => $this->faker->dateTimeBetween(
                         Carbon::today(),
-                        Carbon::today()->addMonths(3)
+                        Carbon::today()->addWeeks(2)
                     )->format('Y-m-d'),
 
                     'shipping_cost' => $this->faker->randomNumber(2),
