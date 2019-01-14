@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Repositories\DatabaseBidsRepository;
 use App\Repositories\DatabaseItemRepository;
 use App\Repositories\DatabaseCategoryRepository;
@@ -41,14 +42,19 @@ class AuctionController extends Controller
             'duration' => 'required|int',
         ]);
 
+        DB::beginTransaction();
         if ($this->databaseItemRepository->create($request) == true) {
             $id = $this->databaseItemRepository->getLastId();
             $errors = $this->databaseItemRepository->saveImages($id->id);
             if (count($errors) > 0) {
+                DB::rollBack();
                 return back()->withErrors(['files' => $errors])->withInput();
             }
+            DB::commit();
             return redirect()->route('product_no_name', ['product' => $id->id]);
         }
+        DB::rollBack();
+        return back()->withErrors(['error' => 'Er is een fout opgetreden.'])->withInput();
     }
 
     public function index()

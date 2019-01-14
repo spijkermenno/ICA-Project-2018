@@ -7,15 +7,7 @@
 
     @if(isset($error) && $error != '' && count($error) > 0)
         <div class="alert alert-warning alert-dismissible mt-3" role="alert">
-            @if(is_array($error))
-                @foreach($error as $erro)
-                    @if(isset($erro->filename))
-                        <h5>{{$erro->filename}}</h5>
-                    @else
-                        <h5>{{ $erro }}</h5>
-                    @endif
-                @endforeach
-            @endif
+            @include('components.forms.error', ['key' => 'error'])
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
