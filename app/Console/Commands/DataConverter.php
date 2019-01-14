@@ -28,7 +28,7 @@ abstract class DataConverter extends Command
     ) {
         parent::__construct();
 
-        $this->faker = Faker::create();
+        // $this->faker = Faker::create();
 
         $this->swap = $swap;
 

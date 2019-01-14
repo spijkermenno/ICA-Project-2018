@@ -144,8 +144,8 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
             [
                 'title' => $insert['title'],
                 'description' => $insert['description'],
-                'start_price' => $insert['start_price'],
-                'selling_price' => $insert['start_price'],
+                'start_price' => number_format($insert['start_price'], 2),
+                'selling_price' => number_format($insert['start_price'], 2),
                 'country' => $insert['country'],
                 'city' => $insert['city'],
                 'shipping_instruction' => $insert['shipping_instruction'],
