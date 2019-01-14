@@ -32,7 +32,7 @@ class MyBidsController extends Controller
     public function __invoke()
     {
         array_push($this->breadcrumbs, ['name' => 'Mijn biedingen', 'link' => '']);
-
+        $breadcrumbs = $this->breadcrumbs;
         $bids = $this->bidsRepository->getAllByUser(auth()->user()->getAuthIdentifier());
         // dd($bids);
         $losingBids = [];
@@ -59,7 +59,7 @@ class MyBidsController extends Controller
 
         return view(
             'account.bids',
-            compact('losingBids', 'winningBids', 'wonBids', 'lostBids')
+            compact('breadcrumbs','losingBids', 'winningBids', 'wonBids', 'lostBids')
         );
     }
 }
