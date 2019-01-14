@@ -65,7 +65,7 @@
                 </div>
 
                 <div class="form-group col-lg-4">
-                    <label for="description">Vul de verzendkosten in</label>
+                    <label for="description">Vul de verzendkosten in*</label>
                     <input type="number" min="0" step="0.01" required
                            class="form-control {{ $errors->has("shipping_cost") ? " is-invalid" : "" }}" id="price"
                            name="shipping_cost" placeholder="" value="{{old('shipping_cost')}}">
@@ -372,7 +372,7 @@
             </div>
 
             <div class="row">
-                <div class="form-group col-lg-6">
+                <div class="form-group col-lg-12">
                     <label for="description">Vul de veiling looptijd in*</label>
                     <select class="form-control {{ $errors->has("duration") ? " is-invalid" : "" }}" name="duration"
                             id="duration">
@@ -385,10 +385,6 @@
                     @include('components.forms.error', ['key' => 'duration'])
                 </div>
 
-                <div class="form-group col-lg-6">
-                    <label>Deze veiling eindigd op</label>
-                    <input type="datetime-local" disabled class="form-control" id="endDate">
-                </div>
             </div>
             <div class="row mt-3">
                 <div class="form-group col-12">
