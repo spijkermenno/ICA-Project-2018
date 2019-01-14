@@ -29,7 +29,7 @@
                 <div class="form-group col-lg-7">
                     <label for="title">Vul een titel in*</label>
                     <input type="text" class="form-control {{ $errors->has("title") ? " is-invalid" : "" }}" id="title"
-                           name="title" placeholder="" required
+                           name="title" placeholder="" required minlength="4" maxlength="255"
                            value="{{old('title')}}">
                     @include('components.forms.error', ['key' => 'title'])
                 </div>
@@ -37,9 +37,10 @@
                 <div class="form-group col-lg-5">
                     <label for="title">Kies een afbeelding(en)*</label><br/>
                     <input type="file" name="files[]"
-                    class=" p-1 rounded bg-white form-control-file {{ $errors->has("files") ? " is-invalid" : "" }}"
-                    id="file" required multiple accept="image/*" max="5"/>
-                    @if(old('title') != '') <p class="text-danger">Let op! Afbeeldingen dienen opnieuw geupload te worden</p> @endif
+                           class=" p-1 rounded bg-white form-control-file {{ $errors->has("files") ? " is-invalid" : "" }}"
+                           id="file" required multiple accept="image/*"/>
+                    @if(old('title') != '') <p class="text-danger">Let op! Afbeeldingen dienen opnieuw geupload te
+                        worden</p> @endif
                     @include('components.forms.error', ['key' => 'files'])
                 </div>
             </div>
@@ -48,7 +49,7 @@
                 <div class="form-group col-12">
                     <label for="description">Vul een beschrijving in*</label>
                     <textarea class="form-control {{ $errors->has("description") ? " is-invalid" : "" }}"
-                              name="description" id="description" rows="3" required> {{old('description')}}</textarea>
+                              name="description" id="description" rows="3" required minlength="4"> {{old('description')}}</textarea>
                     @include('components.forms.error', ['key' => 'description'])
                 </div>
 
@@ -65,7 +66,7 @@
 
                 <div class="form-group col-lg-4">
                     <label for="description">Vul de verzendkosten in</label>
-                    <input type="number" min="0" step="0.01"
+                    <input type="number" min="0" step="0.01" required
                            class="form-control {{ $errors->has("shipping_cost") ? " is-invalid" : "" }}" id="price"
                            name="shipping_cost" placeholder="" value="{{old('shipping_cost')}}">
                     @include('components.forms.error', ['key' => 'shipping_cost'])
@@ -345,7 +346,7 @@
                     <label for="description">In welke plaats is het object*</label>
                     <input type="text"
                            class="form-control {{ $errors->has("city") ? " is-invalid" : "" }}" id="price"
-                           name="city" placeholder="" value="{{old('city')}}">
+                           name="city" placeholder="" value="{{old('city')}}" minlength="4" required>
                     @include('components.forms.error', ['key' => 'city'])
                 </div>
             </div>
@@ -364,7 +365,8 @@
                     <label for="title">Vul in wanneer de betaling moet worden gedaan</label>
                     <input type="text"
                            class="form-control {{ $errors->has("payment_instruction") ? " is-invalid" : "" }}"
-                           name="payment_instruction" id="paymentInstruction" placeholder="" value="{{old('payment_instruction')}}">
+                           name="payment_instruction" id="paymentInstruction" placeholder=""
+                           value="{{old('payment_instruction')}}">
                     @include('components.forms.error', ['key' => 'payment_instruction'])
                 </div>
             </div>
@@ -376,7 +378,8 @@
                             id="duration">
                         @foreach($auctionDurations as $duration)
                             <option
-                                value="{{$duration['value']}}" {{$duration['default']}} @if(old('duration') == $duration['text']) selected @endif>{{$duration['text']}}</option>
+                                value="{{$duration['value']}}"
+                                {{$duration['default']}} @if(old('duration') == $duration['text']) selected @endif>{{$duration['text']}}</option>
                         @endforeach
                     </select>
                     @include('components.forms.error', ['key' => 'duration'])

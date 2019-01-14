@@ -112,7 +112,7 @@ class AuctionController extends Controller
                 $openAuction->highestBid = null;
             }
 
-            $temp2 = $this->databaseItemRepository->getAllImages($openAuction->id);
+            $temp2 = $this->databaseItemRepository->getImagesForItemId($openAuction->id);
             if (count($temp2) > 0) {
                 $openAuction->image = $temp2[0]->filename;
             }
@@ -126,7 +126,7 @@ class AuctionController extends Controller
                 $closedAuction->highestBid = null;
             }
 
-            $temp2 = $this->databaseItemRepository->getAllImages($closedAuction->id);
+            $temp2 = $this->databaseItemRepository->getImagesForItemId($closedAuction->id);
             if (count($temp2) > 0 && isset($temp2[0]->filename)) {
                 $closedAuction->image = $temp2[0]->filename;
             } else {
