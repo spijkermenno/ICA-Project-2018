@@ -70,6 +70,19 @@ class FillUsersTableTest extends Migration
         })->each(function ($row) {
             $this->insertUser($row->name, $row->firstname, $row->lastname, $row->adress_line_1, $row->adress_line_2, $row->postalcode, $row->city, $row->country, $row->birthday, $row->email, $row->password, $row->secret_question_id, $row->secret_question_answer, $row->seller, $row->admin);
         });
+
+        statement('
+            INSERT INTO sellers
+                (user_name, verification_method, bank, iban, creditcard)
+            VALUES
+                (:user_name, :verification_method, :bank, :iban, :creditcard)
+        ', [
+            'user_name' => 'Verkoper',
+            'verification_method' => 'mail',
+            'bank' => 'ING',
+            'iban' => 'NL19TPBW2324011896',
+            'creditcard' => null
+        ]);
     }
 
     public function insertUser($name, $firstname, $lastname, $adress_line_1, $adress_line_2, $postalcode, $city, $country, $birthday, $email, $password, $secret_question_id, $secret_question_answer, $seller, $admin)
