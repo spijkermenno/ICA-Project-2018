@@ -36,10 +36,10 @@ class AuctionController extends Controller
             'description' => 'required|string|min:4',
             'country' => 'required',
             'city' => 'required|string|min:4',
-            'start_price' => 'required|numeric|min:1|max:900000',
+            'start_price' => 'required|numeric|min:1.01|max:900000',
             'shipping_cost' => 'required|numeric',
             'payment_method' => 'required|string',
-            'duration' => 'required|int|in:1,5,7,10',
+            'duration' => 'required|int|in:1,3,5,7,10',
         ]);
 
         DB::beginTransaction();

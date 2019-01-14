@@ -141,6 +141,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
                             :payment_instruction,
                             :category_id,
                             :shipping_cost,
+                            :duration,
                             :seller)',
             [
                 'title' => $insert['title'],
