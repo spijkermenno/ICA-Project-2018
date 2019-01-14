@@ -80,8 +80,8 @@
                         @endif
                     </div>
                     <div class="col-md-2 border">
-                        @if($geslotenVeiling->buyer != '')
-                            {{ $geslotenVeiling->buyer }}
+                        @if($geslotenVeiling->highestBid && $geslotenVeiling->highestBid->user_name != '')
+                            {{ $geslotenVeiling->highestBid->user_name }}
                         @else
                             Er is geen koper
                         @endif

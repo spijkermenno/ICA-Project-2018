@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Repositories\DatabaseBidsRepository;
 use App\Repositories\DatabaseItemRepository;
 use App\Repositories\DatabaseCategoryRepository;
@@ -30,36 +31,48 @@ class AuctionController extends Controller
     public function newProduct(Request $request)
     {
         $this->validate($request, [
-            'title'         => 'required|string|min:4|max:255',
-            'category_id'   => 'required|int',
-            'description'   => 'required|string|min:4',
-            'start_price'   => 'required|numeric',
+            'title' => 'required|string|min:4|max:255',
+            'category_id' => 'required|int',
+            'description' => 'required|string|min:4',
+            'country' => 'required',
+            'city' => 'required|string|min:4',
+            'start_price' => 'required|numeric|min:1|max:900000',
             'shipping_cost' => 'required|numeric',
-            'payment_method'=> 'required|string',
-            'duration'      => 'required|int',
+            'payment_method' => 'required|string',
+            'duration' => 'required|int',
         ]);
 
+        DB::beginTransaction();
         if ($this->databaseItemRepository->create($request) == true) {
             $id = $this->databaseItemRepository->getLastId();
             $errors = $this->databaseItemRepository->saveImages($id->id);
             if (count($errors) > 0) {
-                dump($errors);
-                exit;
+                DB::rollBack();
+                return back()->withErrors(['files' => $errors])->withInput();
             }
+            DB::commit();
             return redirect()->route('product_no_name', ['product' => $id->id]);
         }
+        DB::rollBack();
+        return back()->withErrors(['error' => 'Er is een fout opgetreden.'])->withInput();
     }
 
     public function index()
     {
         $auction_rubrieken = $this->categoryRepository->getAllByParentId(-1);
         $payment_methods = $this->paymentMethodRepository->getAll();
-        array_push($this->breadcrumbs, ['name' => 'veiling toevoegen', 'link' => '']);
+        array_push($this->breadcrumbs, ['name' => 'Veiling toevoegen', 'link' => '']);
+        if (isset($_GET['error'])) {
+            $error = $_GET['error'];
+        } else {
+            $error = '';
+        }
 
         return view('product.new_item', [
             'breadcrumbs' => $this->breadcrumbs,
             'auction_rubrieken' => $auction_rubrieken,
             'payment_methods' => $payment_methods,
+            'error' => $error,
             'auctionDurations' => [
                 [
                     'value' => 1,
@@ -98,13 +111,33 @@ class AuctionController extends Controller
         $closedAuctions = $this->databaseItemRepository->getBySellerName(auth()->user()->getAuthIdentifier(), 1, 3);
 
         foreach ($openAuctions as $openAuction) {
-            $openAuction->highestBid = $this->databaseBidsRepository->getTopBids(1, $openAuction->id);
-            $openAuction->image = $this->databaseItemRepository->getAllImages($openAuction->id)[0]->filename;
+            $temp = $this->databaseBidsRepository->getTopBids(1, $openAuction->id);
+            if (count($temp) > 0) {
+                $openAuction->highestBid = $temp[0];
+            } else {
+                $openAuction->highestBid = null;
+            }
+
+            $temp2 = $this->databaseItemRepository->getImagesForItemId($openAuction->id);
+            if (count($temp2) > 0) {
+                $openAuction->image = $temp2[0]->filename;
+            }
         }
 
         foreach ($closedAuctions as $closedAuction) {
-            $closedAuction->highestBid = $this->databaseBidsRepository->getTopBids(1, $closedAuction->id);
-            $closedAuction->image = $this->databaseItemRepository->getAllImages($closedAuction->id)[0]->filename;
+            $temp = $this->databaseBidsRepository->getTopBids(1, $closedAuction->id);
+            if (count($temp) > 0) {
+                $closedAuction->highestBid = $temp[0];
+            } else {
+                $closedAuction->highestBid = null;
+            }
+
+            $temp2 = $this->databaseItemRepository->getImagesForItemId($closedAuction->id);
+            if (count($temp2) > 0 && isset($temp2[0]->filename)) {
+                $closedAuction->image = $temp2[0]->filename;
+            } else {
+                $closedAuction->image = '';
+            }
         }
 
         return view('account.veilingen', [

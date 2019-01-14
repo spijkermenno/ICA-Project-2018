@@ -70,6 +70,10 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         $errors = [];
         $filenames = [];
 
+        if (count($_FILES['files']['name']) > 4) {
+            return ['Te veel afbeeldingen'];
+        }
+
         foreach ($_FILES['files']['name'] as $key => $value) {
             $file_name = $_FILES['files']['name'][$key];
             $temp = explode('.', $file_name);
@@ -91,6 +95,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
             foreach ($filenames as $filename) {
                 unlink('images/' . $filename);
             }
+            array_push($errors, 'Fout in afbeeldingen');
         } else {
             $this->createImageRecords($filenames, $item_id);
         }
@@ -117,6 +122,9 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
                             description,
                             start_price,
                             selling_price,
+                            country,
+                            city,
+                            shipping_instruction,
                             payment_instruction,
                             category_id,
                             shipping_cost,
@@ -126,6 +134,9 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
                             :description,
                             :start_price,
                             :selling_price,
+                            :country,
+                            :city,
+                            :shipping_instruction,
                             :payment_instruction,
                             :category_id,
                             :shipping_cost,
@@ -135,6 +146,9 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
                 'description' => $insert['description'],
                 'start_price' => $insert['start_price'],
                 'selling_price' => $insert['start_price'],
+                'country' => $insert['country'],
+                'city' => $insert['city'],
+                'shipping_instruction' => $insert['shipping_instruction'],
                 'payment_instruction' => $insert['payment_instruction'],
                 'category_id' => $insert['category_id'],
                 'shipping_cost' => $insert['shipping_cost'],
@@ -346,7 +360,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
     public function getSoonEndingItems(int $amount, $columns = ['items.title', 'items.id', 'items.selling_price', 'items.[end]', 'items.start'])
     {
         return $this->attachImagesToItems(
-                $this->conn->select(
+            $this->conn->select(
                 '
                 SELECT TOP ' . $amount . '
                     ' . implode(',', $columns) . '
