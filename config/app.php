@@ -165,6 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Intervention\Validation\ValidationServiceProvider::class,
 
         /*
          * Application Service Providers...

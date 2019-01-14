@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class Verification extends Notification
+class EmailVerification extends Notification
 {
     use Queueable;
 

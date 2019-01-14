@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use phpDocumentor\Reflection\Types\Object_;
 use App\Repositories\DatabaseBidsRepository;
 use App\Repositories\DatabaseItemRepository;
 use App\Repositories\DatabaseCategoryRepository;
@@ -63,7 +62,7 @@ class ProductController extends Controller
         if ($parent->parent != '-1') {
             $this->createCategoryBreadcrumbs($parent->parent);
         }
-        array_push($this->breadcrumbs, ['name' => $parent->name, 'link' => '/rubriek/'.$parent->id . '/']);
+        array_push($this->breadcrumbs, ['name' => $parent->name, 'link' => route('rubriek_without_name', $parent->id)]);
     }
 
     public function productSpecific($product_id)
@@ -72,14 +71,14 @@ class ProductController extends Controller
         $itemObject = $productRepo->getById($product_id);
 
         if (isset($itemObject[0])) {
-            $itemPictures = $productRepo->getAllImages($product_id);
+            $itemPictures = $productRepo->getImagesForItemId($product_id);
             $this->createCategoryBreadcrumbs($itemObject[0]->category_id);
             array_push($this->breadcrumbs, ['name' => strlen($itemObject[0]->title) > 50 ? substr($itemObject[0]->title, 0, 50).'...' : $itemObject[0]->title, 'link' => '']);
 
             $bids = $this->bidsRepository->getTopBids(6, $product_id);
 
             if (count($bids) == 0) {
-                $bids[0] = new Object_();
+                $bids[0] = (object) [];
                 $bids[0]->highest_bid = ($itemObject[0]->selling_price);
                 $bids[0]->user_name = '';
                 $bids[0]->date = '';

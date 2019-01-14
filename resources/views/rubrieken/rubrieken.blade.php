@@ -73,12 +73,12 @@
                                 'view' => true
                             ])
                         </div>
-                        <li class="parent" id="{{ $parent->name[0] }}"><a class="text-dark" href="/rubriek/{{ $parent->id }}/{{ str_slug($parent->name) }}">{{ $parent->name }}</a>
+                        <li class="parent" id="{{ $parent->name[0] }}"><a class="text-dark" href="{{ route('rubriek_without_name', ['category_id' => $parent->id]) }}">{{ $parent->name }}</a>
                             <ul class="category_children">
                                 @foreach($parent->children as $child)
                                     @if($child->parent == $parent->id)
                                         <li>
-                                            <a class="text-dark" href="/rubriek/{{ $child->id }}/{{ str_slug($child->name) }}">{{ $child->name }}</a>
+                                            <a class="text-dark" href="{{ route('rubriek_without_name', ['category_id' => $child->id]) }}">{{ $child->name }}</a>
                                             <div class="category-management">
                                                 @include('rubrieken.components.admin_options', [
                                                     'order_number' => [
@@ -100,12 +100,12 @@
                     @endforeach
                 @else
                     @foreach($parents as $parent)
-                        <li class="parent" id="{{ $parent->name[0] }}"><a class="text-dark" href="/rubriek/{{ $parent->id }}/{{ str_slug($parent->name) }}">{{ $parent->name }}</a>
+                        <li class="parent" id="{{ $parent->name[0] }}"><a class="text-dark" href="{{ route('rubriek_without_name', ['category_id' => $parent->id]) }}">{{ $parent->name }}</a>
                             <ul class="category_children">
                                 @foreach($parent->children as $child)
                                     @if($child->parent == $parent->id)
                                         <li>
-                                            <a class="text-dark" href="/rubriek/{{ $child->id }}/{{ str_slug($child->name) }}">{{ $child->name }}</a>
+                                            <a class="text-dark" href="{{ route('rubriek_without_name', ['category_id' => $child->id]) }}">{{ $child->name }}</a>
                                         </li>
                                     @endif
                                 @endforeach

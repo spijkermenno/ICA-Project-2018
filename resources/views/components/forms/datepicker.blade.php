@@ -12,7 +12,9 @@
             value="{{ old($key) }}"
             :language="lang.nl"
             :disabled-dates="{
-                from: new Date('{{ $notAfter }}')
+                @if(isset($notAfter))
+                    from: new Date('{{ $notAfter }}')
+                @endif
             }"
         ></date-picker>
 
