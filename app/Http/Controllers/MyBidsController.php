@@ -59,7 +59,7 @@ class MyBidsController extends Controller
 
         return view(
             'account.bids',
-            compact('breadcrumbs','losingBids', 'winningBids', 'wonBids', 'lostBids')
+            compact('breadcrumbs', 'losingBids', 'winningBids', 'wonBids', 'lostBids')
         );
     }
 }
