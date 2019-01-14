@@ -128,6 +128,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
                             payment_instruction,
                             category_id,
                             shipping_cost,
+                            duration,
                             seller)
                             OUTPUT INSERTED.ID
                     values (:title,
@@ -152,6 +153,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
                 'payment_instruction' => $insert['payment_instruction'],
                 'category_id' => $insert['category_id'],
                 'shipping_cost' => $insert['shipping_cost'],
+                'duration' => $insert['duration'],
                 'seller' => auth()->user()->name
             ]
         );
