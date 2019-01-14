@@ -35,7 +35,7 @@ class AuctionController extends Controller
             'description' => 'required|string|min:4',
             'country' => 'required',
             'city' => 'required|string|min:4',
-            'start_price' => 'required|numeric|min:1',
+            'start_price' => 'required|numeric|min:1|max:900000',
             'shipping_cost' => 'required|numeric',
             'payment_method' => 'required|string',
             'duration' => 'required|int',
