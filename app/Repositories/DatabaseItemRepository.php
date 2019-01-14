@@ -51,8 +51,8 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         $items = $this->conn->select(sprintf('
             SELECT
                 ' . implode(',', array_map(function ($column) {
-                return 'items.' . $column;
-            }, $columns)) . '
+            return 'items.' . $column;
+        }, $columns)) . '
             FROM items
                 %s
             ORDER BY items.[end] ASC
@@ -71,7 +71,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         $filenames = [];
 
         if (count($_FILES['files']['name']) > 4) {
-            return array('Te veel afbeeldingen');
+            return ['Te veel afbeeldingen'];
         }
 
         foreach ($_FILES['files']['name'] as $key => $value) {
@@ -102,22 +102,19 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         return $errors;
     }
 
-    public
-    function createImageRecords($filenames, $item_id)
+    public function createImageRecords($filenames, $item_id)
     {
         foreach ($filenames as $filename) {
             $this->conn->insert('insert into images (filename, item_id) values (:filename, :item_id)', ['filename' => $filename, 'item_id' => $item_id]);
         }
     }
 
-    public
-    function getLastId()
+    public function getLastId()
     {
         return $this->conn->select('SELECT * FROM items WHERE id = (SELECT MAX(id) FROM items)')[0];
     }
 
-    public
-    function create($insert)
+    public function create($insert)
     {
         return $this->conn->insert(
             'insert into items (
@@ -163,8 +160,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
     /**
      * @return array
      */
-    public
-    function getAllBetween(int $from, int $to)
+    public function getAllBetween(int $from, int $to)
     {
         return $this->conn->select(
             '
@@ -182,8 +178,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
      * @param int $id
      * @return mixed|null
      */
-    public
-    function getById(int $id)
+    public function getById(int $id)
     {
         // TODO: Implement getById() method.
 
@@ -193,8 +188,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
-    public
-    function getMultipleByIds(array $ids)
+    public function getMultipleByIds(array $ids)
     {
         return $this->conn->select('
             SELECT top 16 *
@@ -206,8 +200,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         ', $ids);
     }
 
-    public
-    function getMultipleByCategoryIds(array $ids, $columns = ['*'], $perPage = 16)
+    public function getMultipleByCategoryIds(array $ids, $columns = ['*'], $perPage = 16)
     {
         $total = $this->conn->select('
             SELECT
@@ -243,8 +236,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
-    public
-    function getMultipleImages(array $ids)
+    public function getMultipleImages(array $ids)
     {
         return $this->conn->select('
             SELECT
@@ -257,8 +249,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         ', $ids);
     }
 
-    public
-    function attachImagesToItems($items)
+    public function attachImagesToItems($items)
     {
         if (count($items) < 1) {
             return $items;
@@ -286,8 +277,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         return $collection;
     }
 
-    public
-    function getDescriptionById(int $id)
+    public function getDescriptionById(int $id)
     {
         // TODO: Implement getById() method.
 
@@ -297,8 +287,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
-    public
-    function getByIdWithImage(int $id)
+    public function getByIdWithImage(int $id)
     {
         // TODO: Implement getById() method.
 
@@ -308,8 +297,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
-    public
-    function getImagesForItemId(int $product_id)
+    public function getImagesForItemId(int $product_id)
     {
         return $this->conn->select(
             'SELECT filename FROM images where item_id = ?',
@@ -317,8 +305,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
-    public
-    function getbyCategoryId(int $category_id)
+    public function getbyCategoryId(int $category_id)
     {
         return $this->conn->select(
             'SELECT * FROM items where category_id = ? and auction_closed = 0',
@@ -326,8 +313,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
-    public
-    function getbyCategoryIdWithImage(int $category_id)
+    public function getbyCategoryIdWithImage(int $category_id)
     {
         return $this->conn->select(
             'select i.*, im.filename FROM items as i inner join images as im on i.id = im.item_id WHERE i.category_id = ? and auction_closed = 0',
@@ -335,8 +321,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
-    public
-    function getBySellerName($username, $closed, $amountMonths = null)
+    public function getBySellerName($username, $closed, $amountMonths = null)
     {
         if ($amountMonths == null) {
             return $this->conn->select('select * from items where seller = :username and auction_closed = :closed', ['username' => $username, 'closed' => $closed]);
@@ -349,8 +334,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
      * @param int $amout
      * @return mixed|null
      */
-    public
-    function getMostPopularItems(int $amount, $columns = ['*'])
+    public function getMostPopularItems(int $amount, $columns = ['*'])
     {
         return $this->attachImagesToItems(
             $this->conn->select(
@@ -373,8 +357,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
         );
     }
 
-    public
-    function getSoonEndingItems(int $amount, $columns = ['items.title', 'items.id', 'items.selling_price', 'items.[end]', 'items.start'])
+    public function getSoonEndingItems(int $amount, $columns = ['items.title', 'items.id', 'items.selling_price', 'items.[end]', 'items.start'])
     {
         return $this->attachImagesToItems(
             $this->conn->select(
@@ -393,8 +376,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
      * @param float $newPrice
      * @return int
      */
-    public
-    function updateSellingPrice(int $id, float $newPrice)
+    public function updateSellingPrice(int $id, float $newPrice)
     {
         return $this->conn->update('
             UPDATE
@@ -410,8 +392,7 @@ class DatabaseItemRepository extends DatabaseRepository implements ItemRepositor
      * @param float $newPrice
      * @return int
      */
-    public
-    function updateBuyer(int $id, string $newBuyer)
+    public function updateBuyer(int $id, string $newBuyer)
     {
         return $this->conn->update('
             UPDATE
