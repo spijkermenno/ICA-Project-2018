@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use App\Repositories\Contracts\UserRepository;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Notifications\UserCreationConfirmation;
 use App\Repositories\Contracts\CategoryRepository;
 use App\Repositories\Contracts\SecretQuestionRepository;
 
@@ -111,6 +112,12 @@ class RegisterController extends Controller
                 [
                     'birthday' => Carbon::createFromFormat('d-m-Y', $data['birthday'])->toDateString()
                 ]
+            )
+        );
+
+        $user->notify(
+            new UserCreationConfirmation(
+                $user
             )
         );
 
