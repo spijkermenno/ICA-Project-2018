@@ -25,9 +25,11 @@
                 Mijn biedingen
             </a>
 
-            <a href="{{ route('account.auctions') }}" class="dropdown-item bg-dark text-white">
-                Mijn veilingen
-            </a>
+            @if (auth()->user()->seller)
+                <a href="{{ route('account.auctions') }}" class="dropdown-item bg-dark text-white">
+                    Mijn veilingen
+                </a>
+            @endif
 
             <a href="{{ route('logout') }}" class="dropdown-item bg-dark text-white"
                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
