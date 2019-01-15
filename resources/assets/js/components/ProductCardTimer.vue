@@ -11,14 +11,19 @@
 </template>
 
 <script>
+    import * as moment from "moment";
+
     export default {
         data: () => ({
-            now: Date.now(),
+            now: moment().unix() * 1000,
             interval: null,
         }),
         computed: {
+            test() {
+                return moment(this.end).unix()
+            },
             diff() {
-                return Date.parse(this.end) - this.now;
+                return (moment(this.end).unix() * 1000) - this.now;
             },
             days() {
                 return Math.floor((this.diff / (1000 * 60 * 60 * 24)) % 365);
@@ -33,12 +38,8 @@
                 return Math.floor((this.diff / 1000) % 60);
             },
             timeLeft() {
-                if (!this.isToday) {
-                    return `${this.days}d ${this.hours}u`;
-                } else if (this.isToday && this.hours > 0) {
-                    return `${this.hours}u ${this.minutes}m`;
-                } else if (this.diff > 0) {
-                    return `${this.minutes}m ${this.seconds}s`;
+                if (this.diff > 0) {
+                    return 'nog ' + moment.duration(this.diff).humanize();
                 } else {
                     return 'Veiling afgelopen'
                 }
@@ -49,7 +50,7 @@
         },
         methods: {
             updateTimer() {
-                this.now = Date.now();
+                this.now = moment().unix() * 1000;
 
                 if (this.diff < 0) {
                     clearInterval(this.interval);
