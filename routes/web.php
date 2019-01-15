@@ -72,13 +72,10 @@ Route::middleware('auth:web')
                     });
             });
         Route::middleware('seller')
-            ->group(function () {
-                Route::get('/account/auctions', 'AuctionController@myAuctions')->name('account.auctions');
-            });
-        Route::middleware('seller')
             ->prefix('seller')
             ->group(function () {
                 Route::get('/products/create', 'AuctionController@index')->name('auction.add');
+                Route::get('/auctions', 'AuctionController@myAuctions')->name('account.auctions');
 
                 Route::post('/products/create', 'AuctionController@newProduct')->name('auction.add.check');
             });
