@@ -35,8 +35,6 @@ Route::get('/search', 'SearchController')->name('search');
 
 Route::post('/bids/add', 'BidsController@create_bid')->name('bid.create');
 
-Route::get('/account/auctions', 'AuctionController@myAuctions')->name('account.auctions');
-
 // Login protection
 Route::middleware('auth:web')
     ->group(function () {
@@ -73,11 +71,11 @@ Route::middleware('auth:web')
                         Route::post('/register', 'RegisterController@create')->name('seller.register');
                     });
             });
-
         Route::middleware('seller')
             ->prefix('seller')
             ->group(function () {
                 Route::get('/products/create', 'AuctionController@index')->name('auction.add');
+                Route::get('/auctions', 'AuctionController@myAuctions')->name('account.auctions');
 
                 Route::post('/products/create', 'AuctionController@newProduct')->name('auction.add.check');
             });
