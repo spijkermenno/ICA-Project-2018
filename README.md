@@ -38,6 +38,31 @@ Na het uitvoeren van de migraties zijn er drie gebruikers aangemaakt die gebruik
 | verkoper  | qwerty123 |
 | admin     | qwerty123 |
 
+## Deployen op een FTP server (IIS Setup)
+
+Convigureer je .env bestand met de database gegevens van de server en voer de migraties uit met: 
+
+    php artisan migrate
+
+Maak een nieuwe map aan op de FTP server
+
+Upload alle bestanden naar de aangemaakte map op de FTP server 
+
+Verplaats de volgende bestanden en mappen naar de root folder van het webadress
+
+- public/css
+- public/fonts
+- public/images
+- public/js
+- public/web.config
+- public/mix-manifest.json
+
+Maak een nieuw bestand in de root folder van je webadress aan genaamd `index.php` en voeg het volgende toe aan het bestand (Waar #MAP de map is waar de bestanden zijn geupload)
+
+    <?php
+    
+    include '#MAP/public/index.php';
+
 # Code
 
 ## Dependencies
