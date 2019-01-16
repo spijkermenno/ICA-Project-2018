@@ -28,6 +28,16 @@ Voer de migraties uit op de database
 
     php artisan migrate
 
+## Test gebruikers
+ 
+Na het uitvoeren van de migraties zijn er drie gebruikers aangemaakt die gebruikt kunnen worden om de applicatie te testen of te beheren.
+
+| username  | password  |
+|-----------|-----------|
+| gebruiker | qwerty123 |
+| verkoper  | qwerty123 |
+| admin     | qwerty123 |
+
 # Code
 
 ## Dependencies
