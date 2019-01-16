@@ -28,6 +28,14 @@ Voer de migraties uit op de database
 
     php artisan migrate
     
+Installeer de [Node](https://nodejs.org/en/download/) dependencies
+    
+    npm install
+   
+Bouw de stijl en javascript bestanden
+
+    npm run prod
+    
 ## Lokale server
 
 Start de lokale server
