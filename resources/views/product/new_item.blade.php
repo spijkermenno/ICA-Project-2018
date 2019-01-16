@@ -28,7 +28,7 @@
                 </div>
 
                 <div class="form-group col-lg-5">
-                    <label for="title">Kies een afbeelding(en)*</label><br/>
+                    <label for="title">Kies een afbeelding (Max 4)*</label><br/>
                     <input type="file" name="files[]"
                            class=" p-1 rounded bg-white form-control-file {{ $errors->has("files") ? " is-invalid" : "" }}"
                            id="file" required multiple accept="image/*"/>
