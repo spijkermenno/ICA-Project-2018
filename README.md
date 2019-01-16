@@ -12,7 +12,7 @@ Open de folder
 
     cd eenmaal-andermaal
 
-Installeer alle dependencies met Composer
+Installeer alle dependencies met [Composer](https://getcomposer.org/download/)
 
     composer install
 
@@ -27,6 +27,14 @@ Genereer een nieuwe appicatie key
 Voer de migraties uit op de database
 
     php artisan migrate
+    
+## Lokale server
+
+Start de lokale server
+
+    php artisan serve
+    
+De applicatie is nu te bereiken op http://localhost:8000
     
 ## Deployen op een FTP server (IIS Setup)
 
