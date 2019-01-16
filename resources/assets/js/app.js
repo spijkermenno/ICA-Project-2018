@@ -8,6 +8,10 @@ require("./bootstrap");
 
 import DatePicker from "vuejs-datepicker";
 
+import * as moment from "moment";
+
+moment.locale('nl');
+
 import { nl } from "vuejs-datepicker/dist/locale";
 
 window.Vue = require("vue");

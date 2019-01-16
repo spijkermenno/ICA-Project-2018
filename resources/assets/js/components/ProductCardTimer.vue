@@ -5,51 +5,57 @@
     Wanneer er minder dan 1 uur is dan geef weer minuten:seconden
     Onder 5 minuten is rood
     -->
-    <span :class="{ 'text-danger': isToday && hours < 1 && minutes < 10 }">
+    <span :class="cssClasses">
         {{ timeLeft }}
     </span>
 </template>
 
 <script>
+    import * as moment from "moment";
+
     export default {
         data: () => ({
-            now: Date.now(),
+            now: moment().unix() * 1000,
             interval: null,
         }),
         computed: {
             diff() {
-                return Date.parse(this.end) - this.now;
-            },
-            days() {
-                return Math.floor((this.diff / (1000 * 60 * 60 * 24)) % 365);
-            },
-            hours() {
-                return Math.floor((this.diff / (1000 * 60 * 60)) % 24);
-            },
-            minutes() {
-                return Math.floor((this.diff / (1000 * 60)) % 60);
-            },
-            seconds() {
-                return Math.floor((this.diff / 1000) % 60);
+                return (moment(this.end).unix() * 1000) - this.now;
             },
             timeLeft() {
-                if (!this.isToday) {
-                    return `${this.days}d ${this.hours}u`;
-                } else if (this.isToday && this.hours > 0) {
-                    return `${this.hours}u ${this.minutes}m`;
-                } else if (this.diff > 0) {
-                    return `${this.minutes}m ${this.seconds}s`;
-                } else {
-                    return 'Veiling afgelopen'
+                if (this.diff < 0) {
+                    return 'Veiling afgelopen';
                 }
+
+                const duration = moment.duration(this.diff);
+
+                const totalHoursLeft = duration.asHours();
+                const totalDaysLeft = duration.asDays();
+
+                const hoursLeft = duration.hours();
+                const minutesLeft = duration.minutes();
+                const secondsLeft = duration.seconds();
+
+
+                if (totalHoursLeft > 24) {
+                    return `${Math.floor(totalDaysLeft)}d ${hoursLeft}u`;
+                } else if (totalHoursLeft < 24 && totalHoursLeft > 1) {
+                    return `${hoursLeft}u ${minutesLeft}m`;
+                }
+
+                return `${minutesLeft}m ${secondsLeft}s`;
             },
-            isToday() {
-                return this.days < 1;
+            cssClasses() {
+                const duration = moment.duration(this.diff);
+
+                return {
+                    'text-danger': duration.asMinutes() < 5
+                }
             }
         },
         methods: {
             updateTimer() {
-                this.now = Date.now();
+                this.now = moment().unix() * 1000;
 
                 if (this.diff < 0) {
                     clearInterval(this.interval);

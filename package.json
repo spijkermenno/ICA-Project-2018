@@ -23,7 +23,7 @@
         "@fortawesome/fontawesome-free": "^5.5.0",
         "card": "^2.4.0",
         "font-awesome": "^4.7.0",
-        "moment": "^2.22.2",
+        "moment": "^2.23.0",
         "moment-timezone": "^0.5.23",
         "vuejs-datepicker": "^1.5.4"
     }
