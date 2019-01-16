@@ -27,18 +27,10 @@ Genereer een nieuwe appicatie key
 Voer de migraties uit op de database
 
     php artisan migrate
-
-## Test gebruikers
- 
-Na het uitvoeren van de migraties zijn er drie gebruikers aangemaakt die gebruikt kunnen worden om de applicatie te testen of te beheren.
-
-| username  | password  |
-|-----------|-----------|
-| gebruiker | qwerty123 |
-| verkoper  | qwerty123 |
-| admin     | qwerty123 |
-
+    
 ## Deployen op een FTP server (IIS Setup)
+
+(Volg eerst de stappen van Opzetten)
 
 Convigureer je .env bestand met de database gegevens van de server en voer de migraties uit met: 
 
@@ -62,6 +54,17 @@ Maak een nieuw bestand in de root folder van je webadress aan genaamd `index.php
     <?php
     
     include '#MAP/public/index.php';
+
+
+## Test gebruikers
+ 
+Na het uitvoeren van de migraties zijn er drie gebruikers aangemaakt die gebruikt kunnen worden om de applicatie te testen of te beheren.
+
+| username  | password  |
+|-----------|-----------|
+| gebruiker | qwerty123 |
+| verkoper  | qwerty123 |
+| admin     | qwerty123 |
 
 # Code
 
